@@ -1,3 +1,79 @@
 footer{
     color:white;
 }
+/* line 1165, ../sass/styles.scss */
+#block-views-marques-block, #block-views-marques-block-accueil {
+  text-align: center;
+}
+/* line 1167, ../sass/styles.scss */
+#block-views-marques-block:after, #block-views-marques-block-accueil:after {
+  clear: both;
+  content: ".";
+  display: block;
+  height: 0;
+  visibility: hidden;
+}
+/* line 1174, ../sass/styles.scss */
+#block-views-marques-block .block-content, #block-views-marques-block-accueil .block-content {
+  text-align: left;
+  /*background: url(../images/portlet_partenaire.jpg) no-repeat scroll 0 0 transparent;
+  float: left;*/
+  height: 93px;
+  overflow: hidden;
+  padding: 0 10px 15px;
+  position: relative;
+  /*width: 321px;*/
+  /*width:100%;*/
+}
+/* line 1184, ../sass/styles.scss */
+#block-views-marques-block .block-content .view-marques, #block-views-marques-block-accueil .block-content .view-marques {
+  position: relative;
+  overflow: hidden;
+  height: 78px;
+  width: 100%;
+  /*.views-row-1, .views-row-2 {
+      img {width:0;}
+  }*/
+}
+/* line 1189, ../sass/styles.scss */
+#block-views-marques-block .block-content .view-marques .flou-gauche, #block-views-marques-block .block-content .view-marques .flou-droite, #block-views-marques-block-accueil .block-content .view-marques .flou-gauche, #block-views-marques-block-accueil .block-content .view-marques .flou-droite {
+  position: absolute;
+  height: 82px;
+  width: 62px;
+  top: 0;
+  z-index: 1;
+}
+@media (max-width: 599px) {
+  /* line 1205, ../sass/styles.scss */
+  #block-views-marques-block .block-content .view-marques .flou-gauche, #block-views-marques-block-accueil .block-content .view-marques .flou-gauche {
+    left: -22px;
+  }
+  /* line 1206, ../sass/styles.scss */
+  #block-views-marques-block .block-content .view-marques .flou-droite, #block-views-marques-block-accueil .block-content .view-marques .flou-droite {
+    right: -20px;
+  }
+}
+/* line 1211, ../sass/styles.scss */
+#block-views-marques-block .block-content .view-marques .view-content, #block-views-marques-block-accueil .block-content .view-marques .view-content {
+  position: absolute;
+  top: 0;
+  height: 78px;
+}
+/* line 1215, ../sass/styles.scss */
+#block-views-marques-block .block-content .view-marques .view-content .views-row, #block-views-marques-block-accueil .block-content .view-marques .view-content .views-row {
+  float: left;
+}
+/* line 1217, ../sass/styles.scss */
+#block-views-marques-block .block-content .view-marques .view-content .views-row img, #block-views-marques-block-accueil .block-content .view-marques .view-content .views-row img {
+  max-width: inherit;
+}
+/* line 1221, ../sass/styles.scss */
+#block-views-marques-block .block-content .view-marques .view-content .views-row.views-row-1 img, #block-views-marques-block .block-content .view-marques .view-content .views-row.views-row-2 img, #block-views-marques-block-accueil .block-content .view-marques .view-content .views-row.views-row-1 img, #block-views-marques-block-accueil .block-content .view-marques .view-content .views-row.views-row-2 img {
+  width: 0;
+}
+@media (max-width: 599px) {
+  /* line 1246, ../sass/styles.scss */
+  #block-views-marques-block-accueil .block-content {
+    background-size: 262px auto;
+  }
+}
