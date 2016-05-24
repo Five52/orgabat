@@ -34,12 +34,15 @@ class Exercise
      */
     private $category;
 
+<<<<<<< 119819b56c3635cf9733e32e4db912bc6e60e0e0
     /**
      * @ORM\OneToMany(targetEntity="Orgabat\GameBundle\Entity\HistoryRealisation", mappedBy="exercises")
      * @ORM\JoinColumn(nullable=false)
      */
     private $historyRealisation;
 
+=======
+>>>>>>> Ajout de liens avec HistoricalRealisation
 
     /**
      * Get id
@@ -74,6 +77,7 @@ class Exercise
     {
         return $this->name;
     }
+<<<<<<< 119819b56c3635cf9733e32e4db912bc6e60e0e0
 
     /**
      * Set category
@@ -98,4 +102,6 @@ class Exercise
     {
         return $this->category;
     }
+=======
+>>>>>>> Ajout de liens avec HistoricalRealisation
 }

@@ -34,12 +34,6 @@ class Exercise
      */
     private $category;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Orgabat\GameBundle\Entity\HistoryRealisation", mappedBy="exercises")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $historyRealisation;
-
 
     /**
      * Get id
@@ -97,46 +91,5 @@ class Exercise
     public function getCategory()
     {
         return $this->category;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->historyRealisation = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add historyRealisation
-     *
-     * @param \Orgabat\GameBundle\Entity\HistoryRealisation $historyRealisation
-     *
-     * @return Exercise
-     */
-    public function addHistoryRealisation(\Orgabat\GameBundle\Entity\HistoryRealisation $historyRealisation)
-    {
-        $this->historyRealisation[] = $historyRealisation;
-
-        return $this;
-    }
-
-    /**
-     * Remove historyRealisation
-     *
-     * @param \Orgabat\GameBundle\Entity\HistoryRealisation $historyRealisation
-     */
-    public function removeHistoryRealisation(\Orgabat\GameBundle\Entity\HistoryRealisation $historyRealisation)
-    {
-        $this->historyRealisation->removeElement($historyRealisation);
-    }
-
-    /**
-     * Get historyRealisation
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getHistoryRealisation()
-    {
-        return $this->historyRealisation;
     }
 }
