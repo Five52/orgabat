@@ -130,6 +130,7 @@ class HistoricalRealisation
     {
         return $this->timer;
     }
+<<<<<<< 9eebb243037072da00477b8ba46d47603e93f362
 
     /**
      * Set exercise
@@ -155,3 +156,7 @@ class HistoricalRealisation
         return $this->exercise;
     }
 }
+=======
+}
+
+>>>>>>> Redéfinition des routings de FOSUserBundle avec "/admin"
