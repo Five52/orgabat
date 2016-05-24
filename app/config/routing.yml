@@ -3,5 +3,5 @@ orgabat_game:
     prefix:   /
 
 app:
-    resource: "@AppBundle/Controller/"
+    resource: "@OrgabatGameBundle/Controller/"
     type:     annotation

@@ -6,7 +6,7 @@
  * Time: 11:37
  */
 
-namespace Orgabat\UserBundle\Entity;
+namespace Orgabat\GameBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="admin")
  */
-class User extends BaseUser
+class Admin extends BaseUser
 {
     /**
      * @ORM\Id
