@@ -1,0 +1,4 @@
+services:
+#    orgabat_game.example:
+#        class: Orgabat\GameBundle\Example
+#        arguments: ["@service_id", "plain_value", %parameter%]

@@ -1,0 +1,3 @@
+orgabat_game_homepage:
+    path:     /
+    defaults: { _controller: OrgabatGameBundle:Default:index }
