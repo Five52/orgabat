@@ -42,6 +42,12 @@ class HistoricalRealisation
      */
     private $timer;
 
+    /**
+     * @ORM\OneToOne(targetEntity="Orgabat\GameBundle\Entity\Exercise")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $exercise;
+
 
     /**
      * Get id
@@ -124,5 +130,28 @@ class HistoricalRealisation
     {
         return $this->timer;
     }
-}
 
+    /**
+     * Set exercise
+     *
+     * @param \Orgabat\GameBundle\Entity\Exercise $exercise
+     *
+     * @return HistoricalRealisation
+     */
+    public function setExercise(\Orgabat\GameBundle\Entity\Exercise $exercise)
+    {
+        $this->exercise = $exercise;
+
+        return $this;
+    }
+
+    /**
+     * Get exercise
+     *
+     * @return \Orgabat\GameBundle\Entity\Exercise
+     */
+    public function getExercise()
+    {
+        return $this->exercise;
+    }
+}
