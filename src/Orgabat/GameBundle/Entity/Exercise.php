@@ -68,4 +68,28 @@ class Exercise
     {
         return $this->name;
     }
+
+    /**
+     * Set category
+     *
+     * @param \Orgabat\GameBundle\Entity\Category $category
+     *
+     * @return Exercise
+     */
+    public function setCategory(\Orgabat\GameBundle\Entity\Category $category)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return \Orgabat\GameBundle\Entity\Category
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
 }
