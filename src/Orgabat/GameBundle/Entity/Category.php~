@@ -67,4 +67,45 @@ class Category
     {
         return $this->name;
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->exercises = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add exercise
+     *
+     * @param \Orgabat\GameBundle\Entity\Exercise $exercise
+     *
+     * @return Category
+     */
+    public function addExercise(\Orgabat\GameBundle\Entity\Exercise $exercise)
+    {
+        $this->exercises[] = $exercise;
+
+        return $this;
+    }
+
+    /**
+     * Remove exercise
+     *
+     * @param \Orgabat\GameBundle\Entity\Exercise $exercise
+     */
+    public function removeExercise(\Orgabat\GameBundle\Entity\Exercise $exercise)
+    {
+        $this->exercises->removeElement($exercise);
+    }
+
+    /**
+     * Get exercises
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getExercises()
+    {
+        return $this->exercises;
+    }
 }

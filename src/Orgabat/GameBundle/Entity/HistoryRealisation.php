@@ -7,10 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * HistoricalRealisation
  *
- * @ORM\Table(name="historical_realisation")
- * @ORM\Entity(repositoryClass="Orgabat\GameBundle\Repository\HistoricalRealisationRepository")
+ * @ORM\Table(name="history_realisation")
+ * @ORM\Entity(repositoryClass="Orgabat\GameBundle\Repository\HistoryRealisationRepository")
  */
-class HistoricalRealisation
+class HistoryRealisation
 {
     /**
      * @var int
@@ -43,10 +43,10 @@ class HistoricalRealisation
     private $timer;
 
     /**
-     * @ORM\OneToOne(targetEntity="Orgabat\GameBundle\Entity\Exercise")
+     * @ORM\OneToMany(targetEntity="Orgabat\GameBundle\Entity\Exercise", mappedBy="historyRealisation")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $exercise;
+    private $exercises;
 
 
     /**
@@ -153,5 +153,46 @@ class HistoricalRealisation
     public function getExercise()
     {
         return $this->exercise;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->exercises = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add exercise
+     *
+     * @param \Orgabat\GameBundle\Entity\Exercise $exercise
+     *
+     * @return HistoryRealisation
+     */
+    public function addExercise(\Orgabat\GameBundle\Entity\Exercise $exercise)
+    {
+        $this->exercises[] = $exercise;
+
+        return $this;
+    }
+
+    /**
+     * Remove exercise
+     *
+     * @param \Orgabat\GameBundle\Entity\Exercise $exercise
+     */
+    public function removeExercise(\Orgabat\GameBundle\Entity\Exercise $exercise)
+    {
+        $this->exercises->removeElement($exercise);
+    }
+
+    /**
+     * Get exercises
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getExercises()
+    {
+        return $this->exercises;
     }
 }
