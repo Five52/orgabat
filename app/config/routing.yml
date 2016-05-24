@@ -1,3 +1,7 @@
+orgabat_game:
+    resource: "@OrgabatGameBundle/Resources/config/routing.yml"
+    prefix:   /
+
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
