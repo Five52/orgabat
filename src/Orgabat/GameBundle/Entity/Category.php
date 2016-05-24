@@ -28,6 +28,11 @@ class Category
      */
     private $name;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Orgabat\GameBundle\Entity\Exercise", mappedBy="category")
+     */
+    private $exercises;
+
 
     /**
      * Get id
