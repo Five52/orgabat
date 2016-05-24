@@ -28,6 +28,12 @@ class HistoricalCategory
      */
     private $note;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Orgabat\GameBundle\Entity\Category", mappedBy="category")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $categories;
+
 
     /**
      * Get id
