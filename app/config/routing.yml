@@ -1,7 +1,8 @@
 orgabat_game:
     resource: "@OrgabatGameBundle/Resources/config/routing.yml"
     prefix:   /
-
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 app:
     resource: "@OrgabatGameBundle/Controller/"
     type:     annotation

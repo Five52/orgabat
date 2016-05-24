@@ -18,6 +18,7 @@ security:
         main:
             pattern: ^/
             form_login:
+                login_path: /admin/login
                 provider: fos_userbundle
                 csrf_token_generator: security.csrf.token_manager
                 # if you are using Symfony < 2.8, use the following config instead:
