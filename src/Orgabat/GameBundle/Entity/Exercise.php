@@ -28,6 +28,12 @@ class Exercise
      */
     private $name;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Orgabat\GameBundle\Entity\Category", inversedBy="exercises")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
+
 
     /**
      * Get id
