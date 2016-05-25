@@ -1,7 +1,59 @@
+@import url('simple-sidebar.css');
+
 /* Pied de page */
 footer {
     color:white;
 }
+
+
+/* RUBRIQUES */
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+footer {
+    color: white;
+}
+
+.rubrique {
+    cursor: pointer;
+    transition: background-color 200ms ease;
+}
+.rubrique:hover {
+  background-color: #E4E4E4;
+}
+.rubrique:active {
+  transition-duration: 0ms;
+  background-color: #F5F5F5;
+}
+
+.modal-dialog {
+  height: calc(100% - 60px);
+  width: calc(100% - 20px) !important;
+}
+.modal-content {
+  overflow: hidden;
+  height: 100%;
+}
+.modal-body {
+  height: calc(100% - 56px);
+}
+iframe {
+  border-style: none;
+}
+
+.modal-hg {
+  max-width: 100%;
+}
+
+
+
+
 
 /* Bandeau d'en-tête */
 
