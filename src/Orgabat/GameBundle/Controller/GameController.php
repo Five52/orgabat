@@ -6,7 +6,7 @@
  * Time: 12:49
  */
 
-namespace AppBundle\Controller;
+namespace GameBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
