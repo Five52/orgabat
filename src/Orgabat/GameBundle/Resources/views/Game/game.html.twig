@@ -3,11 +3,13 @@
 {% block body %}
     <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", function(e) {
-            var game = new Game({{ id }}, "{{ asset('modules/game/' ~ id ~ '/sprites') }}");
+            var game = new Game.Main({{ id }}, "{{ asset('modules/game/' ~ id ~ '/sprites') }}");
         });
     </script>
 
     <script src="{{ asset('vendor/phaser/js/phaser.min.js') }}"></script>
-    <script src="{{ asset('modules/game/' ~ id ~ '/js/game.js') }}"></script>
+    <script src="{{ asset('modules/game/js/clavier.js') }}"></script>
+    <script src="{{ asset('modules/game/' ~ id ~ '/js/main.js') }}"></script>
+    <script src="{{ asset('modules/game/' ~ id ~ '/js/entity.js') }}"></script>
     <script src="{{ asset('modules/game/' ~ id ~ '/js/interact.js') }}"></script>
 {% endblock %}
