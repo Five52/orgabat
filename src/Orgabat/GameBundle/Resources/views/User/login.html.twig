@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        <li>
+            <a href="/user/{{  app.user.username }}">{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}</a></li>
+        <li>
+            <a href="{{ path('fos_user_security_logout') }}">
+                {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+            </a></li>
+    {% else %}
+Vous n'êtes pas connecté
+    {% endif %}
+<form action="{{ path("login_check", {}) }}" method="POST" >
+    <div class="form-group">
+        <label for="firstName">Prénom</label>
+        <input type="text" required="required" class="form-control" value="{{ last_username }}" name="firstName" id="firstName">
+    </div>
+    <div class="form-group">
+        <label for="lastName">Nom</label>
+        <input type="text" required="required" class="form-control" name="lastName" id="lastName">
+    </div>
+    <div class="form-group">
+        <label for="password">Date de naissance (jjmmaaaa)</label>
+        <input type="password" class="form-control" name="password" required="required" id="password">
+    </div>
+    <button type="submit" class="btn btn-primary">Connexion</button>
+</form>
+{% endblock %}

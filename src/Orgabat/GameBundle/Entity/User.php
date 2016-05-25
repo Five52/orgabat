@@ -50,7 +50,7 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $roles;
-    
+
 
     public function getRoles()
     {

@@ -13,8 +13,11 @@ use Orgabat\GameBundle\Entity\User;
 use Orgabat\GameBundle\Form\UserForm;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Security;
 
 class UserController extends Controller
 {
@@ -40,5 +43,48 @@ class UserController extends Controller
             'form'=>$form->createView()
         ]);
         return new Response($html);
+    }
+
+    /**
+     * @Method({"GET"})
+     * @Route("/login", name="login")
+     * @Template()
+     */
+    public function loginAction(Request $request)
+    {
+        $session = $request->getSession();
+
+        if ($request->attributes->has(Security::AUTHENTICATION_ERROR)) {
+            $error = $request->attributes->get(Security::AUTHENTICATION_ERROR);
+        } else {
+            $error = $session->get(Security::AUTHENTICATION_ERROR);
+            $session->remove(Security::AUTHENTICATION_ERROR);
+        }
+
+        $params = array(
+            "last_username" => $session->get(Security::LAST_USERNAME),
+            "error"         => $error,
+        );
+
+        return $params;
+    }
+
+
+    /**
+     * @Method({"POST"})
+     * @Route("/login_check", name="login_check")
+     */
+    public function check()
+    {
+        throw new \RuntimeException('You must configure the check path to be handled by the firewall using form_login in your security firewall configuration.');
+    }
+
+    /**
+     * @Method({"GET"})
+     * @Route("/logout", name="logout")
+     */
+    public function logout()
+    {
+        throw new \RuntimeException('You must activate the logout in your security firewall configuration.');
     }
 }
