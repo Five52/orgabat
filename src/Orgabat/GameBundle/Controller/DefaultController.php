@@ -38,10 +38,18 @@ class DefaultController extends Controller
     /**
      * @Route("/menu",)
      */
-    public function showMenu(Request $request)
+    public function showMenu()
     {
+        $em = $this->getDoctrine()->getManager();
+        $categories = $em
+            ->getRepository('OrgabatGameBundle:Category')
+            ->findAll()
+        ;
+
         // replace this example code with whatever you need
-        return $this->render('OrgabatGameBundle:User:page_rubriques.html.twig');
+        return $this->render('OrgabatGameBundle:User:page_rubriques.html.twig', [
+            'categories' => $categories
+        ]);
     }
 
 
