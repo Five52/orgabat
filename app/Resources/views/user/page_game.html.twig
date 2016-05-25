@@ -1,6 +1,7 @@
-{% extends 'OrgabatGameBundle::base_game.html.twig' %}
+{% extends 'blank.html.twig' %}
 
 {% block body %}
+    <link rel="stylesheet" href="{{ asset('modules/game/css/game.css') }}">
     <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", function(e) {
             var game = new Game.Main({{ id }}, "{{ asset('modules/game/' ~ id ) }}");

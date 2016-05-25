@@ -17,7 +17,7 @@ class GameController extends Controller
     public function gameAction(Request $request, $id)
     {
         // replace this example code with whatever you need
-        return $this->render('OrgabatGameBundle:Game:game.html.twig', [
+        return $this->render('user/page_game.html.twig', [
             'id' => $id
         ]);
     }
