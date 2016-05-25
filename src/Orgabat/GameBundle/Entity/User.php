@@ -11,6 +11,7 @@ namespace Orgabat\GameBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -27,14 +28,17 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string")
+     * @Assert\NotBlank(message="Le champ ne doit pas être vide.")
      */
     private $firstName;
     /**
      * @ORM\Column(type="string")
+     * @Assert\NotBlank(message="Le champ ne doit pas être vide.")
      */
     private $lastName;
     /**
      * @ORM\Column(type="string")
+     * @Assert\Length(min=8, max=8, exactMessage="Ce champ doit contenir exactement {{ limit }} caractères")
      */
     private $password;
 
