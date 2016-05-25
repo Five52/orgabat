@@ -1,4 +1,3 @@
+(function() {
 
-window.onload = function() {
-
-}
+})();
