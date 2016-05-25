@@ -28,6 +28,18 @@ class Exercise
      */
     private $name;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Orgabat\GameBundle\Entity\Category", inversedBy="exercises")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Orgabat\GameBundle\Entity\HistoryRealisation", mappedBy="exercises")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $historyRealisation;
+
 
     /**
      * Get id
@@ -61,5 +73,70 @@ class Exercise
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set category
+     *
+     * @param \Orgabat\GameBundle\Entity\Category $category
+     *
+     * @return Exercise
+     */
+    public function setCategory(\Orgabat\GameBundle\Entity\Category $category)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return \Orgabat\GameBundle\Entity\Category
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->historyRealisation = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add historyRealisation
+     *
+     * @param \Orgabat\GameBundle\Entity\HistoryRealisation $historyRealisation
+     *
+     * @return Exercise
+     */
+    public function addHistoryRealisation(\Orgabat\GameBundle\Entity\HistoryRealisation $historyRealisation)
+    {
+        $this->historyRealisation[] = $historyRealisation;
+
+        return $this;
+    }
+
+    /**
+     * Remove historyRealisation
+     *
+     * @param \Orgabat\GameBundle\Entity\HistoryRealisation $historyRealisation
+     */
+    public function removeHistoryRealisation(\Orgabat\GameBundle\Entity\HistoryRealisation $historyRealisation)
+    {
+        $this->historyRealisation->removeElement($historyRealisation);
+    }
+
+    /**
+     * Get historyRealisation
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getHistoryRealisation()
+    {
+        return $this->historyRealisation;
     }
 }

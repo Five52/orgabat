@@ -7,10 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * HistoricalRealisation
  *
- * @ORM\Table(name="historical_realisation")
- * @ORM\Entity(repositoryClass="Orgabat\GameBundle\Repository\HistoricalRealisationRepository")
+ * @ORM\Table(name="history_realisation")
+ * @ORM\Entity(repositoryClass="Orgabat\GameBundle\Repository\HistoryRealisationRepository")
  */
-class HistoricalRealisation
+class HistoryRealisation
 {
     /**
      * @var int
@@ -41,6 +41,12 @@ class HistoricalRealisation
      * @ORM\Column(name="time", type="time")
      */
     private $timer;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Orgabat\GameBundle\Entity\Exercise", mappedBy="historyRealisation")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $exercises;
 
 
     /**
@@ -124,5 +130,28 @@ class HistoricalRealisation
     {
         return $this->timer;
     }
-}
 
+    /**
+     * Set exercise
+     *
+     * @param \Orgabat\GameBundle\Entity\Exercise $exercise
+     *
+     * @return HistoricalRealisation
+     */
+    public function setExercise(\Orgabat\GameBundle\Entity\Exercise $exercise)
+    {
+        $this->exercise = $exercise;
+
+        return $this;
+    }
+
+    /**
+     * Get exercise
+     *
+     * @return \Orgabat\GameBundle\Entity\Exercise
+     */
+    public function getExercise()
+    {
+        return $this->exercise;
+    }
+}
