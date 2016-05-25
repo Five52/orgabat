@@ -1,7 +1,8 @@
 /**
  * Created by Logan on 23/05/2016.
  */
-var Interact = function(sprites) {
+var Game = Game || {};
+Game.Interact = function(sprites) {
     this.sprites = sprites;
     this.policies = [{
         type: "distanceMin",
@@ -11,11 +12,11 @@ var Interact = function(sprites) {
     }];
 };
 
-Interact.prototype.onDropEntity = function(sprite) {
+Game.Interact.prototype.onDropEntity = function(sprite) {
     this.applyPolicies();
 };
 
-Interact.prototype.applyPolicies = function() {
+Game.Interact.prototype.applyPolicies = function() {
 
     for(var i in this.policies)
     {
@@ -33,7 +34,7 @@ Interact.prototype.applyPolicies = function() {
     }
 };
 
-Interact.prototype.getDistance = function(ax, ay, bx, by) {
+Game.Interact.prototype.getDistance = function(ax, ay, bx, by) {
     var a = this.sprites.betonniere.x - this.sprites.brouette.x;
     var b = this.sprites.betonniere.y - this.sprites.brouette.y;
     return Math.sqrt( a*a + b*b );
