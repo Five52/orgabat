@@ -24,6 +24,13 @@ class HistoryRealisation
     private $id;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="note", type="integer")
+     */
+    private $note;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="date", type="datetime")
@@ -40,35 +47,35 @@ class HistoryRealisation
     /**
      * @var int
      *
-     * @ORM\Column(name="healthNote", type="integer")
+     * @ORM\Column(name="healthLevel", type="integer")
      * @Assert\Range(
      *     min = 0,
      *     minMessage= "La note de peut pas être inférieure à {{ limit }}."
      * )
      */
-    private $healthNote;
+    private $healthLevel;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="organizationNote", type="integer")
+     * @ORM\Column(name="organizationLevel", type="integer")
      * @Assert\Range(
      *     min = 0,
      *     minMessage= "La note de peut pas être inférieure à {{ limit }}."
      * )
      */
-    private $organizationNote;
+    private $organizationLevel;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="businessNotorietyNote", type="integer")
+     * @ORM\Column(name="businessNotoriety", type="integer")
      * @Assert\Range(
      *     min = 0,
      *     minMessage= "La note de peut pas être inférieure à {{ limit }}."
      * )
      */
-    private $businessNotorietyNote;
+    private $businessNotoriety;
 
     /**
      * @var int
@@ -124,6 +131,30 @@ class HistoryRealisation
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set note
+     *
+     * @param float $note
+     *
+     * @return HistoryRealisation
+     */
+    public function setNote($note)
+    {
+        $this->note = $note;
+
+        return $this;
+    }
+
+    /**
+     * Get note
+     *
+     * @return float
+     */
+    public function getNote()
+    {
+        return $this->note;
     }
 
     /**
@@ -240,63 +271,63 @@ class HistoryRealisation
     }
 
     /**
-     * Set healthNote
+     * Set healthLevel
      *
-     * @param integer $healthNote
+     * @param integer $healthLevel
      *
      * @return HistoryRealisation
      */
-    public function setHealthNote($healthNote)
+    public function setHealthLevel($healthLevel)
     {
-        $this->healthNote = $healthNote;
+        $this->healthLevel = $healthLevel;
 
         return $this;
     }
 
     /**
-     * Get healthNote
+     * Get healthLevel
      *
      * @return integer
      */
-    public function getHealthNote()
+    public function getHealthLevel()
     {
-        return $this->healthNote;
+        return $this->healthLevel;
     }
 
     /**
-     * Set organizationNote
+     * Set organizationLevel
      *
-     * @param integer $organizationNote
+     * @param integer $organizationLevel
      *
      * @return HistoryRealisation
      */
-    public function setOrganizationNote($organizationNote)
+    public function setOrganizationLevel($organizationLevel)
     {
-        $this->organizationNote = $organizationNote;
+        $this->organizationLevel = $organizationLevel;
 
         return $this;
     }
 
     /**
-     * Get organizationNote
+     * Get organizationLevel
      *
      * @return integer
      */
-    public function getOrganizationNote()
+    public function getOrganizationLevel()
     {
-        return $this->organizationNote;
+        return $this->organizationLevel;
     }
 
     /**
-     * Set businessNotorietyNote
+     * Set businessNotoriety
      *
-     * @param integer $businessNotorietyNote
+     * @param integer $businessNotoriety
      *
      * @return HistoryRealisation
      */
-    public function setBusinessNotorietyNote($businessNotorietyNote)
+    public function setBusinessNotoriety($businessNotoriety)
     {
-        $this->businessNotorietyNote = $businessNotorietyNote;
+        $this->businessNotoriety = $businessNotoriety;
 
         return $this;
     }
@@ -306,9 +337,9 @@ class HistoryRealisation
      *
      * @return integer
      */
-    public function getBusinessNotorietyNote()
+    public function getBusinessNotoriety()
     {
-        return $this->businessNotorietyNote;
+        return $this->businessNotoriety;
     }
 
     /**
@@ -390,7 +421,7 @@ class HistoryRealisation
      *
      * @return HistoryRealisation
      */
-    public function setUser(User $user)
+    public function setUser(\Orgabat\GameBundle\Entity\User $user)
     {
         $this->user = $user;
 
