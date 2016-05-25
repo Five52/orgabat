@@ -10,23 +10,19 @@
             <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
             <link rel="stylesheet" href="{{ asset('vendor/fontawesome/css/font-awesome.min.css') }}">
         {% endblock %}
-        {% block javascripts %}
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-            <script src="{{ asset('js/logoSlider.js') }}"></script>
-        {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
     </head>
-    {% include 'header.html.twig' %}
+    {% include 'partials/header.html.twig' %}
     <body>
         <div class="container">
             {% block body %}{% endblock %}
         </div>
+        {% include 'partials/footer.html.twig' %}
         {% block javascripts %}
-          <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>
-          <script src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"> </script>
+            <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>
+            <script src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"> </script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+            <script src="{{ asset('js/logoSlider.js') }}"></script>
         {% endblock %}
-        <footer class="footer navbar navbar-inverse"><p class="text-center">@2016 Orgabat - Tous droits réservés</p></footer>
-        {% block body %}{% endblock %}
     </body>
-    {% include 'footer.html.twig' %}
 </html>

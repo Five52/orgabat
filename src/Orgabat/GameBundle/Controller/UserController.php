@@ -36,9 +36,9 @@ class UserController extends Controller
 
 
         $templating = $this->container->get('templating');
-        $html = $templating->render('user/page_co.html.twig',array(
+        $html = $templating->render('OrgabatGameBundle:User:page_co.html.twig', [
             'form'=>$form->createView()
-        ));
+        ]);
         return new Response($html);
     }
 }

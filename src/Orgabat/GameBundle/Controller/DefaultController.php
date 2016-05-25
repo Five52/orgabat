@@ -14,9 +14,7 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
-        ]);
+        return $this->render('OrgabatGameBundle:Default:index.html.twig');
     }
 
     /**
@@ -25,7 +23,7 @@ class DefaultController extends Controller
     public function showRules(Request $request)
     {
         // replace this example code with whatever you need
-        return $this->render('user/page_regles.html.twig');
+        return $this->render('OrgabatGameBundle:User:page_regles.html.twig');
     }
 
     /**
@@ -34,7 +32,7 @@ class DefaultController extends Controller
     public function showConnectionFormUser(Request $request)
     {
         // replace this example code with whatever you need
-        return $this->render('user/page_co.html.twig');
+        return $this->render('OrgabatGameBundle:User:page_co.html.twig');
     }
 
     /**
@@ -43,7 +41,7 @@ class DefaultController extends Controller
     public function showMenu(Request $request)
     {
         // replace this example code with whatever you need
-        return $this->render('user/page_rubriques.html.twig');
+        return $this->render('OrgabatGameBundle:User:page_rubriques.html.twig');
     }
 
 
@@ -53,6 +51,6 @@ class DefaultController extends Controller
     public function showAdmin(Request $request)
     {
         // replace this example code with whatever you need
-        return $this->render('admin/page_dashboard.html.twig');
+        return $this->render('OrgabatGameBundle:Admin:page_dashboard.html.twig');
     }
 }

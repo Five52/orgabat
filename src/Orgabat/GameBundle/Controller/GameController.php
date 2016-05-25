@@ -6,7 +6,7 @@
  * Time: 12:49
  */
 
-namespace AppBundle\Controller;
+namespace Orgabat\GameBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -20,8 +20,7 @@ class GameController extends Controller
     public function gameAction(Request $request, $id)
     {
         // replace this example code with whatever you need
-        return $this->render('user/partial_game.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
+        return $this->render('OrgabatGameBundle:Game:game.html.twig', [
             'id' => $id
         ]);
     }

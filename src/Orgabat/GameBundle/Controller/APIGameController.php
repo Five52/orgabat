@@ -1,6 +1,6 @@
 <?php
 
-namespace Orgabat\GameBundle\Controller\RESTAPI;
+namespace Orgabat\GameBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class GameController extends Controller
+class APIGameController extends Controller
 {
     /**
      * @Route("/api/score")
