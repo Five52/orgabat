@@ -27,7 +27,6 @@ function initMarque() {
 }
 
 function initNosMarques() {
-  console.log("blabla");
     $(".block .view-id-marques .view-content img").each(function() {
         width += $(this).width();
     });

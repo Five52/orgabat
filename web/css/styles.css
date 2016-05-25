@@ -424,7 +424,6 @@ iframe {
   float: left;*/
     height: 93px;
     overflow: hidden;
-    padding: 0 10px 15px;
     position: relative;
     /*width: 321px;*/
     /*width:100%;*/
@@ -435,8 +434,9 @@ iframe {
 #block-views-marques-block .block-content .view-marques, #block-views-marques-block-accueil .block-content .view-marques {
     position: relative;
     overflow: hidden;
-    height: 78px;
-    width: 100%;
+    height: 85px;
+    width: 40%;
+    margin : auto;
     /*.views-row-1, .views-row-2 {
       img {width:0;}
   }*/
@@ -446,7 +446,7 @@ iframe {
 
 #block-views-marques-block .block-content .view-marques .flou-gauche, #block-views-marques-block .block-content .view-marques .flou-droite, #block-views-marques-block-accueil .block-content .view-marques .flou-gauche, #block-views-marques-block-accueil .block-content .view-marques .flou-droite {
     position: absolute;
-    height: 82px;
+    height: 85px;
     width: 62px;
     top: 0;
     z-index: 1;
@@ -467,7 +467,7 @@ iframe {
 #block-views-marques-block .block-content .view-marques .view-content, #block-views-marques-block-accueil .block-content .view-marques .view-content {
     position: absolute;
     top: 0;
-    height: 78px;
+    height: 85px;
 }
 
 /* line 1215, ../sass/styles.scss */
