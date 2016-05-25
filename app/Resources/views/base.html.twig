@@ -17,6 +17,7 @@
     <body>
         <div class="container">
             {% block body %}{% endblock %}
+            {% block fos_user_content %}{% endblock %}
         </div>
         {% include 'partials/footer.html.twig' %}
         {% block javascripts %}
