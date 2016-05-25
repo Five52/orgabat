@@ -25,9 +25,15 @@ class LoadUserData implements FixtureInterface
         $user3->setLastName('Rèserèse');
         $user3->setPassword('therese');
 
+        $user4 = new User();
+        $user4->setFirstName('User');
+        $user4->setLastName('Test');
+        $user4->setPassword('user');
+
         $manager->persist($user1);
         $manager->persist($user2);
         $manager->persist($user3);
+        $manager->persist($user4);
 
         // On déclenche l'enregistrement de tous les tags
         $manager->flush();
