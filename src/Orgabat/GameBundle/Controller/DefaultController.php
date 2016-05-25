@@ -1,9 +1,9 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace Orgabat\GameBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
@@ -45,5 +45,4 @@ class DefaultController extends Controller
         // replace this example code with whatever you need
         return $this->render('user/page_rubriques.html.twig');
     }
-
 }

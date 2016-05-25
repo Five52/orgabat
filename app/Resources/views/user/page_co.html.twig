@@ -2,21 +2,13 @@
 {% block body %}
     <h1>ORGABAT</h1>
     <p><strong>Merci d'indiquer ton nom, ton prénom et ta section... Puis de cliquer sur le bouton valider<strong><p>
-    <form role="form">
-        <div class="form-group">
-            <label for="email">Nom:</label>
-            <input type="text" class="form-control" id="text" placeholder="Nom">
-        </div>
-        <div class="form-group">
-            <label for="prenom">Password:</label>
-            <input type="text" class="form-control" id="prenom" placeholder="Prénom">
-        </div>
-        <div class="form-group">
-            <label for="section">Section:</label>
-            <input type="text" class="form-control" id="section" placeholder="Section">
-        </div>
-        <a href="#" class="btn btn-success" role="button">VALIDER</a>
-    </form>
+    {{  form_start(form,{ 'attr': {'class': 'create_form'}}) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.lastname) }}
+    {{ form_row(form.password) }}
+
+    <button type="submit" class="btn btn-primary">Connexion</button>
+    {{  form_end(form) }}
 {% endblock %}
 {% block javascripts %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>

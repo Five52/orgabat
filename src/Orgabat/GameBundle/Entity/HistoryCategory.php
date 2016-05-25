@@ -1,0 +1,114 @@
+<?php
+
+namespace Orgabat\GameBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+
+/**
+ * HistoricalCategory
+ *
+ * @ORM\Table(name="history_category")
+ * @ORM\Entity(repositoryClass="Orgabat\GameBundle\Repository\HistoryCategoryRepository")
+ */
+class HistoryCategory
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="completed", type="boolean")
+     */
+    private $completed;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Orgabat\GameBundle\Entity\Category", mappedBy="category")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $categories;
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->categories = new ArrayCollection();
+    }
+
+    /**
+     * Add category
+     *
+     * @param \Orgabat\GameBundle\Entity\Category $category
+     *
+     * @return HistoryCategory
+     */
+    public function addCategory(Category $category)
+    {
+        $this->categories[] = $category;
+
+        return $this;
+    }
+
+    /**
+     * Remove category
+     *
+     * @param \Orgabat\GameBundle\Entity\Category $category
+     */
+    public function removeCategory(Category $category)
+    {
+        $this->categories->removeElement($category);
+    }
+
+    /**
+     * Get categories
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCategories()
+    {
+        return $this->categories;
+    }
+
+    /**
+     * Set completed
+     *
+     * @param boolean $completed
+     *
+     * @return HistoryCategory
+     */
+    public function setCompleted($completed)
+    {
+        $this->completed = $completed;
+
+        return $this;
+    }
+
+    /**
+     * Get completed
+     *
+     * @return boolean
+     */
+    public function getCompleted()
+    {
+        return $this->completed;
+    }
+}
