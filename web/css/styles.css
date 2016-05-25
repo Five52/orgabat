@@ -1,4 +1,4 @@
-@import url('simple-sidebar.css');
+@import url( 'simple-sidebar.css');
 
 /* Pied de page */
 
@@ -160,11 +160,11 @@ iframe {
     text-align: left;
     /*background: url(../images/portlet_partenaire.jpg) no-repeat scroll 0 0 transparent;
   float: left;*/
-    height: 93px;
-    overflow: hidden;
-    position: relative;
-    /*width: 321px;*/
-    /*width:100%;*/
+  height: 93px;
+  overflow: hidden;
+  position: relative;
+  /*width: 321px;*/
+  /*width:100%;*/
 }
 
 
@@ -246,10 +246,10 @@ iframe {
 }
 
 @media (max-width: 599px) {
-    /* line 1246, ../sass/styles.scss */
-    #block-views-marques-block-accueil .block-content {
-        background-size: 262px auto;
-    }
+  /* line 1246, ../sass/styles.scss */
+  #block-views-marques-block-accueil .block-content {
+    background-size: 262px auto;
+  }
 }
 
 
