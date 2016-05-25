@@ -13,13 +13,17 @@
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
     </head>
-    {% include 'partials/header.html.twig' %}
+     {#
+        {% include 'header.html.twig' %}
+    #}
     <body>
-        <div class="container">
-            {% block body %}{% endblock %}
-            {% block fos_user_content %}{% endblock %}
+        <div id="wrapper">
+            {% block sidebar %}{% endblock %}
+            <div class="page-content-wrapper">
+                {% block body %}{% endblock %}
+                {% include 'partials/footer.html.twig' %}
+            </div>
         </div>
-        {% include 'partials/footer.html.twig' %}
         {% block javascripts %}
             <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>
             <script src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"> </script>
