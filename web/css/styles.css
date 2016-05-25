@@ -61,9 +61,19 @@ iframe {
 
 /* Bandeau d'en-tête */
 .header h1 {
-    text-align: center;
-    font-weight: bold;
-    font-size:50px;
+  text-align: center;
+  font-weight: bold;
+  font-size:50px;
+}
+@media screen and (max-width: 620px) {
+  .header h1 {
+    font-size: 35px;
+  }
+}
+@media screen and (max-width: 400px) {
+  .header h1 {
+    font-size: 30px;
+  }
 }
 
 
