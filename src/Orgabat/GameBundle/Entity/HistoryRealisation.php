@@ -116,6 +116,12 @@ class HistoryRealisation
      */
     private $exercises;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Orgabat\GameBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
 
     /**
      * Get id
@@ -406,5 +412,29 @@ class HistoryRealisation
     public function getBusinessNotorietyMaxNote()
     {
         return $this->businessNotorietyMaxNote;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Orgabat\GameBundle\Entity\User $user
+     *
+     * @return HistoryRealisation
+     */
+    public function setUser(\Orgabat\GameBundle\Entity\User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Orgabat\GameBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }
