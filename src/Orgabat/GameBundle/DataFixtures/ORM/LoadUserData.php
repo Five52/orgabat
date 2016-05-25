@@ -10,6 +10,7 @@ class LoadUserData implements FixtureInterface
 {
     public function load(ObjectManager $manager)
     {
+<<<<<<< HEAD
         $user1 = new User();
         $user1->setFirstName('Jacques');
         $user1->setLastName('Ouille');
@@ -34,6 +35,31 @@ class LoadUserData implements FixtureInterface
         $manager->persist($user2);
         $manager->persist($user3);
         $manager->persist($user4);
+=======
+        // Liste des noms de tags à ajouter
+        $firstNames = array(
+            'Jacques',
+            'Marcel',
+            'Thérèse'
+        );
+
+        $lastNames = array(
+            'Ouille',
+            'Osef',
+            'Rèserèse'
+        );
+
+        
+
+        foreach ($names as $name) {
+            // On crée le tag
+            $category = new Tag();
+            $category->setName($name);
+
+            // On la persiste
+            $manager->persist($category);
+        }
+>>>>>>> 9796dcb91365a10fb4dd0201728e39332560a59c
 
         // On déclenche l'enregistrement de tous les tags
         $manager->flush();
