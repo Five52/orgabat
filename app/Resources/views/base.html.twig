@@ -15,7 +15,10 @@
     <div class="container">
         {% block body %}{% endblock %}
         </div>
-        {% block javascripts %}{% endblock %}
+        {% block javascripts %}
+          <script src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"> </script>
+                      <script src="{{ asset('vendor/bootstrap/js/jquery.js') }}"> </script>
+        {% endblock %}
         <footer class="footer navbar navbar-inverse"><p class="text-center">@2016 Orgabat - Tous droits réservés</p></footer>
     </body>
 </html>

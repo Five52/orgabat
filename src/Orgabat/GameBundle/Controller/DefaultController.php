@@ -45,4 +45,14 @@ class DefaultController extends Controller
         // replace this example code with whatever you need
         return $this->render('user/page_rubriques.html.twig');
     }
+
+
+        /**
+     * @Route("/adminBoard",)
+     */
+    public function showAdmin(Request $request)
+    {
+        // replace this example code with whatever you need
+        return $this->render('admin/page_dashboard.html.twig');
+    }
 }
