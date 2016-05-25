@@ -46,6 +46,10 @@ footer {
 }
 iframe {
   border-style: none;
+  background-image: url('/images/loadingSpinner/hex-loader.gif');
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-color: #FFF;
 }
 
 .modal-hg {
