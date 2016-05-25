@@ -1,16 +1,27 @@
 (function() {
-  var rubriques = document.querySelectorAll('.rubrique');
+  var gameModalElement = {
+    iframe: document.querySelector('#gameModal iframe'),
+    title: document.querySelector('#gameModal #gameModalLabel')
+  };
 
+
+  // Preload spinner
+  document.createElement('img').src = '/images/loadingSpinner/hex-loader.gif';
+
+  // Init des element de rubrique
+  var rubriques = document.querySelectorAll('.rubrique');
   for (var r = rubriques.length - 1; r >= 0; r--) {
     rubriques[r].onclick = clickHandler;
   }
 
-  var iframe = document.querySelector('#gameModal iframe');
-
+  // Quand le modal se ferme
   $('#gameModal').on('hidden.bs.modal', function(e) {
-    iframe.src = '';
-  })
+    gameModalElement.iframe.src = '';
+    gameModalElement.iframe.onload = undefined;
+    gameModalElement.title.textContent = 'Chargement...';
+  });
 
+  // Handler d'un click sur une rubrique
   function clickHandler(e) {
     e.stopPropagation();
     e.preventDefault();
@@ -19,7 +30,12 @@
       keyboard: false
     });
 
-    iframe.src = '/game/' + this.dataset.gameId;
+    gameModalElement.iframe.gameTitle = this.querySelector('#game_title').textContent;
+    gameModalElement.iframe.onload = function() {
+      gameModalElement.title.textContent = this.gameTitle;
+    };
+
+    gameModalElement.iframe.src = '/game/' + this.dataset.gameId;
   }
 
 })();
