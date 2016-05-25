@@ -3,6 +3,7 @@
 namespace Orgabat\GameBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * HistoricalCategory
@@ -22,11 +23,11 @@ class HistoryCategory
     private $id;
 
     /**
-     * @var float
+     * @var boolean
      *
-     * @ORM\Column(name="note", type="float")
+     * @ORM\Column(name="completed", type="boolean")
      */
-    private $note;
+    private $completed;
 
     /**
      * @ORM\OneToMany(targetEntity="Orgabat\GameBundle\Entity\Category", mappedBy="category")
@@ -46,34 +47,11 @@ class HistoryCategory
     }
 
     /**
-     * Set note
-     *
-     * @param float $note
-     *
-     * @return HistoricalCategory
-     */
-    public function setNote($note)
-    {
-        $this->note = $note;
-
-        return $this;
-    }
-
-    /**
-     * Get note
-     *
-     * @return float
-     */
-    public function getNote()
-    {
-        return $this->note;
-    }
-    /**
      * Constructor
      */
     public function __construct()
     {
-        $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     /**
@@ -81,9 +59,9 @@ class HistoryCategory
      *
      * @param \Orgabat\GameBundle\Entity\Category $category
      *
-     * @return HistoricalCategory
+     * @return HistoryCategory
      */
-    public function addCategory(\Orgabat\GameBundle\Entity\Category $category)
+    public function addCategory(Category $category)
     {
         $this->categories[] = $category;
 
@@ -95,7 +73,7 @@ class HistoryCategory
      *
      * @param \Orgabat\GameBundle\Entity\Category $category
      */
-    public function removeCategory(\Orgabat\GameBundle\Entity\Category $category)
+    public function removeCategory(Category $category)
     {
         $this->categories->removeElement($category);
     }
@@ -108,5 +86,29 @@ class HistoryCategory
     public function getCategories()
     {
         return $this->categories;
+    }
+
+    /**
+     * Set completed
+     *
+     * @param boolean $completed
+     *
+     * @return HistoryCategory
+     */
+    public function setCompleted($completed)
+    {
+        $this->completed = $completed;
+
+        return $this;
+    }
+
+    /**
+     * Get completed
+     *
+     * @return boolean
+     */
+    public function getCompleted()
+    {
+        return $this->completed;
     }
 }

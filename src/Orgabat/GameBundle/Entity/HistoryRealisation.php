@@ -3,6 +3,8 @@
 namespace Orgabat\GameBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * HistoricalRealisation
@@ -22,9 +24,9 @@ class HistoryRealisation
     private $id;
 
     /**
-     * @var float
+     * @var integer
      *
-     * @ORM\Column(name="note", type="float")
+     * @ORM\Column(name="note", type="integer")
      */
     private $note;
 
@@ -41,6 +43,72 @@ class HistoryRealisation
      * @ORM\Column(name="time", type="time")
      */
     private $timer;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="healthLevel", type="integer")
+     * @Assert\Range(
+     *     min = 0,
+     *     minMessage= "La note de peut pas être inférieure à {{ limit }}."
+     * )
+     */
+    private $healthLevel;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="organizationLevel", type="integer")
+     * @Assert\Range(
+     *     min = 0,
+     *     minMessage= "La note de peut pas être inférieure à {{ limit }}."
+     * )
+     */
+    private $organizationLevel;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="businessNotoriety", type="integer")
+     * @Assert\Range(
+     *     min = 0,
+     *     minMessage= "La note de peut pas être inférieure à {{ limit }}."
+     * )
+     */
+    private $businessNotoriety;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="healthMaxNote", type="integer")
+     * @Assert\Range(
+     *     min = 0,
+     *     minMessage= "La note de peut pas être inférieure à {{ limit }}."
+     * )
+     */
+    private $healthMaxNote;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="organizationMaxNote", type="integer")
+     * @Assert\Range(
+     *     min = 0,
+     *     minMessage= "La note de peut pas être inférieure à {{ limit }}."
+     * )
+     */
+    private $organizationMaxNote;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="businessNotorietyMaxNote", type="integer")
+     * @Assert\Range(
+     *     min = 0,
+     *     minMessage= "La note de peut pas être inférieure à {{ limit }}."
+     * )
+     */
+    private $businessNotorietyMaxNote;
 
     /**
      * @ORM\OneToMany(targetEntity="Orgabat\GameBundle\Entity\Exercise", mappedBy="historyRealisation")
@@ -64,7 +132,7 @@ class HistoryRealisation
      *
      * @param float $note
      *
-     * @return HistoricalRealisation
+     * @return HistoryRealisation
      */
     public function setNote($note)
     {
@@ -88,7 +156,7 @@ class HistoryRealisation
      *
      * @param \DateTime $date
      *
-     * @return HistoricalRealisation
+     * @return HistoryRealisation
      */
     public function setDate($date)
     {
@@ -112,7 +180,7 @@ class HistoryRealisation
      *
      * @param \DateTime $timer
      *
-     * @return HistoricalRealisation
+     * @return HistoryRealisation
      */
     public function setTimer($timer)
     {
@@ -134,11 +202,11 @@ class HistoryRealisation
     /**
      * Set exercise
      *
-     * @param \Orgabat\GameBundle\Entity\Exercise $exercise
+     * @param Exercise $exercise
      *
-     * @return HistoricalRealisation
+     * @return HistoryRealisation
      */
-    public function setExercise(\Orgabat\GameBundle\Entity\Exercise $exercise)
+    public function setExercise(Exercise $exercise)
     {
         $this->exercise = $exercise;
 
@@ -148,7 +216,7 @@ class HistoryRealisation
     /**
      * Get exercise
      *
-     * @return \Orgabat\GameBundle\Entity\Exercise
+     * @return Exercise
      */
     public function getExercise()
     {
@@ -159,17 +227,17 @@ class HistoryRealisation
      */
     public function __construct()
     {
-        $this->exercises = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->exercises = new ArrayCollection();
     }
 
     /**
      * Add exercise
      *
-     * @param \Orgabat\GameBundle\Entity\Exercise $exercise
+     * @param Exercise $exercise
      *
      * @return HistoryRealisation
      */
-    public function addExercise(\Orgabat\GameBundle\Entity\Exercise $exercise)
+    public function addExercise(Exercise $exercise)
     {
         $this->exercises[] = $exercise;
 
@@ -179,9 +247,9 @@ class HistoryRealisation
     /**
      * Remove exercise
      *
-     * @param \Orgabat\GameBundle\Entity\Exercise $exercise
+     * @param Exercise $exercise
      */
-    public function removeExercise(\Orgabat\GameBundle\Entity\Exercise $exercise)
+    public function removeExercise(Exercise $exercise)
     {
         $this->exercises->removeElement($exercise);
     }
@@ -194,5 +262,149 @@ class HistoryRealisation
     public function getExercises()
     {
         return $this->exercises;
+    }
+
+    /**
+     * Set healthLevel
+     *
+     * @param integer $healthLevel
+     *
+     * @return HistoryRealisation
+     */
+    public function setHealthLevel($healthLevel)
+    {
+        $this->healthLevel = $healthLevel;
+
+        return $this;
+    }
+
+    /**
+     * Get healthLevel
+     *
+     * @return integer
+     */
+    public function getHealthLevel()
+    {
+        return $this->healthLevel;
+    }
+
+    /**
+     * Set organizationLevel
+     *
+     * @param integer $organizationLevel
+     *
+     * @return HistoryRealisation
+     */
+    public function setOrganizationLevel($organizationLevel)
+    {
+        $this->organizationLevel = $organizationLevel;
+
+        return $this;
+    }
+
+    /**
+     * Get organizationLevel
+     *
+     * @return integer
+     */
+    public function getOrganizationLevel()
+    {
+        return $this->organizationLevel;
+    }
+
+    /**
+     * Set businessNotoriety
+     *
+     * @param integer $businessNotoriety
+     *
+     * @return HistoryRealisation
+     */
+    public function setBusinessNotoriety($businessNotoriety)
+    {
+        $this->businessNotoriety = $businessNotoriety;
+
+        return $this;
+    }
+
+    /**
+     * Get businessNotoriety
+     *
+     * @return integer
+     */
+    public function getBusinessNotoriety()
+    {
+        return $this->businessNotoriety;
+    }
+
+    /**
+     * Set healthMaxNote
+     *
+     * @param integer $healthMaxNote
+     *
+     * @return HistoryRealisation
+     */
+    public function setHealthMaxNote($healthMaxNote)
+    {
+        $this->healthMaxNote = $healthMaxNote;
+
+        return $this;
+    }
+
+    /**
+     * Get healthMaxNote
+     *
+     * @return integer
+     */
+    public function getHealthMaxNote()
+    {
+        return $this->healthMaxNote;
+    }
+
+    /**
+     * Set organizationMaxNote
+     *
+     * @param integer $organizationMaxNote
+     *
+     * @return HistoryRealisation
+     */
+    public function setOrganizationMaxNote($organizationMaxNote)
+    {
+        $this->organizationMaxNote = $organizationMaxNote;
+
+        return $this;
+    }
+
+    /**
+     * Get organizationMaxNote
+     *
+     * @return integer
+     */
+    public function getOrganizationMaxNote()
+    {
+        return $this->organizationMaxNote;
+    }
+
+    /**
+     * Set businessNotorietyMaxNote
+     *
+     * @param integer $businessNotorietyMaxNote
+     *
+     * @return HistoryRealisation
+     */
+    public function setBusinessNotorietyMaxNote($businessNotorietyMaxNote)
+    {
+        $this->businessNotorietyMaxNote = $businessNotorietyMaxNote;
+
+        return $this;
+    }
+
+    /**
+     * Get businessNotorietyMaxNote
+     *
+     * @return integer
+     */
+    public function getBusinessNotorietyMaxNote()
+    {
+        return $this->businessNotorietyMaxNote;
     }
 }
