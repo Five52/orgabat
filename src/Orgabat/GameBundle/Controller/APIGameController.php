@@ -2,23 +2,16 @@
 
 namespace Orgabat\GameBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Orgabat\GameBundle\Entity\HistoryRealisation;
 
 class APIGameController extends Controller
 {
-    /**
-     * @Route("/api/score")
-     * @Method({"POST"})
-     */
-    public function testRouteApi(Request $req)
+    public function scoreAction(Request $req)
     {
         $res = new JsonResponse();
-        // $usr = $this->get('security.token_storage')->getToken()->getUser();
-        // $id = $usr->getId();
 
         if ($req->getMethod() === Request::METHOD_POST) {
             $content = $req->getContent();
@@ -27,14 +20,45 @@ class APIGameController extends Controller
                 // Récupération des données envoyées
                 $params = json_decode($content, true);
 
-                // TODO: Vérification des informations
-                // TODO: Update du timer
-                // TODO: Upsert en BDD
+                $data = $params['data'];
+                if (!isset($data['id']) || gettype($data['id']) !== 'integer' ||
+                    !isset($data['time']) || gettype($data['time']) !== 'integer' ||
+                    !isset($data['health']) || gettype($data['health']) !== 'integer' ||
+                    !isset($data['organization']) || gettype($data['organization']) !== 'integer' ||
+                    !isset($data['business']) || gettype($data['business']) !== 'integer') {
+                    var_dump($data);
 
-                // IF soucis BDD
-                // $res->setStatusCode(JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+                    $res->setStatusCode(JsonResponse::HTTP_BAD_REQUEST); // 400
+                    $res->setData([
+                        'message' => 'Données incorrectes',
+                    ]);
+                } else {
+                    // $em = $this->getDoctrine()->getManager();
+                    // $users = $em->getRepository('OrgabatGameBundle:User')->findById('1');
 
-                $res->setStatusCode(JsonResponse::HTTP_ACCEPTED); // 202
+                    $realisation = new HistoryRealisation();
+
+                    $user = $this->get('security.token_storage')->getToken()->getUser();
+                    $realisation->setUser($user);
+
+                    $realisation->setTimer($data['time']);
+
+                    $realisation->setDate(new \Datetime());
+
+                    $realisation->setHealthNote($data['health']);
+                    $realisation->setOrganizationNote($data['organization']);
+                    $realisation->setBusinessNotorietyNote($data['business']);
+
+                    // Envoi en BDD
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($realisation);
+                    $em->flush();
+
+                    // TODO: Vérification des informations
+                    // TODO: Upsert en BDD
+
+                    $res->setStatusCode(JsonResponse::HTTP_ACCEPTED); // 202
+                }
             } else {
                 // Tentative
                 $res->setStatusCode(JsonResponse::HTTP_BAD_REQUEST); // 400

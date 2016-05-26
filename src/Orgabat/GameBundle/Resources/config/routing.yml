@@ -8,9 +8,23 @@ default_category:
     path:    /rubriques
     defaults: { _controller: OrgabatGameBundle:Default:showMenu }
 
+default_games:
+    path:    /jeux/{id}
+    defaults: { _controller: OrgabatGameBundle:Default:showGames }
+    requirements:
+        id:   \d+
+
 default_admin_board:
     path:   /admin
     defaults:  { _controller: OrgabatGameBundle:Default:showAdmin }
+
+# APIGameController
+
+apigame_score:
+    path:     /api/score
+    defaults: { _controller: OrgabatGameBundle:APIGame:score }
+    requirements:
+      sf_method: 'post'
 
 # GameController
 

@@ -1,0 +1,33 @@
+{% extends 'OrgabatGameBundle::base_listejeux.html.twig' %}
+{% block body %}
+    {{dump(exercises[0])}}
+    {{dump(dones)}}
+
+    <h1>{{ category.name }}</h1>
+
+    {% for exercise in exercises %}
+        <div>
+            <h2>{{ exercise.name }}</h2>
+            <h3>Petit</h3>
+            <p>pitchpitchpitch</p>
+            <p>
+              {{ dones[exercise.id].healthNote|default('test') }}
+            </p>
+            <div>{{ exercise.healthMaxNote }}</div>
+            <div>{{ exercise.organizationMaxNote }}</div>
+            <div>{{ exercise.businessNotorietyMaxNote }}</div>
+        </div>
+    {% endfor %}
+
+    <button id="return">Retourner aux modules</button>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        document.querySelector('#return').onclick = function() {
+          window.parent.closeExerciseModal();
+        };
+    </script>
+{% endblock %}

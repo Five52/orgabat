@@ -21,9 +21,6 @@
 
     var req = new XMLHttpRequest();
     req.onload = function() {
-      if (this.status === 418) {
-        location.href = '';
-      }
       callback(this.status, this.responseText);
     };
     req.onerror = function() {
