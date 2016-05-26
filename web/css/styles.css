@@ -5,6 +5,10 @@ footer {
     color:white;
 }
 
+/* Règles générales */
+form {
+    margin: 10px;
+}
 
 /* RUBRIQUES */
 .noselect {
@@ -55,11 +59,20 @@ iframe {
   max-width: 100%;
 }
 
+/* Page de règles */
 
+.regles {
+    text-align: center;
+    margin-left: 15%;
+    margin-right: 15%;
+}
 
-
+.regles p {
+    margin-top: 10px;
+}
 
 /* Bandeau d'en-tête */
+
 .header h1 {
   text-align: center;
   font-weight: bold;
