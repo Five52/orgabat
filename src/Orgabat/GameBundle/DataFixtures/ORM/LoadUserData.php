@@ -11,29 +11,26 @@ class LoadUserData implements FixtureInterface
     public function load(ObjectManager $manager)
     {
         $user1 = new User();
-        $user1->setFirstName('Jacques');
-        $user1->setLastName('Ouille');
-        $user1->setPassword('jacques');
+        $user1->setUsername('Jacques Dupont');
+        $user1->setEmail('jacques.dupont@mail.com');
+        # Mot de passe : jacques
+        $user1->setPassword('$2a$06$3KbpQXiOY.FBN3RebaXxx.B1pZfvmj.SpEDVu.ww7JuawckMMEIai');
 
         $user2 = new User();
-        $user2->setFirstName('Marcel');
-        $user2->setLastName('Osef');
-        $user2->setPassword('marcel');
+        $user2->setUsername('Marcel Arthur');
+        $user2->setEmail('marcel.arthur@mail.com');
+        # Mot de passe : marcel
+        $user2->setPassword('$2a$06$fbUoY7JSvqq4B2Zq8s3V9eqc7HLY5gfI0Q5tU0CPB/pqrWtRhAVWe');
 
         $user3 = new User();
-        $user3->setFirstName('Thérèse');
-        $user3->setLastName('Rèserèse');
-        $user3->setPassword('therese');
-
-        $user4 = new User();
-        $user4->setFirstName('User');
-        $user4->setLastName('Test');
-        $user4->setPassword('user');
+        $user3->setUsername('Thérèse Martin');
+        $user3->setEmail('therese.martin@mail.com');
+        # Mot de passe : therese
+        $user3->setPassword('$2a$06$20YD0Xw31Wc8GuiTTf95h.FM7aifrAWMCNSwT.5NWIeSHs6nseL1K');
 
         $manager->persist($user1);
         $manager->persist($user2);
         $manager->persist($user3);
-        $manager->persist($user4);
 
         // On déclenche l'enregistrement de tous les tags
         $manager->flush();
