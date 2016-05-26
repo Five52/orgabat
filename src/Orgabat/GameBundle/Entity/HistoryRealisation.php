@@ -32,7 +32,7 @@ class HistoryRealisation
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="time", type="time")
+     * @ORM\Column(name="time", type="integer")
      */
     private $timer;
 
@@ -68,39 +68,6 @@ class HistoryRealisation
      * )
      */
     private $businessNotorietyNote;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="healthMaxNote", type="integer")
-     * @Assert\Range(
-     *     min = 0,
-     *     minMessage= "La note de peut pas être inférieure à {{ limit }}."
-     * )
-     */
-    private $healthMaxNote;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="organizationMaxNote", type="integer")
-     * @Assert\Range(
-     *     min = 0,
-     *     minMessage= "La note de peut pas être inférieure à {{ limit }}."
-     * )
-     */
-    private $organizationMaxNote;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="businessNotorietyMaxNote", type="integer")
-     * @Assert\Range(
-     *     min = 0,
-     *     minMessage= "La note de peut pas être inférieure à {{ limit }}."
-     * )
-     */
-    private $businessNotorietyMaxNote;
 
     /**
      * @ORM\ManyToOne(targetEntity="Orgabat\GameBundle\Entity\Exercise", inversedBy="historyRealisations")
@@ -267,78 +234,6 @@ class HistoryRealisation
     public function getBusinessNotorietyNote()
     {
         return $this->businessNotorietyNote;
-    }
-
-    /**
-     * Set healthMaxNote
-     *
-     * @param integer $healthMaxNote
-     *
-     * @return HistoryRealisation
-     */
-    public function setHealthMaxNote($healthMaxNote)
-    {
-        $this->healthMaxNote = $healthMaxNote;
-
-        return $this;
-    }
-
-    /**
-     * Get healthMaxNote
-     *
-     * @return integer
-     */
-    public function getHealthMaxNote()
-    {
-        return $this->healthMaxNote;
-    }
-
-    /**
-     * Set organizationMaxNote
-     *
-     * @param integer $organizationMaxNote
-     *
-     * @return HistoryRealisation
-     */
-    public function setOrganizationMaxNote($organizationMaxNote)
-    {
-        $this->organizationMaxNote = $organizationMaxNote;
-
-        return $this;
-    }
-
-    /**
-     * Get organizationMaxNote
-     *
-     * @return integer
-     */
-    public function getOrganizationMaxNote()
-    {
-        return $this->organizationMaxNote;
-    }
-
-    /**
-     * Set businessNotorietyMaxNote
-     *
-     * @param integer $businessNotorietyMaxNote
-     *
-     * @return HistoryRealisation
-     */
-    public function setBusinessNotorietyMaxNote($businessNotorietyMaxNote)
-    {
-        $this->businessNotorietyMaxNote = $businessNotorietyMaxNote;
-
-        return $this;
-    }
-
-    /**
-     * Get businessNotorietyMaxNote
-     *
-     * @return integer
-     */
-    public function getBusinessNotorietyMaxNote()
-    {
-        return $this->businessNotorietyMaxNote;
     }
 
     /**
