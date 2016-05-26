@@ -35,7 +35,10 @@ framework:
 fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
-    user_class: Orgabat\GameBundle\Entity\Admin
+    user_class: Orgabat\GameBundle\Entity\User
+    service:
+        user_manager: pugx_user_manager
+
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"
