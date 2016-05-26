@@ -35,7 +35,7 @@
       gameModalElement.title.textContent = this.gameTitle;
     };
 
-    gameModalElement.iframe.src = '/game/' + this.dataset.gameId;
+    gameModalElement.iframe.src = '/jeu/' + this.dataset.gameId;
   }
 
 })();
