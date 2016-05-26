@@ -18,11 +18,9 @@
 
     <div class="col-sm-9">
         {% for category in categories %}
-            <div class="col-sm-3 panel panel-default rubrique">
-                <div class="panel-body">
-                <p class="panel-body-p">{{ category.name }}</p>
+            <div class="col-sm-3 panel panel-default panel-body rubrique" data-game-id="1">
+              <p class="panel-body-p" id="game_title">{{ category.name }}</p>
             </div>
-        </div>
     {% endfor %}
 </div>
 <div class="col-sm-3">
