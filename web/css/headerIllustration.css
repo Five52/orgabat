@@ -2,6 +2,7 @@
   height: 400px;
   position: relative;
   overflow: hidden;
+  margin-bottom: 20px;
 }
 .headerIllustration {
   position: absolute;
