@@ -1,21 +1,50 @@
 {% extends 'OrgabatGameBundle::base_listejeux.html.twig' %}
 {% block body %}
-    {{dump(exercises[0])}}
-    {{dump(dones)}}
-
     <h1>{{ category.name }}</h1>
 
-    {% for exercise in exercises %}
+    <div>
+        <div>Résumé :</div>
         <div>
-            <h2>{{ exercise.name }}</h2>
-            <h3>Petit</h3>
+            <div>Ligne 1</div>
+            <div>Ligne 2</div>
+            <div>Ligne 3</div>
+        </div>
+    </div>
+
+    {% for exercise in exercises %}
+        <div class="game {{ dones[exercise.id] is defined ? 'disabled' : '' }}" data-game-id="{{ exercise.id }}">
+            <h2 id="game_label">{{ exercise.name }}</h2>
+            <h4>
+                {% if dones[exercise.id]is defined %}
+                    Jeu terminé
+                {% else %}
+                    Essaie-le !
+                {% endif %}
+            </h4>
             <p>pitchpitchpitch</p>
-            <p>
-              {{ dones[exercise.id].healthNote|default('test') }}
-            </p>
-            <div>{{ exercise.healthMaxNote }}</div>
-            <div>{{ exercise.organizationMaxNote }}</div>
-            <div>{{ exercise.businessNotorietyMaxNote }}</div>
+            <div>
+                {% if dones[exercise.id]is defined %}
+                    <div>
+                        {{ dones[exercise.id].healthNote }}
+                        /
+                        {{ exercise.healthMaxNote }}
+                    </div>
+                    <div>
+                        {{ dones[exercise.id].organizationNote }}
+                        /
+                        {{ exercise.organizationMaxNote }}
+                    </div>
+                    <div>
+                        {{ dones[exercise.id].businessNotorietyNote }}
+                        /
+                        {{ exercise.businessNotorietyMaxNote }}
+                    </div>
+                {% else %}
+                    <div>{{ exercise.healthMaxNote }}</div>
+                    <div>{{ exercise.organizationMaxNote }}</div>
+                    <div>{{ exercise.businessNotorietyMaxNote }}</div>
+                {% endif %}
+            </div>
         </div>
     {% endfor %}
 
@@ -24,10 +53,5 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-
-    <script type="text/javascript">
-        document.querySelector('#return').onclick = function() {
-          window.parent.closeExerciseModal();
-        };
-    </script>
+    <script src="{{ asset('js/exercices.js') }}"></script>
 {% endblock %}
