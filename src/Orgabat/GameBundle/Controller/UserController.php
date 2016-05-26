@@ -21,10 +21,6 @@ use Symfony\Component\Security\Core\Security;
 
 class UserController extends Controller
 {
-
-    /**
-     * @Route("/connexion")
-     */
     public function newAction(Request $request)
     {
         $user = new User();
@@ -35,9 +31,6 @@ class UserController extends Controller
         if ($form->isValid()) {
             $em->flush();
         }
-
-
-
         $templating = $this->container->get('templating');
         $html = $templating->render('OrgabatGameBundle:User:page_co.html.twig', [
             'form'=>$form->createView()
@@ -45,11 +38,6 @@ class UserController extends Controller
         return new Response($html);
     }
 
-    /**
-     * @Method({"GET"})
-     * @Route("/login", name="login")
-     * @Template()
-     */
     public function loginAction(Request $request)
     {
         $session = $request->getSession();
@@ -69,12 +57,7 @@ class UserController extends Controller
         return $params;
     }
 
-
-    /**
-     * @Method({"POST"})
-     * @Route("/login_check", name="login_check")
-     */
-    public function check()
+    public function checkAction()
     {
         throw new \RuntimeException('You must configure the check path to be handled by the firewall using form_login in your security firewall configuration.');
     }
@@ -83,7 +66,7 @@ class UserController extends Controller
      * @Method({"GET"})
      * @Route("/logout", name="logout")
      */
-    public function logout()
+    public function logoutAction()
     {
         throw new \RuntimeException('You must activate the logout in your security firewall configuration.');
     }
