@@ -24,27 +24,8 @@ game_game:
     requirements:
         id:   \d+
 
-# UserController
-
-user_admin_creation:
-    path:    /admin/creer
-    defaults: { _controller: OrgabatGameBundle:User:new }
-
-user_login:
-    path:    /login
-    defaults: { _controller: OrgabatGameBundle:User:login }
-
-user_check:
-    path:    /verification-identifiants
-    defaults: { _controller: OrgabatGameBundle:User:check }
-
-user_logout:
-    path:    /deconnexion
-    defaults: { _controller: OrgabatGameBundle:User:logout }
-
 # AdminController
 
 admin_create_user:
     path:    /creation-utilisateur
     defaults: { _controller: OrgabatGameBundle:Admin:createUser}
-
