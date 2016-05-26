@@ -1,113 +1,120 @@
 #wrappHeader {
-    height: 400px;
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 20px;
+  height: 400px;
+  position: relative;
+  overflow: hidden;
 }
 .headerIllustration {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 600px;
-    pointer-events: none;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 600px;
+  pointer-events: none;
 }
 .headerIllustration .skyline {
-    height: 100%;
-    background: url('/images/bandeau/skyline.svg') repeat-x center bottom;
-    background-size: auto 100%;
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    left: 0;
+  height: 100%;
+  background: url('../images/bandeau/skyline.svg') repeat-x center bottom;
+  background-size: auto 100%;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }
 .headerIllustration .illustrationForeground {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    width: 100%;
-    max-width: 1200px;
-    height: 100%;
-    overflow: visible;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 100%;
+  max-width: 1200px;
+  height: 100%;
+  overflow: visible;
 }
-.headerIllustration .headerCenter, .headerIllustration .headerLeft, .headerIllustration .headerRight, .headerIllustration img, .headerIllustration svg {
-    height: 100%;
-    position: absolute;
-    bottom: 0;
-    overflow: visible;
+.headerIllustration .headerCenter,
+.headerIllustration .headerLeft,
+.headerIllustration .headerRight,
+.headerIllustration img,
+.headerIllustration svg {
+  height: 100%;
+  position: absolute;
+  bottom: 0;
+  overflow: visible;
 }
 .headerIllustration .headerLeft {
-    left: -4%;
+  left: -4%;
 }
 .headerIllustration .headerCenter {
-    left: 0;
-    right: 0;
-    margin: auto;
+  left: 0;
+  right: 0;
+  margin: auto;
 }
 @media screen and (max-aspect-ratio: 8 / 5) and (max-width: 1480px) {
-    .headerIllustration .headerCenter {
-        opacity: 0;
-    }
+  .headerIllustration .headerCenter {
+    opacity: 0;
+  }
 }
 @media screen and (max-width: 600px) {
-    .headerIllustration .headerCenter {
-        opacity: 0;
-    }
+  .headerIllustration .headerCenter {
+    opacity: 0;
+  }
 }
 .headerIllustration .headerRight {
-    right: -4%;
+  right: -4%;
 }
 @media screen and (max-width: 960px), (min-width: 960px) and (max-aspect-ratio: 4 / 3) {
-    .headerIllustration > div, .headerIllustration > img, .headerIllustration > svg {
-        transform: scale(0.9);
-        transform-origin: center bottom;
-    }
-    .headerIllustration > .skyline {
-        transform: scale(1);
-        height: 75%;
-    }
-    .headerIllustration .headerLeft {
-        left: -24%;
-    }
-    .headerIllustration .headerRight {
-        right: -20%;
-    }
+  .headerIllustration > div,
+  .headerIllustration > img,
+  .headerIllustration > svg {
+    transform: scale(0.9);
+    transform-origin: center bottom;
+  }
+  .headerIllustration > .skyline {
+    transform: scale(1);
+    height: 75%;
+  }
+  .headerIllustration .headerLeft {
+    left: -24%;
+  }
+  .headerIllustration .headerRight {
+    right: -20%;
+  }
 }
 @media screen and (min-width: 1480px) {
-    .headerIllustration .headerLeft {
-        left: -15%;
-    }
-    .headerIllustration .headerRight {
-        right: -18%;
-    }
-    .headerIllustration .headerCenter, .headerIllustration .headerLeft, .headerIllustration .headerRight {
-        transform: scale(0.9);
-        transform-origin: center bottom;
-    }
+  .headerIllustration .headerLeft {
+    left: -15%;
+  }
+  .headerIllustration .headerRight {
+    right: -18%;
+  }
+  .headerIllustration .headerCenter,
+  .headerIllustration .headerLeft,
+  .headerIllustration .headerRight {
+    transform: scale(0.9);
+    transform-origin: center bottom;
+  }
 }
 @media screen and (max-aspect-ratio: 5 / 8) and (min-width: 720px) {
-    .headerIllustration .headerLeft {
-        left: -36%;
-    }
-    .headerIllustration .headerRight {
-        right: -32%;
-    }
-    .headerIllustration .headerCenter {
-        opacity: 0;
-    }
+  .headerIllustration .headerLeft {
+    left: -36%;
+  }
+  .headerIllustration .headerRight {
+    right: -32%;
+  }
+  .headerIllustration .headerCenter {
+    opacity: 0;
+  }
 }
 @media screen and (max-width: 620px) {
-    .headerIllustration .headerRight {
-        display: none;
-    }
+  .headerIllustration .headerRight {
+    display: none;
+  }
 }
 @media screen and (max-width: 400px) {
-    .headerIllustration .headerRight {
-        display: none;
-    }
-    .headerIllustration .headerLeft {
-        display: none;
-    }
+  .headerIllustration .headerRight {
+    display: none;
+  }
+  .headerIllustration .headerLeft {
+    display: none;
+  }
 }
