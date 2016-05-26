@@ -231,35 +231,19 @@ iframe {
     text-align: left;
     /*background: url(../images/portlet_partenaire.jpg) no-repeat scroll 0 0 transparent;
   float: left;*/
-    height: 93px;
-    overflow: hidden;
-    position: relative;
-    /*width: 321px;*/
-    /*width:100%;*/
-}
+  /*width:100%;*/}
 
 /* line 1184, ../sass/styles.scss */
 
 #block-views-marques-block .block-content .view-marques, #block-views-marques-block-accueil .block-content .view-marques {
-    position: relative;
-    overflow: hidden;
-    height: 85px;
-    width: 40%;
-    margin: auto;
-    /*.views-row-1, .views-row-2 {
-      img {width:0;}
+  /*.views-row-1, .views-row-2 {      img {width:0;}
   }*/
 }
 
 /* line 1189, ../sass/styles.scss */
 
 #block-views-marques-block .block-content .view-marques .flou-gauche, #block-views-marques-block .block-content .view-marques .flou-droite, #block-views-marques-block-accueil .block-content .view-marques .flou-gauche, #block-views-marques-block-accueil .block-content .view-marques .flou-droite {
-    position: absolute;
-    height: 85px;
-    width: 62px;
-    top: 0;
-    z-index: 1;
-}
+  z-index: 1;}
 @media (max-width: 599px) {
     /* line 1205, ../sass/styles.scss */
     #block-views-marques-block .block-content .view-marques .flou-gauche, #block-views-marques-block-accueil .block-content .view-marques .flou-gauche {
