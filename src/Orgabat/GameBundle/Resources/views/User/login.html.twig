@@ -8,9 +8,11 @@
                 {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
             </a></li>
     {% else %}
-Vous n'êtes pas connecté
+<p id="msgFormUser">Vous n'êtes pas connecté</p>
     {% endif %}
-<form action="{{ path("login_check", {}) }}" method="POST" >
+<form id="userForm" action="{{ path("login_check", {}) }}" method="POST" >
+    <p>Merci d'indiquer ton prénom, ton nom et ta date de naissance...</p>
+    <p>Puis de cliquer sur le bouton de connexion.</p>
     <div class="form-group">
         <label for="firstName">Prénom</label>
         <input type="text" required="required" class="form-control" value="{{ last_username }}" name="firstName" id="firstName">

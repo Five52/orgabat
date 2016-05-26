@@ -10,6 +10,26 @@ form {
     margin: 10px;
 }
 
+
+/* Page connexion user */
+
+#msgFormUser {
+    text-align: center;
+    margin: 10px;
+    font-weight: bold;
+}
+
+#userForm {
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+#userForm p {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
 /* RUBRIQUES */
 .noselect {
   -webkit-touch-callout: none;
@@ -88,7 +108,6 @@ iframe {
     font-size: 30px;
   }
 }
-
 
 /* line 1165, ../sass/styles.scss */
 
