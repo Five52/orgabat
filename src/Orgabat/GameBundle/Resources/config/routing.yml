@@ -4,10 +4,6 @@ default_rules:
     path:    /
     defaults: { _controller: OrgabatGameBundle:Default:showRules }
 
-default_identification:
-    path:    /identification
-    defaults: { _controller: OrgabatGameBundle:Default:showConnectionFormUser }
-
 default_category:
     path:    /rubriques
     defaults: { _controller: OrgabatGameBundle:Default:showMenu }

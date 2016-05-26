@@ -16,37 +16,26 @@ security:
 
     firewalls:
         main:
-            pattern: ^/admin
-            form_login:
-                login_path: fos_user_security_login
-                check_path: fos_user_security_check
-                remember_me: true
-                provider: fos_userbundle
-                csrf_token_generator: security.csrf.token_manager
-                # if you are using Symfony < 2.8, use the following config instead:
-                # csrf_provider: form.csrf_provider
-            logout:
-                path: /admin/logout
-                target: /
-            anonymous:    true
-        user:
             pattern: ^/
             form_login:
                 login_path: fos_user_security_login
                 check_path: fos_user_security_check
                 provider: fos_userbundle
                 csrf_token_generator: security.csrf.token_manager
+                # if you are using Symfony < 2.8, use the following config instead:
+                # csrf_provider: form.csrf_provider
             logout:
                 path: /logout
                 target: /
-            anonymous: true
+            anonymous:    true
 
 
 
 
     access_control:
+        - { path: ^/$, role: IS_AUTHENTICATED_FULLY }
+        - { path: ^/rubriques, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/$, role: ROLE_ADMIN }
