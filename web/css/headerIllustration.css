@@ -13,7 +13,7 @@
 }
 .headerIllustration .skyline {
   height: 100%;
-  background: url('/images/bandeau/skyline.svg') repeat-x center bottom;
+  background: url('../images/bandeau/skyline.svg') repeat-x center bottom;
   background-size: auto 100%;
   width: 100%;
   position: absolute;
