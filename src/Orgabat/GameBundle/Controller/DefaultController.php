@@ -17,28 +17,19 @@ class DefaultController extends Controller
         return $this->render('OrgabatGameBundle:Default:index.html.twig');
     }
 
-    /**
-     * @Route("/regles",)
-     */
-    public function showRules(Request $request)
+    public function showRulesAction(Request $request)
     {
         // replace this example code with whatever you need
         return $this->render('OrgabatGameBundle:User:page_regles.html.twig');
     }
 
-    /**
-     * @Route("/identification",)
-     */
-    public function showConnectionFormUser(Request $request)
+    public function showConnectionFormUserAction(Request $request)
     {
         // replace this example code with whatever you need
         return $this->render('OrgabatGameBundle:User:page_co.html.twig');
     }
 
-    /**
-     * @Route("/menu",)
-     */
-    public function showMenu()
+    public function showMenuAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $categories = $em
@@ -52,11 +43,7 @@ class DefaultController extends Controller
         ]);
     }
 
-
-        /**
-     * @Route("/adminBoard",)
-     */
-    public function showAdmin(Request $request)
+    public function showAdminAction(Request $request)
     {
         // replace this example code with whatever you need
         return $this->render('OrgabatGameBundle:Admin:page_dashboard.html.twig');

@@ -3,7 +3,6 @@
 namespace Orgabat\GameBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -104,10 +103,10 @@ class HistoryRealisation
     private $businessNotorietyMaxNote;
 
     /**
-     * @ORM\OneToMany(targetEntity="Orgabat\GameBundle\Entity\Exercise", mappedBy="historyRealisation")
+     * @ORM\ManyToOne(targetEntity="Orgabat\GameBundle\Entity\Exercise", inversedBy="historyRealisations")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $exercises;
+    private $exercise;
 
     /**
      * @ORM\ManyToOne(targetEntity="Orgabat\GameBundle\Entity\User")
@@ -196,47 +195,6 @@ class HistoryRealisation
     public function getExercise()
     {
         return $this->exercise;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->exercises = new ArrayCollection();
-    }
-
-    /**
-     * Add exercise
-     *
-     * @param Exercise $exercise
-     *
-     * @return HistoryRealisation
-     */
-    public function addExercise(Exercise $exercise)
-    {
-        $this->exercises[] = $exercise;
-
-        return $this;
-    }
-
-    /**
-     * Remove exercise
-     *
-     * @param Exercise $exercise
-     */
-    public function removeExercise(Exercise $exercise)
-    {
-        $this->exercises->removeElement($exercise);
-    }
-
-    /**
-     * Get exercises
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getExercises()
-    {
-        return $this->exercises;
     }
 
     /**

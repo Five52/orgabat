@@ -14,9 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class GameController extends Controller
 {
-    /**
-     * @Route("game/{id}", name="game")
-     */
     public function gameAction(Request $request, $id)
     {
         // replace this example code with whatever you need

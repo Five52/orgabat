@@ -3,6 +3,7 @@
 namespace Orgabat\GameBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Exercise
@@ -35,10 +36,10 @@ class Exercise
     private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity="Orgabat\GameBundle\Entity\HistoryRealisation", mappedBy="exercises")
+     * @ORM\OneToMany(targetEntity="Orgabat\GameBundle\Entity\HistoryRealisation", mappedBy="exercise")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $historyRealisation;
+    private $historyRealisations;
 
 
     /**
@@ -82,7 +83,7 @@ class Exercise
      *
      * @return Exercise
      */
-    public function setCategory(\Orgabat\GameBundle\Entity\Category $category)
+    public function setCategory(Category $category)
     {
         $this->category = $category;
 
@@ -103,7 +104,7 @@ class Exercise
      */
     public function __construct()
     {
-        $this->historyRealisation = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->historyRealisations = new ArrayCollection();
     }
 
     /**
@@ -113,9 +114,9 @@ class Exercise
      *
      * @return Exercise
      */
-    public function addHistoryRealisation(\Orgabat\GameBundle\Entity\HistoryRealisation $historyRealisation)
+    public function addHistoryRealisation(HistoryRealisation $historyRealisation)
     {
-        $this->historyRealisation[] = $historyRealisation;
+        $this->historyRealisations[] = $historyRealisation;
 
         return $this;
     }
@@ -125,9 +126,9 @@ class Exercise
      *
      * @param \Orgabat\GameBundle\Entity\HistoryRealisation $historyRealisation
      */
-    public function removeHistoryRealisation(\Orgabat\GameBundle\Entity\HistoryRealisation $historyRealisation)
+    public function removeHistoryRealisation(HistoryRealisation $historyRealisation)
     {
-        $this->historyRealisation->removeElement($historyRealisation);
+        $this->historyRealisations->removeElement($historyRealisation);
     }
 
     /**
@@ -137,6 +138,6 @@ class Exercise
      */
     public function getHistoryRealisation()
     {
-        return $this->historyRealisation;
+        return $this->historyRealisations;
     }
 }

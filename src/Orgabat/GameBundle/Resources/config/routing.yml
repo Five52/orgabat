@@ -1,3 +1,31 @@
-orgabat_game_homepage:
-    path:     /
-    defaults: { _controller: OrgabatGameBundle:Default:index }
+# DefaultController
+
+default_rules:
+    path:    /
+    defaults: { _controller: OrgabatGameBundle:Default:showRules }
+
+default_identification:
+    path:    /identification
+    defaults: { _controller: OrgabatGameBundle:Default:showConnectionFormUser }
+
+default_category:
+    path:    /rubriques
+    defaults: { _controller: OrgabatGameBundle:Default:showMenu }
+
+default_admin_board:
+    path:   /admin
+    defaults:  { _controller: OrgabatGameBundle:Default:showAdmin }
+
+# GameController
+
+game_game:
+    path:     /jeu/{id}
+    defaults: { _controller: OrgabatGameBundle:Game:game }
+    requirements:
+        id:   \d+
+
+# AdminController
+
+admin_create_user:
+    path:    /creation-utilisateur
+    defaults: { _controller: OrgabatGameBundle:Admin:createUser}
