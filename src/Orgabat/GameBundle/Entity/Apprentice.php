@@ -7,10 +7,10 @@ use PUGX\MultiUserBundle\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="apprenti")
+ * @ORM\Table(name="apprentice")
  * @UniqueEntity(fields = "username", targetClass = "Orgabat\GameBundle\Entity\User", message="fos_user.username.already_used")
  */
-class Apprenti extends User
+class Apprentice extends User
 {
     /**
      * @ORM\Id

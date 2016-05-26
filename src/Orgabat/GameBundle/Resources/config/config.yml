@@ -1,8 +1,8 @@
 pugx_multi_user:
     users:
-        apprenti:
+        apprentice:
             entity: 
-                class: Orgabat\GameBundle\Entity\Apprenti
+                class: Orgabat\GameBundle\Entity\Apprentice
             # registration:
             #     form: 
             #         type: Acme\UserBundle\Form\Type\RegistrationUserOneFormType
@@ -16,7 +16,7 @@ pugx_multi_user:
             #         validation_groups:  [Profile, Default] 
         admin:
             entity: 
-                class: Orgabat\GameBundle\Entity\Apprenti
+                class: Orgabat\GameBundle\Entity\Admin
             # registration:
             #     form: 
             #         type: Acme\UserBundle\Form\Type\RegistrationUserTwoFormType
