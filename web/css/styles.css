@@ -16,6 +16,9 @@ form {
 }
 
 /* Page Exercices */
+#return {
+  margin-top: 20px;
+}
 
 .game:not(.disabled) {
   cursor: pointer;

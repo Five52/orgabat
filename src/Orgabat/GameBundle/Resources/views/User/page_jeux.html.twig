@@ -30,7 +30,7 @@
         {% if dones[exercise.id]is defined %}
             {% set totalDoneNote = dones[exercise.id].healthNote + dones[exercise.id].organizationNote + dones[exercise.id].businessNotorietyNote %}
         {% endif %}
-        <div class="col-sm-4 panel panel-primary game noselect {{ totalDoneNote >= 6.5 ? 'disabled' : '' }}" data-game-id="{{ exercise.id }}">
+        <div class="col-sm-4 game noselect {{ totalDoneNote >= 6.5 ? 'disabled' : '' }}" data-game-id="{{ exercise.id }}">
           <div class="content">
             <div class="panel-heading">
                 <h2 id="game_label">{{ exercise.name }}</h2>
