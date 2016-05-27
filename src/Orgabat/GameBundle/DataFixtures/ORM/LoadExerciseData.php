@@ -12,7 +12,9 @@ class LoadExerciseData implements FixtureInterface, OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         $data = [
-            ['Jeu 1', 'Approvisionnement', 3, 4, 2]
+            ['Jeu 1', 'Approvisionnement', 3, 4, 2],
+            ['Jeu 2', 'Approvisionnement', 5, 4, 0],
+            ['Jeu 3', 'Approvisionnement', 1, 1, 7]
         ];
 
         foreach ($data as $line) {
