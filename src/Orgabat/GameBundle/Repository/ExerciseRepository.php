@@ -2,6 +2,8 @@
 
 namespace Orgabat\GameBundle\Repository;
 
+use Orgabat\GameBundle\Entity\Category;
+
 /**
  * ExerciseRepository
  *
@@ -10,4 +12,16 @@ namespace Orgabat\GameBundle\Repository;
  */
 class ExerciseRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getExercisesOfCategory(Category $category)
+    {
+        return $this->createQueryBuilder('e')
+            ->join('e.category', 'cat')
+            ->addSelect('cat')
+            ->where('e.category = :category')
+            ->setParameter('category', $category)
+            ->orderBy('e.id', 'asc')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

@@ -3,11 +3,12 @@
 namespace Orgabat\GameBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
-class LoadUserData implements FixtureInterface, ContainerAwareInterface
+class LoadUserData implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
 {
     private $container;
 
@@ -55,5 +56,10 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 
         // // On déclenche l'enregistrement de tous les tags
         // $manager->flush();
+    }
+
+    public function getOrder()
+    {
+        return 1;
     }
 }

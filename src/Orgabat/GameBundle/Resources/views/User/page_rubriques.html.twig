@@ -38,7 +38,7 @@
     <!-- Liste des catégories -->
     <div class="col-sm-9">
         {% for category in categories %}
-            <div class="col-sm-3 panel panel-default panel-body rubrique" data-category-id="1">
+            <div class="col-sm-3 panel panel-default panel-body rubrique" data-category-id="{{ category.id }}">
                 <p class="panel-body-p" id="category_title">{{ category.name }}</p>
             </div>
         {% endfor %}
