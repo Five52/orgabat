@@ -29,8 +29,18 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface, Ordered
         $apprentice->setEmail('jacques.dupont@mail.com');
         $apprentice->setPlainPassword('12345678');
         $apprentice->setEnabled(true);
-
+        $apprentice->addRole('ROLE_APPRENTICE');
         $userManager->updateUser($apprentice, true);
+
+        $discriminator->setClass('Orgabat\GameBundle\Entity\Admin');
+        $userManager = $this->container->get('pugx_user_manager');
+        $admin = $userManager->createUser();
+        $admin->setUsername('Admin');
+        $admin->setEmail('admin@admin.com');
+        $admin->setPlainPassword('12345678');
+        $admin->setEnabled(true);
+        $admin->addRole('ROLE_TRAINER');
+        $userManager->updateUser($admin,true);
 
         // $user1 = new User();
         // $user1->setUsername('Jacques Dupont');

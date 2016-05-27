@@ -7,6 +7,8 @@ security:
         FOS\UserBundle\Model\UserInterface: bcrypt
 
     role_hierarchy:
+        ROLE_APPRENTICE: ROLE_USER
+        ROLE_TRAINER:  ROLE_USER
         ROLE_ADMIN:       ROLE_USER
         ROLE_SUPER_ADMIN: ROLE_ADMIN
 
@@ -18,6 +20,7 @@ security:
         main:
             pattern: ^/
             form_login:
+                success_handler: orgabat.security.login_handler
                 provider: fos_userbundle
                 csrf_token_generator: security.csrf.token_manager
                 # if you are using Symfony < 2.8, use the following config instead:
@@ -36,4 +39,4 @@ security:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin$, role: IS_AUTHENTICATED_FULLY  }
+        - { path: ^/admin$, role: ROLE_TRAINER  }
