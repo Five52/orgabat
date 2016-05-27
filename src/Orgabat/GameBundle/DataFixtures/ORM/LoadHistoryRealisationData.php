@@ -22,7 +22,8 @@ class LoadHistoryRealisationData implements FixtureInterface, ContainerAwareInte
     {
         $data = [
             [100, 1, 1, 2, 'Jeu 1', 'Jacques Dupont'],
-            [112, 3, 4, 1, 'Jeu 1', 'Jacques Dupont']
+            // [112, 4, 0, 1, 'Jeu 2', 'Jacques Dupont'],
+            [95, 1, 1, 6, 'Jeu 3', 'Jacques Dupont']
         ];
 
         foreach ($data as $line) {
