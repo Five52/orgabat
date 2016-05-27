@@ -29,9 +29,25 @@ form {
   background-color: #F5F5F5;
 }
 
+.game .content {
+  box-shadow: none;
+  border-radius: 0px 0px 5px 5px;
+}
 .game:not(.disabled) .content {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26), 0 2px 10px 0 rgba(0, 0, 0, 0.16);
+}
+
+.game:not(.disabled) .panel-body {
+  border-style: none;
+}
+.game .panel-body {
+  border: 1px solid #EAEAEA;
   border-radius: 0px 0px 5px 5px;
+}
+.game .panel-heading {
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #337ab7;
 }
 
 /* Page connexion user */
