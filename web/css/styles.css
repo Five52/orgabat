@@ -122,6 +122,8 @@ iframe {
     text-align: center;
     font-weight: bold;
     font-size: 50px;
+    width: 100%;
+    position: absolute;
 }
 
 @media screen and (max-width: 620px) {
