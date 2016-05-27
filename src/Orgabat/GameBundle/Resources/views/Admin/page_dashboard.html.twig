@@ -1,6 +1,9 @@
 {% extends '::base_dashboard.html.twig' %}
 
-
+{% block stylesheets %}
+  {{ parent() }}
+  <link rel="stylesheet" href="{{ asset('css/simple-sidebar.css') }}">
+{% endblock %}
 {% block body %}
 <a class="btn btn-default" href=  "#menu-toggle" id="menu-toggle">Toggle Menu</a>
 {% endblock %}
@@ -16,7 +19,7 @@
             </li>
                 <div class="list-group panel">
                     <a class="list-group-item" data-parent="#MainMenu" data-toggle="collapse" href=
-                    "#adminList"><span class="glyphicon glyphicon-th-list"></span> Listes des comptes</a>
+                    "#adminList"><span class="glyphicon glyphicon-th-list"></span> Listes des comptes  <i class="fa fa-arrow-down" aria-hidden="true"></i></a>
                     <div class="collapse" id="adminList">
                         <!-- /#Ajoute lien au methode lister formateurs -->
                          <a class="list-group-item" data-parent="#option" data-toggle="collapse"
@@ -29,13 +32,13 @@
                 </div>
                 <div class="list-group panel">
                     <a class="list-group-item" data-parent="#MainMenu" data-toggle="collapse" href=
-                    "#adminAccountCreate"><span class="glyphicon glyphicon-th-list"></span> Créer un compte</a>
+                    "#adminAccountCreate"><span class="glyphicon glyphicon-th-list"></span> Créer un compte  <i class="fa fa-arrow-down" aria-hidden="true"></i></a>
                     <div class="collapse" id="adminAccountCreate">
                         <!-- /#Ajoute lien au methode lister formateurs -->
                          <a class="list-group-item" data-parent="#option" data-toggle="collapse"
-                        href="#"><span class="glyphicon glyphicon-user"></span> Compte apprentis</a>
+                        href="#"><span class="glyphicon glyphicon-user"></span> Compte apprenti</a>
                         <a class="list-group-item" data-parent="#option" data-toggle="collapse"
-                       href="#"><span class="glyphicon glyphicon-user"></span> Compte formateurs</a>
+                       href="#"><span class="glyphicon glyphicon-user"></span> Compte formateur</a>
                     </div>
                 </div>
                 <div class="list-group panel">
