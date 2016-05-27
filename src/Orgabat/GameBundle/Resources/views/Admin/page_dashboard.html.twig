@@ -1,12 +1,15 @@
-{% extends '::base_dashboard.html.twig' %} 
+{% extends '::base_dashboard.html.twig' %}
+
+{% block stylesheets %}
+  {{ parent() }}
+  <link rel="stylesheet" href="{{ asset('css/simple-sidebar.css') }}">
+{% endblock %}
+{% block body %}
+<a class="btn btn-default" href=  "#menu-toggle" id="menu-toggle">Toggle Menu</a>
+{% endblock %}
 
 
-{% block body %} 
-<a class="btn btn-default" href=  "#menu-toggle" id="menu-toggle">Toggle Menu</a> 
-{% endblock %} 
-
-
-{% block sidebar %} 
+{% block sidebar %}
     <!-- Sidebar -->
     <div id="sidebar-wrapper">
         <ul class="sidebar-nav">
@@ -16,12 +19,32 @@
             </li>
                 <div class="list-group panel">
                     <a class="list-group-item" data-parent="#MainMenu" data-toggle="collapse" href=
-                    "#adminList"><span class="glyphicon glyphicon-th-list"></span> Liste</a>
+                    "#adminList"><span class="glyphicon glyphicon-th-list"></span> Listes des comptes  <i class="fa fa-arrow-down" aria-hidden="true"></i></a>
                     <div class="collapse" id="adminList">
                         <!-- /#Ajoute lien au methode lister formateurs -->
                          <a class="list-group-item" data-parent="#option" data-toggle="collapse"
-                        href="#"><span class="glyphicon glyphicon-user"></span> Formateurs</a>
+                        href="#"><span class="glyphicon glyphicon-user"></span> Apprentis</a>
+                        <a class="list-group-item" data-parent="#option" data-toggle="collapse"
+                       href="#"><span class="glyphicon glyphicon-user"></span> Formateurs</a>
+                       <a class="list-group-item" data-parent="#option" data-toggle="collapse"
+                      href="#"><span class="glyphicon glyphicon-user"></span> Administrateurs</a>
                     </div>
+                </div>
+                <div class="list-group panel">
+                    <a class="list-group-item" data-parent="#MainMenu" data-toggle="collapse" href=
+                    "#adminAccountCreate"><span class="glyphicon glyphicon-th-list"></span> Créer un compte  <i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                    <div class="collapse" id="adminAccountCreate">
+                        <!-- /#Ajoute lien au methode lister formateurs -->
+                         <a class="list-group-item" data-parent="#option" data-toggle="collapse"
+                        href="#"><span class="glyphicon glyphicon-user"></span> Compte apprenti</a>
+                        <a class="list-group-item" data-parent="#option" data-toggle="collapse"
+                       href="#"><span class="glyphicon glyphicon-user"></span> Compte formateur</a>
+                    </div>
+                </div>
+                <div class="list-group panel">
+                    <!-- /#Ajoute lien au methode changer mot de passe -->
+                     <a class="list-group-item" href="#"><span class=
+                    "glyphicon glyphicon-upload"></span> Importer des comptes utilisateurs</a>
                 </div>
                 <div class="list-group panel">
                     <!-- /#Ajoute lien au methode changer mot de passe -->
@@ -31,22 +54,22 @@
                 <div class="list-group panel">
                     <!-- /#Ajoute lien au logout -->
                      <a class="list-group-item" href="#"><span class=
-                    "glyphicon glyphicon-log-out"></span> Logout</a>
+                    "glyphicon glyphicon-log-out"></span> Déconnexion</a>
                 </div>
- 
+
         </ul>
     </div><!-- /#sidebar-wrapper -->
 {% endblock %}
 
 
-    {% block javascripts %} 
+    {% block javascripts %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js">
-    </script> {{ parent() }} 
+    </script> {{ parent() }}
     <script>
-     
+
     $("#menu-toggle").click(function(e) {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
     });
-    </script> 
+    </script>
     {% endblock %}
