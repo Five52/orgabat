@@ -30,47 +30,47 @@
         {% if dones[exercise.id]is defined %}
             {% set totalDoneNote = dones[exercise.id].healthNote + dones[exercise.id].organizationNote + dones[exercise.id].businessNotorietyNote %}
         {% endif %}
-        <div class="col-sm-4 panel panel-primary game {{ totalDoneNote >= 6.5 ? 'disabled' : '' }}" data-game-id="{{ exercise.id }}">
+        <div class="col-sm-4 panel panel-primary game noselect {{ totalDoneNote >= 6.5 ? 'disabled' : '' }}" data-game-id="{{ exercise.id }}">
+          <div class="content">
             <div class="panel-heading">
                 <h2 id="game_label">{{ exercise.name }}</h2>
             </div>
-            <div class="content">
-                <div class="panel-body">
-                    <h4>
-                        {% if totalDoneNote >= 6.5 %}
-                            Jeu terminé
-                        {% elseif totalDoneNote < 6.5 and totalDoneNote != null %}
-                            Meilleur score: {{ totalDoneNote }} / {{ totalExerciseNote }}
-                        {% else %}
-                            Essaie-le !
-                        {% endif %}
-                    </h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                </div>
-                <div>
-                    {% if dones[exercise.id]is defined %}
-                        <div>
-                            {{ dones[exercise.id].healthNote }}
-                            /
-                            {{ exercise.healthMaxNote }}
-                        </div>
-                        <div>
-                            {{ dones[exercise.id].organizationNote }}
-                            /
-                            {{ exercise.organizationMaxNote }}
-                        </div>
-                        <div>
-                            {{ dones[exercise.id].businessNotorietyNote }}
-                            /
-                            {{ exercise.businessNotorietyMaxNote }}
-                        </div>
+            <div class="panel-body">
+                <h4>
+                    {% if totalDoneNote >= 6.5 %}
+                        Jeu terminé
+                    {% elseif totalDoneNote < 6.5 and totalDoneNote != null %}
+                        Meilleur score: {{ totalDoneNote }} / {{ totalExerciseNote }}
                     {% else %}
-                        <div>{{ exercise.healthMaxNote }}</div>
-                        <div>{{ exercise.organizationMaxNote }}</div>
-                        <div>{{ exercise.businessNotorietyMaxNote }}</div>
+                        Essaie-le !
                     {% endif %}
+                </h4>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <div>
+                  {% if dones[exercise.id]is defined %}
+                  <div>
+                    {{ dones[exercise.id].healthNote }}
+                    /
+                    {{ exercise.healthMaxNote }}
+                  </div>
+                  <div>
+                    {{ dones[exercise.id].organizationNote }}
+                    /
+                    {{ exercise.organizationMaxNote }}
+                  </div>
+                  <div>
+                    {{ dones[exercise.id].businessNotorietyNote }}
+                    /
+                    {{ exercise.businessNotorietyMaxNote }}
+                  </div>
+                  {% else %}
+                  <div>{{ exercise.healthMaxNote }}</div>
+                  <div>{{ exercise.organizationMaxNote }}</div>
+                  <div>{{ exercise.businessNotorietyMaxNote }}</div>
+                  {% endif %}
                 </div>
             </div>
+          </div>
         </div>
     {% endfor %}
 
