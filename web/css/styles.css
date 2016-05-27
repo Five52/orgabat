@@ -17,6 +17,25 @@ form {
   margin: 10px;
 }
 
+/* Page Exercices */
+
+.game:not(.disabled) {
+  cursor: pointer;
+  transition: background-color 200ms ease;
+}
+.game:not(.disabled) .content:hover {
+  background-color: #E4E4E4;
+}
+.game:not(.disabled) .content:active {
+  transition-duration: 0;
+  background-color: #F5F5F5;
+}
+
+.game:not(.disabled) .content {
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26), 0 2px 10px 0 rgba(0, 0, 0, 0.16);
+  border-radius: 0px 0px 5px 5px;
+}
+
 /* Page connexion user */
 
 #msgFormUser {
