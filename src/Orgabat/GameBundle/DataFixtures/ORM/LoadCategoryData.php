@@ -3,10 +3,11 @@
 namespace Orgabat\GameBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Orgabat\GameBundle\Entity\Category;
 
-class LoadCategoryData implements FixtureInterface
+class LoadCategoryData implements FixtureInterface, OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -29,5 +30,10 @@ class LoadCategoryData implements FixtureInterface
 
         // On déclenche l'enregistrement de tous les tags
         $manager->flush();
+    }
+
+    public function getOrder()
+    {
+        return 2;
     }
 }

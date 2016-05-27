@@ -1,3 +1,4 @@
+
 (function(window) {
   // Objet des modals
   var categoryModalElement = {
@@ -45,7 +46,7 @@
     categoryModalElement.iframe.categoryTitle = this.querySelector('#category_title').textContent;
 
     // Chargement de la page
-    categoryModalElement.iframe.src = '/jeux/' + this.dataset.categoryId;
+    categoryModalElement.iframe.src = './rubriques/' + this.dataset.categoryId;
 
     // Affichage du modal
     $('#categoryModal').modal({
@@ -61,7 +62,7 @@
     $('#categoryModal').modal('hide');
 
     gameModalElement.iframe.gameTitle = title;
-    gameModalElement.iframe.src = '/jeu/' + id;
+    gameModalElement.iframe.src = './jeu/' + id;
 
     $('#gameModal').modal({
       keyboard: false

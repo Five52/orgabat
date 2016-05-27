@@ -9,7 +9,7 @@ default_category:
     defaults: { _controller: OrgabatGameBundle:Default:showMenu }
 
 default_games:
-    path:    /jeux/{id}
+    path:    /rubriques/{category_id}
     defaults: { _controller: OrgabatGameBundle:Default:showGames }
     requirements:
         id:   \d+

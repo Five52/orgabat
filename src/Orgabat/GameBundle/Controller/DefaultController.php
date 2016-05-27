@@ -5,6 +5,8 @@ namespace Orgabat\GameBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Orgabat\GameBundle\Entity\Category;
 
 class DefaultController extends Controller
 {
@@ -43,16 +45,15 @@ class DefaultController extends Controller
         ]);
     }
 
-    public function showGamesAction(Request $request, $id)
+    /**
+     * @ParamConverter("category", options={"mapping": {"category_id": "id"}})
+     */
+    public function showGamesAction(Category $category, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $exercises = $em
             ->getRepository('OrgabatGameBundle:Exercise')
-            ->findBy([
-                'category' => $id,
-            ], [
-                'category' => 'ASC',
-            ])
+            ->getExercisesOfCategory($category)
         ;
 
         $dones = $em
@@ -75,14 +76,9 @@ class DefaultController extends Controller
             }
         }
 
-        $category = $em
-            ->getRepository('OrgabatGameBundle:Category')
-            ->findById($id)
-        ;
-
         // replace this example code with whatever you need
         return $this->render('OrgabatGameBundle:User:page_jeux.html.twig', [
-            'category' => $category[0],
+            'category' => $category,
             'exercises' => $exercises,
             'dones' => $exDones
         ]);
