@@ -24,7 +24,6 @@ Game.Main = function(id, path) {
             //var scale = ratio < 1 ? (Game.scene.world.width / (25 * 32)) : (Game.scene.world.height / (25 * 32));
             Game.scale = Game.scene.world.width / (25 * 32);
             Game.map = new Game.Map();
-            Game.modals = new Game.Modal();
 
             Game.collideGroup = Game.scene.add.physicsGroup(); Game.collideGroup.name = "collide";
             Game.playerGroup = Game.scene.add.physicsGroup(); Game.playerGroup.name = "player";
@@ -32,6 +31,7 @@ Game.Main = function(id, path) {
 
             self.speed = self.speed * Game.scale;
             Game.entities = Game.Entity.makeEntities();
+            Game.modals = new Game.Modal();
             self.interact = new Game.Interact();
         },
         update: function() {

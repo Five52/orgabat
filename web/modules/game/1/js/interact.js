@@ -7,12 +7,14 @@ Game.Interact = function(sprites) {
 };
 
 Game.Interact.prototype.update = function() {
+    //Collisions
     Game.scene.physics.arcade.collide(Game.spriteSelected, Game.map.layer);
     Game.scene.physics.arcade.collide(Game.spriteSelected, Game.collideGroup);
     Game.scene.physics.arcade.collide(
-        Game.spriteSelected, Game.vehiculeGroup, this.collisionHandler, this.processHandler, this
+        Game.spriteSelected, Game.vehiculeGroup, this.collisionHandler, null, this
     );
 
+    //Move
     Game.spriteSelected.body.velocity.x = Game.spriteSelected.body.velocity.y = 0;
     if (Game.scene.input.keyboard.isDown(Phaser.Keyboard.LEFT))
         Game.spriteSelected.body.velocity.x = -self.speed;
@@ -22,14 +24,17 @@ Game.Interact.prototype.update = function() {
         Game.spriteSelected.body.velocity.y = -self.speed;
     else if (Game.scene.input.keyboard.isDown(Phaser.Keyboard.DOWN))
         Game.spriteSelected.body.velocity.y = self.speed;
-}
+};
 
+//Select or change sprite played on load or collision with vehicule
+Game.Interact.prototype.collisionHandler = function(player, vehicule) {
+    Game.Interact.changePlayed(player, vehicule);
+};
 Game.Interact.selectPlayed = function(sprite) {
     Game.spriteSelected = sprite;
     Game.Entity.setMovable(sprite, true);
     Game.scene.camera.follow(sprite);
 };
-
 Game.Interact.changePlayed = function(player, vehicule) {
     //we are the player, we can use a vehicule
     if( player.parent.name == "player" ) {
@@ -39,10 +44,4 @@ Game.Interact.changePlayed = function(player, vehicule) {
     }
 };
 
-Game.Interact.prototype.collisionHandler = function(player, vehicule) {
-    Game.Interact.changePlayed(player, vehicule);
-};
 
-Game.Interact.prototype.processHandler = function(player, vehicule) {
-    return true;
-};
