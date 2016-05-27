@@ -43,5 +43,3 @@ Game.Interact.changePlayed = function(player, vehicule) {
         Game.Interact.selectPlayed(vehicule);
     }
 };
-
-
