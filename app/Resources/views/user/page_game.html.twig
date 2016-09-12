@@ -1,21 +1,56 @@
 {% extends 'blank.html.twig' %}
 
 {% block body %}
-    <link rel="stylesheet" href="{{ asset('modules/game/css/game.css') }}">
+    <link rel="stylesheet" href="{{ asset('modules/game/style/game.css') }}">
 
     {% block javascript %}
         {{ parent() }}
-        <script type="text/javascript">
-            document.addEventListener("DOMContentLoaded", function(e) {
-                var game = new Game.Main({{ id }}, "{{ asset('modules/game/' ~ id ) }}");
-            });
+        <script>
+            var game_path = "{{ asset('modules/game/games/' ~ id ) }}";
+            var game_id = {{ id }};
         </script>
         <script src="{{ asset('vendor/phaser/js/phaser.min.js') }}"></script>
-        <script src="{{ asset('modules/game/js/phaser_modals/modal.js') }}"></script>
-        <script src="{{ asset('modules/game/' ~ id ~ '/js/main.js') }}"></script>
-        <script src="{{ asset('modules/game/' ~ id ~ '/js/modal.js') }}"></script>
-        <script src="{{ asset('modules/game/' ~ id ~ '/js/map.js') }}"></script>
-        <script src="{{ asset('modules/game/' ~ id ~ '/js/entity.js') }}"></script>
-        <script src="{{ asset('modules/game/' ~ id ~ '/js/interact.js') }}"></script>
+        <script src="{{ asset('modules/game/vendor/phaser_modals/js/modal.js') }}"></script>
+
+        <script src="{{ asset('modules/game/system/utils/Position.js') }}"></script>
+        <script src="{{ asset('modules/game/system/utils/EventHandler.js') }}"></script>
+        <script src="{{ asset('modules/game/system/utils/Keyboard.js') }}"></script>
+        <script src="{{ asset('modules/game/system/Inventary.js') }}"></script>
+        <script src="{{ asset('modules/game/system/TilemapLayer.js') }}"></script>
+        <script src="{{ asset('modules/game/system/gameAbstracts/AbstractGameObject.js') }}"></script>
+        <script src="{{ asset('modules/game/system/gameAbstracts/AbstractGameSprite.js') }}"></script>
+        <script src="{{ asset('modules/game/system/gameAbstracts/AbstractGameModal.js') }}"></script>
+
+        <script src="{{ asset('modules/game/games/' ~ id ~ '/config/data.js') }}"></script>
+
+        <script src="{{ asset('modules/game/games/' ~ id ~ '/gameManagers/ModalManager.js') }}"></script>
+        <script src="{{ asset('modules/game/games/' ~ id ~ '/gameManagers/KeyboardManager.js') }}"></script>
+
+        <script src="{{ asset('modules/game/games/' ~ id ~ '/gameObjects/CharacterObj.js') }}"></script>
+        <script src="{{ asset('modules/game/games/' ~ id ~ '/gameSprites/CharacterSpr.js') }}"></script>
+
+        <script src="{{ asset('modules/game/games/' ~ id ~ '/gameGroups/VehicleGroup.js') }}"></script>
+        <script src="{{ asset('modules/game/games/' ~ id ~ '/gameObjects/VehicleObj.js') }}"></script>
+        <script src="{{ asset('modules/game/games/' ~ id ~ '/gameSprites/VehicleSpr.js') }}"></script>
+        <script src="{{ asset('modules/game/games/' ~ id ~ '/gameModals/VehicleModal.js') }}"></script>
+
+        <script src="{{ asset('modules/game/games/' ~ id ~ '/gameGroups/ToolGroup.js') }}"></script>
+        <script src="{{ asset('modules/game/games/' ~ id ~ '/gameObjects/ToolObj.js') }}"></script>
+        <script src="{{ asset('modules/game/games/' ~ id ~ '/gameSprites/ToolSpr.js') }}"></script>
+        <script src="{{ asset('modules/game/games/' ~ id ~ '/gameModals/ToolModal.js') }}"></script>
+
+        <script src="{{ asset('modules/game/games/' ~ id ~ '/gameGroups/MaterialGroup.js') }}"></script>
+        <script src="{{ asset('modules/game/games/' ~ id ~ '/gameObjects/MaterialObj.js') }}"></script>
+        <script src="{{ asset('modules/game/games/' ~ id ~ '/gameSprites/MaterialSpr.js') }}"></script>
+        <script src="{{ asset('modules/game/games/' ~ id ~ '/gameModals/MaterialModal.js') }}"></script>
+
+        <script src="{{ asset('modules/game/games/' ~ id ~ '/states/boot.js') }}"></script>
+        <script src="{{ asset('modules/game/games/' ~ id ~ '/states/load.js') }}"></script>
+        <script src="{{ asset('modules/game/games/' ~ id ~ '/states/menu.js') }}"></script>
+        <script src="{{ asset('modules/game/games/' ~ id ~ '/states/play.js') }}"></script>
+        <script src="{{ asset('modules/game/games/' ~ id ~ '/states/win.js') }}"></script>
+        <script src="{{ asset('modules/game/games/' ~ id ~ '/states/game.js') }}"></script>
     {% endblock %}
+
+    <div id="gameDiv"></div>
 {% endblock %}
