@@ -10,14 +10,6 @@ use Orgabat\GameBundle\Entity\Category;
 
 class DefaultController extends Controller
 {
-    /**
-     * @Route("/", name="homepage")
-     */
-    public function indexAction(Request $request)
-    {
-        // replace this example code with whatever you need
-        return $this->render('OrgabatGameBundle:Default:index.html.twig');
-    }
 
     public function showRulesAction(Request $request)
     {
