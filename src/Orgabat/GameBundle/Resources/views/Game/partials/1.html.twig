@@ -1,0 +1,31 @@
+{% block javascript %}
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/config/data.js') }}"></script>
+
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gameManagers/ModalManager.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gameManagers/KeyboardManager.js') }}"></script>
+
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gameObjects/CharacterObj.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gameSprites/CharacterSpr.js') }}"></script>
+
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gameGroups/VehicleGroup.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gameObjects/VehicleObj.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gameSprites/VehicleSpr.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gameModals/VehicleModal.js') }}"></script>
+
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gameGroups/ToolGroup.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gameObjects/ToolObj.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gameSprites/ToolSpr.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gameModals/ToolModal.js') }}"></script>
+
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gameGroups/MaterialGroup.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gameObjects/MaterialObj.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gameSprites/MaterialSpr.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gameModals/MaterialModal.js') }}"></script>
+
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/states/boot.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/states/load.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/states/menu.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/states/play.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/states/win.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/states/game.js') }}"></script>
+{% endblock %}

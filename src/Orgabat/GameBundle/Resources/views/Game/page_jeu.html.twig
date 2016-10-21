@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Orgabat{% endblock %}</title>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('modules/game/css/game.css') }}">
+    {% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    {% block javascripts %}
+        <script>
+            var game_id = {{ id }};
+            var game_path = "{{ asset('modules/game/games/' ~ id ~ '/src/') }}";
+        </script>
+        <script src="{{ asset('vendor/phaser/js/phaser.min.js') }}"></script>
+
+        <script src="{{ asset('modules/game/js/lib/phaser_modals/modal.js') }}"></script>
+
+        <script src="{{ asset('modules/game/js/system/utils/Position.js') }}"></script>
+        <script src="{{ asset('modules/game/js/system/utils/EventHandler.js') }}"></script>
+        <script src="{{ asset('modules/game/js/system/utils/Keyboard.js') }}"></script>
+
+        <script src="{{ asset('modules/game/js/system/Inventary.js') }}"></script>
+        <script src="{{ asset('modules/game/js/system/TilemapLayer.js') }}"></script>
+
+        <script src="{{ asset('modules/game/js/system/gameAbstracts/AbstractGameObject.js') }}"></script>
+        <script src="{{ asset('modules/game/js/system/gameAbstracts/AbstractGameSprite.js') }}"></script>
+        <script src="{{ asset('modules/game/js/system/gameAbstracts/AbstractGameModal.js') }}"></script>
+
+        {% include 'OrgabatGameBundle:Game/partials:' ~ id ~ '.html.twig' with { 'id': id } %}
+    {% endblock %}
+</head>
+<body>
+{% block body %}
+    <div id="gameDiv"></div>
+{% endblock %}
+</body>
+</html>
