@@ -1,33 +1,36 @@
 {% block javascript %}
-    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/config/data.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/game/config/data.js') }}"></script>
 
-    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gameManagers/ModalManager.js') }}"></script>
-    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gameManagers/KeyboardManager.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/game/gameManagers/ModalManager.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/game/gameManagers/KeyboardManager.js') }}"></script>
 
-    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gameObjects/CharacterObj.js') }}"></script>
-    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gameSprites/CharacterSpr.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/game/gameObjects/CharacterObj.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/game/gameSprites/CharacterSpr.js') }}"></script>
 
-    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gameGroups/VehicleGroup.js') }}"></script>
-    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gameObjects/VehicleObj.js') }}"></script>
-    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gameSprites/VehicleSpr.js') }}"></script>
-    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gameModals/VehicleModal.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/game/gameGroups/VehicleGroup.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/game/gameObjects/VehicleObj.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/game/gameSprites/VehicleSpr.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/game/gameModals/VehicleModal.js') }}"></script>
 
-    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gameGroups/ToolGroup.js') }}"></script>
-    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gameObjects/ToolObj.js') }}"></script>
-    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gameSprites/ToolSpr.js') }}"></script>
-    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gameModals/ToolModal.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/game/gameGroups/ToolGroup.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/game/gameObjects/ToolObj.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/game/gameSprites/ToolSpr.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/game/gameModals/ToolModal.js') }}"></script>
 
-    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gameGroups/MaterialGroup.js') }}"></script>
-    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gameObjects/MaterialObj.js') }}"></script>
-    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gameSprites/MaterialSpr.js') }}"></script>
-    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gameModals/MaterialModal.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/game/gameGroups/MaterialGroup.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/game/gameObjects/MaterialObj.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/game/gameSprites/MaterialSpr.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/game/gameModals/MaterialModal.js') }}"></script>
 
-    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/states/boot.js') }}"></script>
-    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/states/load.js') }}"></script>
-    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/states/menu.js') }}"></script>
-    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/states/play.js') }}"></script>
-    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/states/win.js') }}"></script>
-    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/states/info.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/game/states/boot.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/game/states/load.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/game/states/menu.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/game/states/play.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/game/states/win.js') }}"></script>
+
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gabator/states/boot.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gabator/states/load.js') }}"></script>
+    <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/gabator/states/play.js') }}"></script>
 
     <script src="{{ asset('modules/game/games/' ~ id ~ '/src/js/main.js') }}"></script>
 {% endblock %}
