@@ -18,4 +18,44 @@ class Apprentice extends User
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Orgabat\GameBundle\Entity\Section", inversedBy="apprentices")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $section;
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSection()
+    {
+        return $this->section;
+    }
+
+    /**
+     * @param mixed $section
+     */
+    public function setSection($section)
+    {
+        $this->section = $section;
+    }
+
+    
 }

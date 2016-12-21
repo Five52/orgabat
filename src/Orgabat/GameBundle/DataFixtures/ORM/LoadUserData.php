@@ -24,13 +24,30 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface, Ordered
 
         $userManager = $this->container->get('pugx_user_manager');
 
-        $apprentice = $userManager->createUser();
-        $apprentice->setUsername('Jacques Dupont');
-        $apprentice->setEmail('jacques.dupont@mail.com');
-        $apprentice->setPlainPassword('12345678');
-        $apprentice->setEnabled(true);
-        $apprentice->addRole('ROLE_APPRENTICE');
-        $userManager->updateUser($apprentice, true);
+        $data = [
+            ['Jacques Dupont', 'jacques.dupont@mail.com', '12345678', 'CAP 1'],
+            ['Jean Duval', 'jean.duval@mail.fr', '23456789', 'CAP 1'],
+            ['Yves Boulanger', 'yves.boulanger@autremail.net', 'yvesboulanger', 'BEP 2']
+        ];
+
+
+        foreach ($data as $line) {
+
+            $apprentice = $userManager->createUser();
+            $apprentice->setUsername($line[0]);
+            $apprentice->setEmail($line[1]);
+            $apprentice->setPlainPassword($line[2]);
+
+            $section = $manager
+                ->getRepository('OrgabatGameBundle:Section')
+                ->findOneByName($line[3])
+            ;
+
+            $apprentice->setSection($section);
+            $apprentice->setEnabled(true);
+            $apprentice->addRole('ROLE_APPRENTICE');
+            $userManager->updateUser($apprentice, true);
+        }
 
         $discriminator->setClass('Orgabat\GameBundle\Entity\Admin');
         $userManager = $this->container->get('pugx_user_manager');
@@ -70,6 +87,6 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface, Ordered
 
     public function getOrder()
     {
-        return 1;
+        return 2;
     }
 }
