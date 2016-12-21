@@ -1,11 +1,38 @@
 {% extends '::base_dashboard.html.twig' %}
 
 {% block stylesheets %}
-  {{ parent() }}
-  <link rel="stylesheet" href="{{ asset('css/simple-sidebar.css') }}">
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/simple-sidebar.css') }}">
 {% endblock %}
 {% block body %}
-<a class="btn btn-default" href=  "#menu-toggle" id="menu-toggle">Toggle Menu</a>
+    <a class="btn btn-default" href=  "#menu-toggle" id="menu-toggle">Toggle Menu</a>
+    <header class="page-header"><h1>Liste des apprentis par classe</h1></header>
+    <a class="btn btn-success" href="{{ path('admin_create_user') }}">Ajouter un apprenti</a>
+    {%  for list in lists %}
+        {% if list %}
+            <h2 class="text-center">{{ list[0].section.name }}</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Prénom & Nom</th>
+                    <th>Adresse email</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody >
+                {% for apprentice in list %}
+                    <tr>
+                        <td>{{ apprentice.username }}</td>
+                        <td>{{ apprentice.email}}</td>
+                        <td><a class="btn btn-warning" href="{{ path('admin_alter_user', {'id': apprentice.id} ) }}">Modifier</a></td>
+                        <td><a class="btn btn-danger" href="{{ path('admin_remove_user', {'id': apprentice.id} ) }}">Supprimer</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    {% endfor %}
 {% endblock %}
 
 
@@ -15,47 +42,47 @@
         <ul class="sidebar-nav">
             <li class="sidebar-brand">
                 <!-- /#Ajoute lien de la page d'acceuil -->
-                 <a href="#">Orgabat</a>
+                <a href="#">Orgabat</a>
             </li>
-                <div class="list-group panel">
-                    <a class="list-group-item" data-parent="#MainMenu" data-toggle="collapse" href=
-                    "#adminList"><span class="glyphicon glyphicon-th-list"></span> Listes des comptes  <i class="fa fa-arrow-down" aria-hidden="true"></i></a>
-                    <div class="collapse" id="adminList">
-                        <!-- /#Ajoute lien au methode lister formateurs -->
-                         <a class="list-group-item" data-parent="#option" data-toggle="collapse"
-                        href="#"><span class="glyphicon glyphicon-user"></span> Apprentis</a>
-                        <a class="list-group-item" data-parent="#option" data-toggle="collapse"
+            <div class="list-group panel">
+                <a class="list-group-item" data-parent="#MainMenu" data-toggle="collapse" href=
+                "#adminList"><span class="glyphicon glyphicon-th-list"></span> Listes des comptes  <i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                <div class="collapse" id="adminList">
+                    <!-- /#Ajoute lien au methode lister formateurs -->
+                    <a class="list-group-item" data-parent="#option" data-toggle="collapse"
+                       href="#"><span class="glyphicon glyphicon-user"></span> Apprentis</a>
+                    <a class="list-group-item" data-parent="#option" data-toggle="collapse"
                        href="#"><span class="glyphicon glyphicon-user"></span> Formateurs</a>
-                       <a class="list-group-item" data-parent="#option" data-toggle="collapse"
-                      href="#"><span class="glyphicon glyphicon-user"></span> Administrateurs</a>
-                    </div>
+                    <a class="list-group-item" data-parent="#option" data-toggle="collapse"
+                       href="#"><span class="glyphicon glyphicon-user"></span> Administrateurs</a>
                 </div>
-                <div class="list-group panel">
-                    <a class="list-group-item" data-parent="#MainMenu" data-toggle="collapse" href=
-                    "#adminAccountCreate"><span class="glyphicon glyphicon-th-list"></span> Créer un compte  <i class="fa fa-arrow-down" aria-hidden="true"></i></a>
-                    <div class="collapse" id="adminAccountCreate">
-                        <!-- /#Ajoute lien au methode lister formateurs -->
-                         <a class="list-group-item" data-parent="#option" data-toggle="collapse"
-                        href="#"><span class="glyphicon glyphicon-user"></span> Compte apprenti</a>
-                        <a class="list-group-item" data-parent="#option" data-toggle="collapse"
+            </div>
+            <div class="list-group panel">
+                <a class="list-group-item" data-parent="#MainMenu" data-toggle="collapse" href=
+                "#adminAccountCreate"><span class="glyphicon glyphicon-th-list"></span> Créer un compte  <i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                <div class="collapse" id="adminAccountCreate">
+                    <!-- /#Ajoute lien au methode lister formateurs -->
+                    <a class="list-group-item" data-parent="#option" data-toggle="collapse"
+                       href="/admin/creerApprenti"><span class="glyphicon glyphicon-user"></span> Compte apprenti</a>
+                    <a class="list-group-item" data-parent="#option" data-toggle="collapse"
                        href="#"><span class="glyphicon glyphicon-user"></span> Compte formateur</a>
-                    </div>
                 </div>
-                <div class="list-group panel">
-                    <!-- /#Ajoute lien au methode changer mot de passe -->
-                     <a class="list-group-item" href="#"><span class=
-                    "glyphicon glyphicon-upload"></span> Importer des comptes utilisateurs</a>
-                </div>
-                <div class="list-group panel">
-                    <!-- /#Ajoute lien au methode changer mot de passe -->
-                     <a class="list-group-item" href="#"><span class=
-                    "glyphicon glyphicon-lock"></span> Changer mot de passe</a>
-                </div>
-                <div class="list-group panel">
-                    <!-- /#Ajoute lien au logout -->
-                     <a class="list-group-item" href="#"><span class=
-                    "glyphicon glyphicon-log-out"></span> Déconnexion</a>
-                </div>
+            </div>
+            <div class="list-group panel">
+                <!-- /#Ajoute lien au methode changer mot de passe -->
+                <a class="list-group-item" href="#"><span class=
+                                                          "glyphicon glyphicon-upload"></span> Importer des comptes utilisateurs</a>
+            </div>
+            <div class="list-group panel">
+                <!-- /#Ajoute lien au methode changer mot de passe -->
+                <a class="list-group-item" href="#"><span class=
+                                                          "glyphicon glyphicon-lock"></span> Changer mot de passe</a>
+            </div>
+            <div class="list-group panel">
+                <!-- /#Ajoute lien au logout -->
+                <a class="list-group-item" href="#"><span class=
+                                                          "glyphicon glyphicon-log-out"></span> Déconnexion</a>
+            </div>
 
         </ul>
     </div><!-- /#sidebar-wrapper -->
@@ -63,13 +90,13 @@
 
 
     {% block javascripts %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js">
-    </script> {{ parent() }}
-    <script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js">
+        </script> {{ parent() }}
+        <script>
 
-    $("#menu-toggle").click(function(e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
-    });
-    </script>
+            $("#menu-toggle").click(function(e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
+            });
+        </script>
     {% endblock %}

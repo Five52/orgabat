@@ -1,0 +1,19 @@
+{% extends '::base_dashboard.html.twig' %}
+{% block body %}
+
+    <h3 class="text-center">Modifier un apprenti</h3>
+    {{  form_start(form) }}
+    <div class="col-sm-12">{{ form_row(form.username) }}</div>
+    <div class="col-sm-12">{{ form_row(form.email) }}</div>
+    <div class="col-sm-12">{{ form_row(form.section) }}</div>
+    <div class="col-sm-12">
+        {% for pwd in form.plainPassword %}
+           {{ form_row(pwd) }}
+        {% endfor %}
+    </div>
+
+    <div>
+        {{ form_widget(form.save, {'attr': {'class': 'btn-primary center-block'}} ) }}
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

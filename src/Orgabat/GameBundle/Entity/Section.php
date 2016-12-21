@@ -69,6 +69,16 @@ class Section
         return $this->name;
     }
 
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getSection()
+    {
+        return $this->name;
+    }
+
 
     /**
      * @return mixed

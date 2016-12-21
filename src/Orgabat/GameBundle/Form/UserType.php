@@ -9,7 +9,11 @@
 namespace Orgabat\GameBundle\Form;
 
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,10 +23,40 @@ class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        /** @var \Doctrine\ORM\EntityManager $em */
+        dump($options);
+
+        /*$sections = $entityManager->getRepository('OrgabatGameBundle:Section')->findAll();
+        $choices = [];
+        foreach($sections as $section) {
+            $choices[$section->getName()] = $section->getId();
+        }*/
+
         $builder
-            ->add('firstName', TextType::class, ['label' => 'Prénom'])
-            ->add('lastName', TextType::class, ['label' => 'Nom'])
-            ->add('password', TextType::class, ['label' => 'Date de naissance (jjmmaaaaa)'])
+            ->add('username', TextType::class, ['label' => 'Prénom & Nom'])
+            ->add('email', EmailType::class, ['label' => 'Email'])
+            /*->add('section', ChoiceType::class, [
+                'choices' => $choices, 'label' => 'Profile'
+            ])*/
+            ->add('section', EntityType::class, array(
+                // query choices from this entity
+                'class' => 'OrgabatGameBundle:Section',
+
+                // use the User.username property as the visible option string
+                'choice_label' => 'section',
+
+                // used to render a select box, check boxes or radios
+                // 'multiple' => true,
+                // 'expanded' => true,
+            ))
+            ->add('plainPassword', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'invalid_message' => 'Les champs de mot de passe doivent correspondre.',
+                'options' => ['attr' => ['class' => 'password-field']],
+                'required' => true,
+                'first_options'  => ['label' => 'Mot de passe'],
+                'second_options' => ['label' => 'Répéter le mot de passe']
+            ])
             ->add('save', SubmitType::class, ['label' => 'Enregistrer'])
         ;
     }
@@ -30,13 +64,8 @@ class UserType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Orgabat\GameBundle\Entity\User'
+            'data_class' => 'Orgabat\GameBundle\Entity\Apprentice'
         ));
-    }
-
-    public function getName()
-    {
-        return 'app_bundle_randonnee_form';
     }
 
 }

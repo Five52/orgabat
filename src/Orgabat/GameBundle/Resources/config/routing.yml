@@ -37,5 +37,13 @@ game_game:
 # AdminController
 
 admin_create_user:
-    path:    /creation-utilisateur
+    path:    /admin/creerApprenti
     defaults: { _controller: OrgabatGameBundle:Admin:createUser}
+
+admin_alter_user:
+    path:    /admin/modifierApprenti/{id}
+    defaults: { _controller: OrgabatGameBundle:Admin:editUser}
+
+admin_remove_user:
+    path:    /admin/supprimerApprenti/{id}
+    defaults: { _controller: OrgabatGameBundle:Admin:deleteUser}
