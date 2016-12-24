@@ -21,7 +21,7 @@ class Apprentice extends User
 
     /**
      * @ORM\ManyToOne(targetEntity="Orgabat\GameBundle\Entity\Section", inversedBy="apprentices")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $section;
 
@@ -57,5 +57,5 @@ class Apprentice extends User
         $this->section = $section;
     }
 
-    
+
 }

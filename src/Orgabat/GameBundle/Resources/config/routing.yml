@@ -47,3 +47,15 @@ admin_alter_user:
 admin_remove_user:
     path:    /admin/supprimerApprenti/{id}
     defaults: { _controller: OrgabatGameBundle:Admin:deleteUser}
+
+admin_create_section:
+    path:    /admin/creerClasse
+    defaults: { _controller: OrgabatGameBundle:Admin:createSection}
+
+admin_alter_section:
+    path:    /admin/modifierClasse/{id}
+    defaults: { _controller: OrgabatGameBundle:Admin:editSection}
+
+admin_remove_section:
+    path:    /admin/supprimerClasse/{id}
+    defaults: { _controller: OrgabatGameBundle:Admin:deleteSection}

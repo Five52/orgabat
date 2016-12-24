@@ -8,9 +8,10 @@
     <a class="btn btn-default" href=  "#menu-toggle" id="menu-toggle">Toggle Menu</a>
     <header class="page-header"><h1>Liste des apprentis par classe</h1></header>
     <a class="btn btn-success" href="{{ path('admin_create_user') }}">Ajouter un apprenti</a>
+    <a class="btn btn-success" href="{{ path('admin_create_section') }}">Ajouter une classe</a>
     {%  for list in lists %}
         {% if list %}
-            <h2 class="text-center">{{ list[0].section.name }}</h2>
+            <h2 class="text-center">{{ list[0].section.name }} <a class="btn btn-warning" href="{{ path('admin_alter_section', {'id': list[0].section.id} ) }}">Modifier</a>&nbsp;<a class="btn btn-danger" href="{{ path('admin_remove_section', {'id': list[0].section.id} ) }}">Supprimer</a></h2>
             <table class="table">
                 <thead>
                 <tr>
@@ -33,6 +34,29 @@
             </table>
         {% endif %}
     {% endfor %}
+    {% if listNoSection %}
+        <h2 class="text-center">Apprentis sans classe</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Prénom & Nom</th>
+                <th>Adresse email</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody >
+            {% for apprentice in listNoSection %}
+                <tr>
+                    <td>{{ apprentice.username }}</td>
+                    <td>{{ apprentice.email}}</td>
+                    <td><a class="btn btn-warning" href="{{ path('admin_alter_user', {'id': apprentice.id} ) }}">Modifier</a></td>
+                    <td><a class="btn btn-danger" href="{{ path('admin_remove_user', {'id': apprentice.id} ) }}">Supprimer</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
 {% endblock %}
 
 

@@ -78,7 +78,7 @@ class DefaultController extends Controller
 
     public function showAdminAction(Request $request)
     {
-        
+
         $em = $this->getDoctrine()->getManager();
         $sections = $em
             ->getRepository('OrgabatGameBundle:Section')
@@ -92,9 +92,13 @@ class DefaultController extends Controller
             ;
             $fullList[$section->getName()] =  $listApprentices;
         }
+        $apprenticesNoSection = $em
+            ->getRepository('OrgabatGameBundle:Apprentice')
+            ->findBy(array('section' => null))
+        ;
 
 
         // replace this example code with whatever you need
-        return $this->render('OrgabatGameBundle:Admin:page_dashboard.html.twig', ['lists' => $fullList]);
+        return $this->render('OrgabatGameBundle:Admin:page_dashboard.html.twig', ['lists' => $fullList,'listNoSection' => $apprenticesNoSection]);
     }
 }

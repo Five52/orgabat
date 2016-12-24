@@ -24,7 +24,6 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         /** @var \Doctrine\ORM\EntityManager $em */
-        dump($options);
 
         /*$sections = $entityManager->getRepository('OrgabatGameBundle:Section')->findAll();
         $choices = [];
