@@ -59,3 +59,23 @@ admin_alter_section:
 admin_remove_section:
     path:    /admin/supprimerClasse/{id}
     defaults: { _controller: OrgabatGameBundle:Admin:deleteSection}
+
+admin_export_user:
+    path:   /admin/exporterApprentis
+    defaults: { _controller: OrgabatGameBundle:Admin:exportAllApprentices}
+
+admin_export_userBySection:
+    path:   /admin/exporterApprentisParClasse/{id}
+    defaults: { _controller: OrgabatGameBundle:Admin:exportApprenticesBySection}
+
+admin_export_section:
+    path:   /admin/exporterClasses
+    defaults: { _controller: OrgabatGameBundle:Admin:exportAllSections}
+
+admin_import_user:
+    path:   /admin/importerApprentis
+    defaults: { _controller: OrgabatGameBundle:Admin:importApprentices}
+
+admin_import_section:
+    path:   /admin/importerClasses
+    defaults: { _controller: OrgabatGameBundle:Admin:importSections}

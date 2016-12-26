@@ -57,5 +57,15 @@ class Apprentice extends User
         $this->section = $section;
     }
 
+    public function getData()
+    {
+        $tab = [];
+        $tab[1] = $this->getFirstName();
+        $tab[2] = $this->getLastName();
+        $tab[3] = $this->getEmail();
+        $tab[4] = $this->getPassword();
+        $tab[5] = $this->getSection()->getName();
+        return $tab;
+    }
 
 }

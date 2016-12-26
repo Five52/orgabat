@@ -24,7 +24,7 @@ class Section
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @ORM\Column(type="string")
      */
     private $name;
 
@@ -94,6 +94,14 @@ class Section
     public function setApprentices($apprentices)
     {
         $this->apprentices = $apprentices;
+    }
+
+
+    public function getData()
+    {
+        $tab = [];
+        $tab[0] = $this->getName();
+        return $tab;
     }
 }
 

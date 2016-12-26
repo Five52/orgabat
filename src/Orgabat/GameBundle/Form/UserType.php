@@ -32,7 +32,8 @@ class UserType extends AbstractType
         }*/
 
         $builder
-            ->add('username', TextType::class, ['label' => 'Prénom & Nom'])
+            ->add('firstName', TextType::class, ['label' => 'Prénom'])
+            ->add('lastName', TextType::class, ['label' => 'Nom'])
             ->add('email', EmailType::class, ['label' => 'Email'])
             /*->add('section', ChoiceType::class, [
                 'choices' => $choices, 'label' => 'Profile'

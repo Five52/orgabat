@@ -25,22 +25,24 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface, Ordered
         $userManager = $this->container->get('pugx_user_manager');
 
         $data = [
-            ['Jacques Dupont', 'jacques.dupont@mail.com', '12345678', 'CAP 1'],
-            ['Jean Duval', 'jean.duval@mail.fr', '23456789', 'CAP 1'],
-            ['Yves Boulanger', 'yves.boulanger@autremail.net', 'yvesboulanger', 'BEP 2']
+            ['Jacques', 'Dupont', 'jacques.dupont@mail.com', '12345678', 'CAP 1'],
+            ['Jean', 'Duval', 'jean.duval@mail.fr', '23456789', 'CAP 1'],
+            ['Yves', 'Boulanger', 'yves.boulanger@autremail.net', 'yvesboulanger', 'BEP 2']
         ];
 
 
         foreach ($data as $line) {
 
             $apprentice = $userManager->createUser();
-            $apprentice->setUsername($line[0]);
-            $apprentice->setEmail($line[1]);
-            $apprentice->setPlainPassword($line[2]);
+            $apprentice->setFirstName($line[0]);
+            $apprentice->setLastName($line[1]);
+            $apprentice->setUsername($line[0].' '.$line[1]);
+            $apprentice->setEmail($line[2]);
+            $apprentice->setPlainPassword($line[3]);
 
             $section = $manager
                 ->getRepository('OrgabatGameBundle:Section')
-                ->findOneByName($line[3])
+                ->findOneByName($line[4])
             ;
 
             $apprentice->setSection($section);
@@ -52,6 +54,8 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface, Ordered
         $discriminator->setClass('Orgabat\GameBundle\Entity\Admin');
         $userManager = $this->container->get('pugx_user_manager');
         $admin = $userManager->createUser();
+        $admin->setFirstName('Admin');
+        $admin->setLastName('Admin');
         $admin->setUsername('Admin');
         $admin->setEmail('admin@admin.com');
         $admin->setPlainPassword('12345678');
