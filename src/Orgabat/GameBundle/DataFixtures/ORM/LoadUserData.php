@@ -24,14 +24,19 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface, Ordered
 
         $userManager = $this->container->get('pugx_user_manager');
 
-        $data = [
+        $dataApp = [
             ['Jacques', 'Dupont', 'jacques.dupont@mail.com', '12345678', 'CAP 1'],
             ['Jean', 'Duval', 'jean.duval@mail.fr', '23456789', 'CAP 1'],
             ['Yves', 'Boulanger', 'yves.boulanger@autremail.net', 'yvesboulanger', 'BEP 2']
         ];
 
+        $dataTeach = [
+            ['Prof', 'Test', 'prof.test@mail.com', '12345678', 'CAP 1'],
+            ['Autre', 'Prof', 'autre.prof@mail.fr', '12345678', 'BEP 2'],
+        ];
 
-        foreach ($data as $line) {
+
+        foreach ($dataApp as $line) {
 
             $apprentice = $userManager->createUser();
             $apprentice->setFirstName($line[0]);
@@ -49,6 +54,28 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface, Ordered
             $apprentice->setEnabled(true);
             $apprentice->addRole('ROLE_APPRENTICE');
             $userManager->updateUser($apprentice, true);
+        }
+
+        $discriminator->setClass('Orgabat\GameBundle\Entity\Trainer');
+
+        foreach ($dataTeach as $line) {
+
+            $trainer = $userManager->createUser();
+            $trainer->setFirstName($line[0]);
+            $trainer->setLastName($line[1]);
+            $trainer->setUsername($line[0].' '.$line[1]);
+            $trainer->setEmail($line[2]);
+            $trainer->setPlainPassword($line[3]);
+
+            $section = $manager
+                ->getRepository('OrgabatGameBundle:Section')
+                ->findOneByName($line[4])
+            ;
+
+            $trainer->setSection($section);
+            $trainer->setEnabled(true);
+            $trainer->addRole('ROLE_TRAINER');
+            $userManager->updateUser($trainer, true);
         }
 
         $discriminator->setClass('Orgabat\GameBundle\Entity\Admin');

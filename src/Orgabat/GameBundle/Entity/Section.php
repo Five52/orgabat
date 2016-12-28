@@ -34,6 +34,11 @@ class Section
      */
     private $apprentices;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Orgabat\GameBundle\Entity\Trainer", mappedBy="group")
+     */
+    private $trainers;
+
 
     /**
      * Get id
@@ -95,6 +100,24 @@ class Section
     {
         $this->apprentices = $apprentices;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getTrainers()
+    {
+        return $this->teachers;
+    }
+
+    /**
+     * @param mixed $trainers
+     */
+    public function setTrainers($trainers)
+    {
+        $this->teachers = $trainers;
+    }
+
+
 
 
     public function getData()

@@ -8,41 +8,80 @@
     <a class="btn btn-default" href=  "#menu-toggle" id="menu-toggle">Toggle Menu</a>
     <header class="page-header"><h1>Liste des apprentis par classe</h1></header>
     <a class="btn btn-success" href="{{ path('admin_create_user') }}">Ajouter un apprenti</a>
+    <a class="btn btn-success" href="{{ path('admin_create_trainer') }}">Ajouter un enseignant</a>
     <a class="btn btn-success" href="{{ path('admin_create_section') }}">Ajouter une classe</a>
     <a class="btn btn-info" href="{{ path('admin_export_user') }}">Exporter les apprentis</a>
+    <a class="btn btn-info" href="{{ path('admin_export_trainer') }}">Exporter les enseignants</a>
     <a class="btn btn-info" href="{{ path('admin_export_section') }}">Exporter les classes</a>
     <a class="btn btn-info" href="{{ path('admin_import_user') }}">Importer des apprentis</a>
+    <a class="btn btn-info" href="{{ path('admin_import_trainer') }}">Importer des enseignants</a>
     <a class="btn btn-info" href="{{ path('admin_import_section') }}">Importer des classes</a>
     {%  for list in lists %}
         {% if list %}
-            <h2 class="text-center">{{ list[0].section.name }}
-                <a class="btn btn-warning" href="{{ path('admin_alter_section', {'id': list[0].section.id} ) }}">Modifier</a>
-                &nbsp;
-                <a class="btn btn-danger" href="{{ path('admin_remove_section', {'id': list[0].section.id} ) }}">Supprimer</a>
-                <a class="btn btn-info" href="{{ path('admin_export_userBySection', {'id': list[0].section.id} ) }}">Exporter la classe</a>
-            </h2>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Prénom</th>
-                    <th>Nom</th>
-                    <th>Adresse email</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody >
-                {% for apprentice in list %}
-                    <tr>
-                        <td>{{ apprentice.firstName }}</td>
-                        <td>{{ apprentice.lastName }}</td>
-                        <td>{{ apprentice.email}}</td>
-                        <td><a class="btn btn-warning" href="{{ path('admin_alter_user', {'id': apprentice.id} ) }}">Modifier</a></td>
-                        <td><a class="btn btn-danger" href="{{ path('admin_remove_user', {'id': apprentice.id} ) }}">Supprimer</a></td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+            <div class="col-sm-12">
+                <h2 class="text-center">{{ list[0].section.name }}
+                    <a class="btn btn-warning" href="{{ path('admin_alter_section', {'id': list[0].section.id} ) }}">Modifier</a>
+                    &nbsp;
+                    <a class="btn btn-danger" href="{{ path('admin_remove_section', {'id': list[0].section.id} ) }}">Supprimer</a>
+                    <a class="btn btn-info" href="{{ path('admin_export_userBySection', {'id': list[0].section.id} ) }}">Exporter la classe</a>
+                </h2>
+            </div>
+            <div class="col-sm-12">
+                <div class="col-sm-6">
+                    <h3>Elèves</h3>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Prénom</th>
+                            <th>Nom</th>
+                            <th>Adresse email</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody >
+                        {% for apprentice in list %}
+                            {% if apprentice.roles[0] == "ROLE_APPRENTICE" %}
+                                <tr>
+                                    <td>{{ apprentice.firstName }}</td>
+                                    <td>{{ apprentice.lastName }}</td>
+                                    <td>{{ apprentice.email}}</td>
+                                    <td><a class="btn btn-warning" href="{{ path('admin_alter_user', {'id': apprentice.id} ) }}">Modifier</a></td>
+                                    <td><a class="btn btn-danger" href="{{ path('admin_remove_user', {'id': apprentice.id} ) }}">Supprimer</a></td>
+                                </tr>
+                            {%  endif %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-sm-6">
+                    <h3>Enseignants</h3>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Prénom</th>
+                            <th>Nom</th>
+                            <th>Adresse email</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody >
+                        {% for trainer in list %}
+                            {% if trainer.roles[0] == "ROLE_TRAINER" %}
+                                <tr>
+                                    <td>{{ trainer.firstName }}</td>
+                                    <td>{{ trainer.lastName }}</td>
+                                    <td>{{ trainer.email}}</td>
+                                    <td><a class="btn btn-warning" href="{{ path('admin_alter_trainer', {'id': trainer.id} ) }}">Modifier</a></td>
+                                    <td><a class="btn btn-danger" href="{{ path('admin_remove_trainer', {'id': trainer.id} ) }}">Supprimer</a></td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         {% endif %}
     {% endfor %}
     {% if listNoSection %}
@@ -102,12 +141,12 @@
                     <a class="list-group-item" data-parent="#option" data-toggle="collapse"
                        href="{{ path('admin_create_user') }}"><span class="glyphicon glyphicon-user"></span> Compte apprenti</a>
                     <a class="list-group-item" data-parent="#option" data-toggle="collapse"
-                       href="#"><span class="glyphicon glyphicon-user"></span> Compte formateur</a>
+                       href="{{ path('admin_create_trainer') }}"><span class="glyphicon glyphicon-user"></span> Compte formateur</a>
                 </div>
             </div>
             <div class="list-group panel">
                 <!-- /#Ajoute lien au methode changer mot de passe -->
-                <a class="list-group-item" href="#"><span class=
+                <a class="list-group-item" href="{{ path('admin_import_user') }}"><span class=
                                                           "glyphicon glyphicon-upload"></span> Importer des comptes utilisateurs</a>
             </div>
             <div class="list-group panel">

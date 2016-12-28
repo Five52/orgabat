@@ -10,6 +10,8 @@ namespace Orgabat\GameBundle\Handler;
 
 
 use Orgabat\GameBundle\Entity\Admin;
+use Orgabat\GameBundle\Entity\Teacher;
+use Orgabat\GameBundle\Entity\Trainer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -42,7 +44,7 @@ class AuthenticationSuccessHandler implements AuthenticationSuccessHandlerInterf
     public function onAuthenticationSuccess(Request $request, TokenInterface $token)
     {
         $user = $token->getUser();
-        if ($user instanceof Admin) {
+        if ($user instanceof Admin || $user instanceof Trainer) {
             return new RedirectResponse($this->router->generate('default_admin_board'));
         } else {
             return new RedirectResponse($this->router->generate('default_rules'));

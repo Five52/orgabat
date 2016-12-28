@@ -90,6 +90,13 @@ class DefaultController extends Controller
                 ->getRepository('OrgabatGameBundle:Apprentice')
                 ->findBy(array('section' => $section))
             ;
+            $listTrainers = $em
+                ->getRepository('OrgabatGameBundle:Trainer')
+                ->findBy(array('section' => $section))
+            ;
+            foreach ($listTrainers as $trainer) {
+                array_push($listApprentices,$trainer);
+            }
             $fullList[$section->getName()] =  $listApprentices;
         }
         $apprenticesNoSection = $em
