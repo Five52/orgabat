@@ -1,0 +1,41 @@
+{% extends '::base_dashboard.html.twig' %}
+
+{% block body %}
+    <header class="page-header"><h1>Liste des apprentis par classe</h1></header>
+    <a class="btn btn-success" href="{{ path('admin_create_user') }}">Ajouter un apprenti</a>
+    {%  for list in lists %}
+        {% if list %}
+            <div class="col-sm-12">
+                <h2 class="text-center">{{ list[0].section.name }}</h2>
+            </div>
+            <div class="col-sm-12">
+                <h3>Elèves</h3>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Prénom</th>
+                        <th>Nom</th>
+                        <th>Adresse email</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody >
+                    {% for apprentice in list %}
+                        {% if apprentice.roles[0] == "ROLE_APPRENTICE" %}
+                            <tr>
+                                <td>{{ apprentice.firstName }}</td>
+                                <td>{{ apprentice.lastName }}</td>
+                                <td>{{ apprentice.email}}</td>
+                                <td><a class="btn btn-warning" href="{{ path('admin_alter_user', {'id': apprentice.id} ) }}">Modifier</a></td>
+                                <td><a class="btn btn-danger" href="{{ path('admin_remove_user', {'id': apprentice.id} ) }}">Supprimer</a></td>
+                            </tr>
+                        {%  endif %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+

@@ -31,7 +31,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface, Ordered
         ];
 
         $dataTeach = [
-            ['Prof', 'Test', 'prof.test@mail.com', '12345678', 'CAP 1'],
+            ['Prof', 'Test', 'prof.test@mail.com', '12345678', 'CAP 1', 'BEP 2'],
             ['Autre', 'Prof', 'autre.prof@mail.fr', '12345678', 'BEP 2'],
         ];
 
@@ -49,7 +49,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface, Ordered
                 ->getRepository('OrgabatGameBundle:Section')
                 ->findOneByName($line[4])
             ;
-
+            
             $apprentice->setSection($section);
             $apprentice->setEnabled(true);
             $apprentice->addRole('ROLE_APPRENTICE');
@@ -87,7 +87,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface, Ordered
         $admin->setEmail('admin@admin.com');
         $admin->setPlainPassword('12345678');
         $admin->setEnabled(true);
-        $admin->addRole('ROLE_TRAINER');
+        $admin->addRole('ROLE_ADMIN');
         $userManager->updateUser($admin,true);
 
         // $user1 = new User();

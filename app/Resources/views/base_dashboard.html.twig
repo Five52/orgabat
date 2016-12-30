@@ -10,6 +10,7 @@
             <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
             <link rel="stylesheet" href="{{ asset('css/headerIllustration.css') }}">
             <link rel="stylesheet" href="{{ asset('vendor/fontawesome/css/font-awesome.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/simple-sidebar.css') }}">
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
     </head>
@@ -18,8 +19,9 @@
     #}
     <body>
         <div id="wrapper">
-            {% block sidebar %}{% endblock %}
+            {% include 'partials/sidebar.html.twig' %}
             <div class="page-content-wrapper">
+                <a class="btn btn-default" href=  "#menu-toggle" id="menu-toggle">Afficher le menu</a>
                 {% block body %}{% endblock %}
                 {% include 'partials/footer.html.twig' %}
             </div>
@@ -28,6 +30,12 @@
             <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>
             <script src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"> </script>
             <script src="{{ asset('js/logoSlider.js') }}"></script>
+            <script>
+                $("#menu-toggle").click(function(e) {
+                    e.preventDefault();
+                    $("#wrapper").toggleClass("toggled");
+                });
+            </script>
         {% endblock %}
     </body>
 </html>

@@ -44,9 +44,12 @@ class AuthenticationSuccessHandler implements AuthenticationSuccessHandlerInterf
     public function onAuthenticationSuccess(Request $request, TokenInterface $token)
     {
         $user = $token->getUser();
-        if ($user instanceof Admin || $user instanceof Trainer) {
+        if ($user instanceof Admin) {
             return new RedirectResponse($this->router->generate('default_admin_board'));
-        } else {
+        }else if ( $user instanceof Trainer) {
+            return new RedirectResponse($this->router->generate('default_sections'));
+        }
+        else {
             return new RedirectResponse($this->router->generate('default_rules'));
         }
     }

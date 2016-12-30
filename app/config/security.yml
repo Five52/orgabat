@@ -9,7 +9,7 @@ security:
     role_hierarchy:
         ROLE_APPRENTICE: ROLE_USER
         ROLE_TRAINER:  ROLE_USER
-        ROLE_ADMIN:       ROLE_USER
+        ROLE_ADMIN:       ROLE_TRAINER
         ROLE_SUPER_ADMIN: ROLE_ADMIN
 
     providers:
@@ -39,4 +39,15 @@ security:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin$, role: ROLE_TRAINER  }
+        - { path: ^/admin/classes$, role: ROLE_TRAINER }
+        - { path: ^/admin/classe$, role: ROLE_TRAINER }
+        - { path: ^/admin/apprentis, role: ROLE_TRAINER }
+        - { path: ^/admin/apprenti, role: ROLE_TRAINER }
+        - { path: ^/admin/enseignants$, role: ROLE_ADMIN }
+        - { path: ^/admin/apprentis/exporter, role: ROLE_ADMIN }
+        - { path: ^/admin/apprentis/importer, role: ROLE_ADMIN }
+        - { path: ^/admin/enseignants/exporter, role: ROLE_ADMIN }
+        - { path: ^/admin/enseignants/importer, role: ROLE_ADMIN }
+        - { path: ^/admin/classes/exporter, role: ROLE_ADMIN }
+        - { path: ^/admin/classes/importer, role: ROLE_ADMIN }
+        - { path: ^/admin, role: ROLE_ADMIN }

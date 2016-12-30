@@ -14,9 +14,15 @@ default_games:
     requirements:
         id:   \d+
 
+default_sections:
+    path:   /admin/classes
+    defaults:  { _controller: OrgabatGameBundle:Default:showSections }
+
 default_admin_board:
     path:   /admin
     defaults:  { _controller: OrgabatGameBundle:Default:showAdmin }
+
+
 
 # APIGameController
 
@@ -38,73 +44,69 @@ game_game:
 
 # User
 admin_create_user:
-    path:    /admin/creerApprenti
+    path:    /admin/apprenti/creer
     defaults: { _controller: OrgabatGameBundle:Admin:createUser}
 
 admin_alter_user:
-    path:    /admin/modifierApprenti/{id}
+    path:    /admin/apprenti/{id}/modifier
     defaults: { _controller: OrgabatGameBundle:Admin:editUser}
 
 admin_remove_user:
-    path:    /admin/supprimerApprenti/{id}
+    path:    /admin/apprenti/{id}/supprimer
     defaults: { _controller: OrgabatGameBundle:Admin:deleteUser}
 
 admin_export_user:
-    path:   /admin/exporterApprentis
+    path:   /admin/apprentis/exporter
     defaults: { _controller: OrgabatGameBundle:Admin:exportAllApprentices}
 
 admin_export_userBySection:
-    path:   /admin/exporterApprentisParClasse/{id}
+    path:   /admin/apprentis/classe/{id}/exporter
     defaults: { _controller: OrgabatGameBundle:Admin:exportApprenticesBySection}
 
 admin_import_user:
-    path:   /admin/importerApprentis
+    path:   /admin/apprentis/importer
     defaults: { _controller: OrgabatGameBundle:Admin:importApprentices}
 
 
 # Trainer
 
 admin_create_trainer:
-    path:    /admin/creerEnseignant
+    path:    /admin/enseignant/creer
     defaults: { _controller: OrgabatGameBundle:Admin:createTrainer}
 
 admin_alter_trainer:
-    path:    /admin/modifierEnseignant/{id}
+    path:    /admin/enseignant/{id}/modifier
     defaults: { _controller: OrgabatGameBundle:Admin:editTrainer}
 
 admin_remove_trainer:
-    path:    /admin/supprimerEnseignant/{id}
+    path:    /admin/enseignant/{id}/supprimer
     defaults: { _controller: OrgabatGameBundle:Admin:deleteTrainer}
 
 admin_export_trainer:
-    path:   /admin/exporterEnseignants
+    path:   /admin/enseignants/exporter
     defaults: { _controller: OrgabatGameBundle:Admin:exportAllTrainers}
 
-admin_export_trainerBySection:
-    path:   /admin/exporterEnseignantsParClasse/{id}
-    defaults: { _controller: OrgabatGameBundle:Admin:exportTrainersBySection}
-
 admin_import_trainer:
-    path:   /admin/importerEnseignants
+    path:   /admin/enseignants/importer
     defaults: { _controller: OrgabatGameBundle:Admin:importTrainers}
 
 # Section
 admin_create_section:
-    path:    /admin/creerClasse
+    path:    /admin/classe/creer
     defaults: { _controller: OrgabatGameBundle:Admin:createSection}
 
 admin_alter_section:
-    path:    /admin/modifierClasse/{id}
+    path:    /admin/classe/{id}/modifier
     defaults: { _controller: OrgabatGameBundle:Admin:editSection}
 
 admin_remove_section:
-    path:    /admin/supprimerClasse/{id}
+    path:    /admin/classe/{id}/supprimer
     defaults: { _controller: OrgabatGameBundle:Admin:deleteSection}
 
 admin_export_section:
-    path:   /admin/exporterClasses
+    path:   /admin/classes/exporter
     defaults: { _controller: OrgabatGameBundle:Admin:exportAllSections}
 
 admin_import_section:
-    path:   /admin/importerClasses
+    path:   /admin/classes/importer
     defaults: { _controller: OrgabatGameBundle:Admin:importSections}

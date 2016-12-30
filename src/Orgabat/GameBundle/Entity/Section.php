@@ -114,7 +114,7 @@ class Section
      */
     public function setTrainers($trainers)
     {
-        $this->teachers = $trainers;
+        $this->trainers = $trainers;
     }
 
 

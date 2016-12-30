@@ -76,7 +76,7 @@ class DefaultController extends Controller
         ]);
     }
 
-    public function showAdminAction(Request $request)
+    public function showAdminAction()
     {
 
         $em = $this->getDoctrine()->getManager();
@@ -104,8 +104,36 @@ class DefaultController extends Controller
             ->findBy(array('section' => null))
         ;
 
-
-        // replace this example code with whatever you need
         return $this->render('OrgabatGameBundle:Admin:page_dashboard.html.twig', ['lists' => $fullList,'listNoSection' => $apprenticesNoSection]);
+    }
+
+    public function showSectionsAction()
+    {
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $em = $this->getDoctrine()->getManager();
+        $fullList = [];
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $sections = $em
+                ->getRepository('OrgabatGameBundle:Section')
+                ->findBy(array(), array('id' => 'asc'))
+            ;
+            foreach ($sections as $section) {
+                $listApprentices = $em
+                    ->getRepository('OrgabatGameBundle:Apprentice')
+                    ->findBy(array('section' => $section))
+                ;
+                $fullList[$section->getName()] =  $listApprentices;
+            }
+        }else {
+            $section = $user->getSection();
+            $listApprentices = $em
+                ->getRepository('OrgabatGameBundle:Apprentice')
+                ->findBy(array('section' => $section))
+            ;
+            $fullList[$section->getName()] =  $listApprentices;
+        }
+
+        return $this->render('OrgabatGameBundle:Admin:showSections.html.twig', ["lists" => $fullList]);
+
     }
 }
