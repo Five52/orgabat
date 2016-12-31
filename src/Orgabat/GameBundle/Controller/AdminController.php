@@ -12,7 +12,7 @@ class AdminController extends Controller
 {
     public function createUserAction(Request $request)
     {
-        $user = new User();
+        $user = new User(); //TODO: Phpstorm error: Can't instanciate Abstract Class
         $form = $this->createForm(UserType::class, $user);
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
             $em = $this->getDoctrine()->getManager();

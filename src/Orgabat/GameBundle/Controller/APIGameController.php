@@ -33,24 +33,22 @@ class APIGameController extends Controller
                         'message' => 'Données incorrectes',
                     ]);
                 } else {
-                    // $em = $this->getDoctrine()->getManager();
-                    // $users = $em->getRepository('OrgabatGameBundle:User')->findById('1');
-
+                    $em = $this->getDoctrine()->getManager();
                     $realisation = new HistoryRealisation();
 
                     $user = $this->get('security.token_storage')->getToken()->getUser();
                     $realisation->setUser($user);
 
+                    $exercise = $em->getRepository('OrgabatGameBundle:Exercise')->find($data['id']);
+                    $realisation->setExercise($exercise);
+
                     $realisation->setTimer($data['time']);
-
                     $realisation->setDate(new \Datetime());
-
                     $realisation->setHealthNote($data['health']);
                     $realisation->setOrganizationNote($data['organization']);
                     $realisation->setBusinessNotorietyNote($data['business']);
 
                     // Envoi en BDD
-                    $em = $this->getDoctrine()->getManager();
                     $em->persist($realisation);
                     $em->flush();
 

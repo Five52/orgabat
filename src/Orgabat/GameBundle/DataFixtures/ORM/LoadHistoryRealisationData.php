@@ -20,10 +20,12 @@ class LoadHistoryRealisationData implements FixtureInterface, ContainerAwareInte
 
     public function load(ObjectManager $manager)
     {
-        $data = [
-            [100, 1, 1, 2, 'Jeu 1', 'Jacques Dupont'],
-            // [112, 4, 0, 1, 'Jeu 2', 'Jacques Dupont'],
-            [95, 1, 1, 6, 'Jeu 3', 'Jacques Dupont']
+        $data = [                                      // user_id
+            [100, 1, 1, 2, 'Jeu 1', 'Jacques Dupont'], // 1
+            [50, 2, 2, 2, 'Jeu 1', 'Jacques Dupont'],  // 1
+            [150, 3, 1, 2, 'Jeu 1', 'Jacques Dupont'], // 1
+            [50, 3, 4, 2, 'Jeu 1', 'Pierre Durant'],   // 2
+            [95, 1, 1, 0, 'Jeu 3', 'Jacques Dupont']   // 1
         ];
 
         foreach ($data as $line) {
