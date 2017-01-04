@@ -5,7 +5,7 @@
     <title>{% block title %}Orgabat{% endblock %}</title>
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('modules/game/css/game.css') }}">
+        <link rel="stylesheet" href="{{ asset('modules/game/public/styles/game.css') }}">
     {% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 </head>
@@ -40,35 +40,10 @@
     <script type="application/javascript" src="{{ asset('js/game.js') }}"></script>
     <script type="application/javascript">
         window.game_id = {{ id }};
-        window.game_path = "{{ asset('modules/game/games/' ~ id ~ '/src/') }}";
+        window.assets_path = "{{ asset('modules/game/public/assets/') }}";
         window.api = new Api("{{ path('apigame_score') }}");
     </script>
-    <script type="application/javascript" src="{{ asset('vendor/phaser/js/phaser.min.js') }}"></script>
-
-    <script type="application/javascript" src="{{ asset('modules/game/js/lib/phaser_modals/modal.js') }}"></script>
-
-    <script type="application/javascript" src="{{ asset('modules/game/js/system/utils/Dom.js') }}"></script>
-    <script type="application/javascript" src="{{ asset('modules/game/js/system/utils/Math.js') }}"></script>
-    <script type="application/javascript" src="{{ asset('modules/game/js/system/utils/Type.js') }}"></script>
-
-    <script type="application/javascript" src="{{ asset('modules/game/js/system/gabator/ProgressBar.js') }}"></script>
-    <script type="application/javascript" src="{{ asset('modules/game/js/system/gabator/Info.js') }}"></script>
-
-    <script type="application/javascript" src="{{ asset('modules/game/js/system/phaser/utils/EventHandler.js') }}"></script>
-    <script type="application/javascript" src="{{ asset('modules/game/js/system/phaser/utils/Keyboard.js') }}"></script>
-    <script type="application/javascript" src="{{ asset('modules/game/js/system/phaser/utils/Networking.js') }}"></script>
-    <script type="application/javascript" src="{{ asset('modules/game/js/system/phaser/utils/Position.js') }}"></script>
-
-    <script type="application/javascript" src="{{ asset('modules/game/js/system/phaser/Xmodal.js') }}"></script>
-    <script type="application/javascript" src="{{ asset('modules/game/js/system/phaser/modals/DescriptionInfobox.js') }}"></script>
-    <script type="application/javascript" src="{{ asset('modules/game/js/system/phaser/modals/SmallFeedback.js') }}"></script>
-
-    <script type="application/javascript" src="{{ asset('modules/game/js/system/phaser/Inventary.js') }}"></script>
-    <script type="application/javascript" src="{{ asset('modules/game/js/system/phaser/Modal.js') }}"></script>
-    <script type="application/javascript" src="{{ asset('modules/game/js/system/phaser/Object.js') }}"></script>
-    <script type="application/javascript" src="{{ asset('modules/game/js/system/phaser/Sprite.js') }}"></script>
-    <script type="application/javascript" src="{{ asset('modules/game/js/system/phaser/TilemapLayer.js') }}"></script>
-    {% include 'OrgabatGameBundle:Game/partials:' ~ id ~ '.html.twig' with { 'id': id } %}
+    <script type="application/javascript" src="{{ asset('modules/game/dist/' ~ id ~ '.js') }}"></script>
 {% endblock %}
 </body>
 </html>
