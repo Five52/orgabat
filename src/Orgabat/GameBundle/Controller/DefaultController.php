@@ -4,6 +4,8 @@ namespace Orgabat\GameBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Orgabat\GameBundle\Form\TrainerUpdateType;
+use Orgabat\GameBundle\Form\AdminUpdateType;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Orgabat\GameBundle\Entity\Category;
@@ -135,5 +137,44 @@ class DefaultController extends Controller
 
         return $this->render('OrgabatGameBundle:Admin:showSections.html.twig', ["lists" => $fullList]);
 
+    }
+
+    public function showEditInfosAction(Request $request)
+    {
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $form = $this->createForm(AdminUpdateType::class, $user);
+        } else {
+            $form = $this->createForm(TrainerUpdateType::class, $user);
+        }
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getData();
+
+            // Update username
+            $user->setUsername($user->getFirstName().' '.$user->getLastName());
+
+            // Update password
+            $encoder = $this->get('security.encoder_factory')->getEncoder($user);
+            $newpassword = $encoder->encodePassword(
+                $user->getPlainPassword(),
+                $user->getSalt()
+            );
+            $user->setPassword($newpassword);
+
+            // Update user
+            $em = $this->getDoctrine()->getManager();
+            $em->merge($user);
+            $em->flush();
+
+            // TODO: Update link to the home page
+            return $this->redirectToRoute('default_sections');
+        }
+
+        return $this->render('OrgabatGameBundle:Admin:showEditInfos.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 }
