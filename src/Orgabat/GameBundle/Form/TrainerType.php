@@ -30,12 +30,14 @@ class TrainerType extends AbstractType
             ->add('firstName', TextType::class, ['label' => 'Prénom'])
             ->add('lastName', TextType::class, ['label' => 'Nom'])
             ->add('email', EmailType::class, ['label' => 'Email'])
+            // Liste déroulante pour le choix de la Section à partir de celles entrées en BDD
             ->add('section', EntityType::class, array(
                 'class' => 'OrgabatGameBundle:Section',
 
                 'choice_label' => 'section',
 
             ))
+            // On demande une vérification du mot de passe
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'Les champs de mot de passe doivent correspondre.',

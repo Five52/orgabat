@@ -38,6 +38,7 @@ class UserType extends AbstractType
             /*->add('section', ChoiceType::class, [
                 'choices' => $choices, 'label' => 'Profile'
             ])*/
+            // Liste déroulante pour le choix de la Section à partir de celles entrées en BDD
             ->add('section', EntityType::class, array(
                 // query choices from this entity
                 'class' => 'OrgabatGameBundle:Section',
@@ -49,6 +50,7 @@ class UserType extends AbstractType
                 // 'multiple' => true,
                 // 'expanded' => true,
             ))
+            // On demande une vérification du mot de passe
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'Les champs de mot de passe doivent correspondre.',

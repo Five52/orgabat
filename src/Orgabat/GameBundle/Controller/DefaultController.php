@@ -76,6 +76,7 @@ class DefaultController extends Controller
         ]);
     }
 
+    // Dashboard principal de l'administrateur
     public function showAdminAction()
     {
 
@@ -86,14 +87,21 @@ class DefaultController extends Controller
         ;
         $fullList = [];
         foreach ($sections as $section) {
+            // Pour chaque classe
+
+            // On crée une liste d'apprentis
             $listApprentices = $em
                 ->getRepository('OrgabatGameBundle:Apprentice')
                 ->findBy(array('section' => $section))
             ;
+
+            // On crée une liste d'enseignants
             $listTrainers = $em
                 ->getRepository('OrgabatGameBundle:Trainer')
                 ->findBy(array('section' => $section))
             ;
+
+            // On associe la classe, les enseignants et les apprentis
             foreach ($listTrainers as $trainer) {
                 array_push($listApprentices,$trainer);
             }
@@ -107,12 +115,15 @@ class DefaultController extends Controller
         return $this->render('OrgabatGameBundle:Admin:page_dashboard.html.twig', ['lists' => $fullList,'listNoSection' => $apprenticesNoSection]);
     }
 
+    // Liste des classes
     public function showSectionsAction()
     {
+        // On récupère les informations de l'utilisateur du site
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
         $fullList = [];
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            // S'il s'agit d'un admin on retourne tous les classes avec tous les apprentis
             $sections = $em
                 ->getRepository('OrgabatGameBundle:Section')
                 ->findBy(array(), array('id' => 'asc'))
@@ -125,6 +136,7 @@ class DefaultController extends Controller
                 $fullList[$section->getName()] =  $listApprentices;
             }
         }else {
+            // S'il s'agit d'un enseignant, on retoune la classe qu'il anime (TODO)
             $section = $user->getSection();
             $listApprentices = $em
                 ->getRepository('OrgabatGameBundle:Apprentice')

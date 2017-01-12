@@ -20,7 +20,10 @@ class AdminController extends Controller
     
     # User
     
-    
+
+    /*
+     * Création d'un utilisateur à partir d'un formulaire utilisant le UserType
+    */
     public function createUserAction(Request $request)
     {
         $user = new Apprentice();
@@ -38,7 +41,10 @@ class AdminController extends Controller
         }
         return $this->render('OrgabatGameBundle:Admin:addUser.html.twig', ['form' => $form->createView()]);
     }
-    
+
+    /*
+     * Edition d'un utilisateur à partir d'un formulaire utilisant le UserType
+    */
     public function editUserAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -54,11 +60,15 @@ class AdminController extends Controller
         }
         return $this->render('OrgabatGameBundle:Admin:editUser.html.twig', ['form' => $form->createView()]);
     }
-    
+
+    /*
+     * Suppression d'un utilisateur
+    */
     public function deleteUserAction($id)
     {
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('OrgabatGameBundle:Apprentice')->find($id);
+        // On supprime aussi ses réalisations sur les jeux auxquels il a joué
         $realisations = $em->getRepository('OrgabatGameBundle:HistoryRealisation')->findBy(array('user' => $user));
         foreach ($realisations as $realisation) {
             $em->remove($realisation);
@@ -67,7 +77,10 @@ class AdminController extends Controller
         $em->flush();
         return $this->redirectToRoute('default_admin_board');
     }
-    
+
+    /*
+     * Exportation des apprentis d'une classe au format CSV => apprentis.csv
+    */
     public function exportApprenticesBySectionAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
@@ -91,6 +104,9 @@ class AdminController extends Controller
         ));
     }
 
+    /*
+     * Exportation de tous les apprentis au format CSV => apprentis.CSV
+     */
     public function exportAllApprenticesAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
@@ -112,8 +128,12 @@ class AdminController extends Controller
         ));
     }
 
+    /*
+     * Importation de plusieurs apprentis depuis un fichier CSV
+    */
     public function importApprenticesAction(Request $request)
     {
+        // Création du formulaire
         $form = $this->createFormBuilder()
             ->add('submitFile', FileType::class, array('label' => 'Fichier CSV :'))
             ->add('save', SubmitType::class, ['label' => 'Importer'])
@@ -122,15 +142,18 @@ class AdminController extends Controller
         $form->handleRequest($request);
         if ($form->isValid()) {
             $file = $form->get('submitFile');
+            // On vérifie la validité du fichier
             if (($handle = fopen($file->getData(),"r")) !== FALSE) {
                 while (($data = fgetcsv($handle, ",")) !== FALSE) {
                     $num = count($data);
                     for ($c = 0; $c < $num; $c++) {
                         $em = $this->getDoctrine()->getManager();
+                        // On vérifie que l'apprenti n'est pas déjà créé
                         $apprentice = $em
                             ->getRepository('OrgabatGameBundle:Apprentice')
                             ->findOneBy(array("firstName" => $data[0]));
                         if ( !$apprentice) {
+                            // Création de l'apprenti à partir des données CSV
                             $apprentice = new Apprentice();
                             $apprentice->setFirstName($data[0]);
                             $apprentice->setLastName($data[1]);
@@ -160,6 +183,9 @@ class AdminController extends Controller
     
     # Trainer 
 
+    /*
+     * Création d'un enseignant à partir d'un formulaire utilisant TrainerType
+     */
     public function createTrainerAction(Request $request)
     {
         $trainer = new Trainer();
@@ -178,6 +204,9 @@ class AdminController extends Controller
         return $this->render('OrgabatGameBundle:Admin:addTrainer.html.twig', ['form' => $form->createView()]);
     }
 
+    /*
+     * Modification d'un enseignant à partir d'un formulaire utilisant TrainerType
+     */
     public function editTrainerAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -194,6 +223,9 @@ class AdminController extends Controller
         return $this->render('OrgabatGameBundle:Admin:editTrainer.html.twig', ['form' => $form->createView()]);
     }
 
+    /*
+    * Suppression d'un enseignant
+    */
     public function deleteTrainerAction($id)
     {
         $em = $this->getDoctrine()->getManager();
@@ -203,6 +235,9 @@ class AdminController extends Controller
         return $this->redirectToRoute('default_admin_board');
     }
 
+    /*
+     * Exportation de tous les enseignants d'une classe au format CSV => enseignants.csv
+     */
     public function exportTrainersBySectionAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
@@ -226,6 +261,9 @@ class AdminController extends Controller
         ));
     }
 
+    /*
+     * Exportation de tous les enseignants au format CSV => enseignants.csv
+     */
     public function exportAllTrainersAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
@@ -247,8 +285,12 @@ class AdminController extends Controller
         ));
     }
 
+    /*
+     * Importation de plusieurs enseignants depuis un fichier CSV
+     */
     public function importTrainersAction(Request $request)
     {
+        // Création du formulaire d'importation du fichier
         $form = $this->createFormBuilder()
             ->add('submitFile', FileType::class, array('label' => 'Fichier CSV :'))
             ->add('save', SubmitType::class, ['label' => 'Importer'])
@@ -257,15 +299,18 @@ class AdminController extends Controller
         $form->handleRequest($request);
         if ($form->isValid()) {
             $file = $form->get('submitFile');
+            // On vérifie que le fichier CSV est valide
             if (($handle = fopen($file->getData(),"r")) !== FALSE) {
                 while (($data = fgetcsv($handle, ",")) !== FALSE) {
                     $num = count($data);
                     for ($c = 0; $c < $num; $c++) {
+                        // On vérifie que l'enseignant n'existe pas déjà
                         $em = $this->getDoctrine()->getManager();
                         $trainer = $em
                             ->getRepository('OrgabatGameBundle:Trainer')
                             ->findOneBy(array("firstName" => $data[0]));
                         if ( !$trainer) {
+                            // Création de l'enseignant
                             $trainer = new Trainer();
                             $trainer->setFirstName($data[0]);
                             $trainer->setLastName($data[1]);
@@ -296,7 +341,9 @@ class AdminController extends Controller
     
     # Section
     
-    
+    /*
+     * Création d'une classe depuis un formulaire à partir de SectionType
+     */
     public function createSectionAction(Request $request)
     {
         $section = new Section();
@@ -312,7 +359,10 @@ class AdminController extends Controller
         }
         return $this->render('OrgabatGameBundle:Admin:addSection.html.twig', ['form' => $form->createView()]);
     }
-    
+
+    /*
+     * Modification d'une classe depuis un formulaire à partir de SectionType
+     */
     public function editSectionAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -327,7 +377,10 @@ class AdminController extends Controller
         }
         return $this->render('OrgabatGameBundle:Admin:editSection.html.twig', ['form' => $form->createView()]);
     }
-    
+
+    /*
+     * Suppression d'une classe
+     */
     public function deleteSectionAction($id)
     {
         $em = $this->getDoctrine()->getManager();
@@ -341,6 +394,10 @@ class AdminController extends Controller
         return $this->redirectToRoute('default_admin_board');
     }
 
+
+    /*
+     * Exportation de tous les classes au format CSV => classes.csv
+     */
     public function exportAllSectionsAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
@@ -362,8 +419,12 @@ class AdminController extends Controller
         ));
     }
 
+    /*
+     * Importation de plusieurs classes depuis un fichier CSV
+     */
     public function importSectionsAction(Request $request)
     {
+        // Création du formulaire
         $form = $this->createFormBuilder()
             ->add('submitFile', FileType::class, array('label' => 'Fichier CSV :'))
             ->add('save', SubmitType::class, ['label' => 'Importer'])
@@ -372,10 +433,12 @@ class AdminController extends Controller
         $form->handleRequest($request);
         if ($form->isValid()) {
             $file = $form->get('submitFile');
+            // On vérifie que le fichier est valide
             if (($handle = fopen($file->getData(),"r")) !== FALSE) {
                 while (($data = fgetcsv($handle, ",")) !== FALSE) {
                     $num = count($data);
                     for ($c=0; $c < $num; $c++) {
+                        // Création de la classe
                         $data = explode(",",$data[$c]);
                         $em = $this->getDoctrine()->getManager();
                         $section = new Section();
