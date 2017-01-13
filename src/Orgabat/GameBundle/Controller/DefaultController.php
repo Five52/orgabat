@@ -31,7 +31,23 @@ class DefaultController extends Controller
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $categories = $em->getRepository('OrgabatGameBundle:Category')->findAll();
         $exercises = $em->getRepository('OrgabatGameBundle:Exercise')->findAll();
-        $dones = $em->getRepository('OrgabatGameBundle:HistoryRealisation')->findBy(['user' => $user]);
+        $tries = $em->getRepository('OrgabatGameBundle:HistoryRealisation')->findBy(['user' => $user]);
+
+        // Get the best try of each exercises
+        $dones = [];
+        foreach ($tries as $try) {
+            $exerciseId = $try->getExercise()->getId();
+            $totalTry = $try->getHealthNote() + $try->getOrganizationNote() + $try->getBusinessNotorietyNote();
+
+            if (!isset($dones[$exerciseId])) {
+                $dones[$exerciseId] = $try;
+            } else {
+                $totalDone = $dones[$exerciseId]->getHealthNote() + $dones[$exerciseId]->getOrganizationNote() + $dones[$exerciseId]->getBusinessNotorietyNote();
+                if ($totalDone < $totalTry) {
+                    $dones[$exerciseId] = $try;
+                }
+            }
+        }
 
         // Get the total global score
         $globalScore = ['healthNote' => 0, 'organizationNote' => 0, 'businessNotorietyNote' => 0];
@@ -78,13 +94,32 @@ class DefaultController extends Controller
             ->getRepository('OrgabatGameBundle:Exercise')
             ->getExercisesOfCategoryWithUserInfos($category, $user)
         ;
-
-        $dones = $em
+        $tries = $em
             ->getRepository('OrgabatGameBundle:ExerciseHistory')
             ->findBy([
                 'exercise' => $exercises,
                 'user' => $user
             ]);
+
+        // Get the best try of each exercises
+        $dones = [];
+        $doneTries = [];
+        foreach ($tries as $try) {
+            $exerciseId = $try->getExercise()->getId();
+            $totalTry = $try->getHealthNote() + $try->getOrganizationNote() + $try->getBusinessNotorietyNote();
+
+            if (!isset($dones[$exerciseId])) {
+                $dones[$exerciseId] = $try;
+                $doneTries[$exerciseId] = 1;
+            } else {
+                $totalDone = $dones[$exerciseId]->getHealthNote() + $dones[$exerciseId]->getOrganizationNote() + $dones[$exerciseId]->getBusinessNotorietyNote();
+                if ($totalDone < $totalTry) {
+                    $dones[$exerciseId] = $try;
+                    $doneTries[$exerciseId]++;
+                }
+            }
+        }
+
         $exDones = [];
         foreach ($dones as $done) {
             foreach ($exercises as $exercise) {
@@ -123,7 +158,8 @@ class DefaultController extends Controller
             'category' => $category,
             'exercises' => $exercises,
             'dones' => $exDones,
-            'stats' => $stats
+            'stats' => $stats,
+            'tries' => $doneTries
         ]);
     }
 

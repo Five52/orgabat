@@ -35,6 +35,9 @@ form {
 .game .content {
   box-shadow: none;
   border-radius: 0px 0px 5px 5px;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
 }
 .game:not(.disabled) .content {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26), 0 2px 10px 0 rgba(0, 0, 0, 0.16);
@@ -46,6 +49,12 @@ form {
 .game .panel-body {
   border: 1px solid #EAEAEA;
   border-radius: 0px 0px 5px 5px;
+  flex-grow: 1;
+  display: flex;
+  flex-flow: column;
+}
+.game .panel-body .infos {
+  flex-grow: 1;
 }
 .game .panel-heading {
   color: #fff;
@@ -58,6 +67,10 @@ form {
 }
 .game.disabled .panel-body {
   background-color: rgba(0, 0, 0, 0.05);
+}
+
+.tries {
+  margin-bottom: 7px;
 }
 
 .requiredScore {
@@ -211,12 +224,49 @@ iframe {
 }
 
 .modules .progresses {
-  margin-top: 20px;
+  margin-top: 10px;
 }
 .modules .progress {
   margin: 0 50px 5px;
 }
 
+
+/* Flex rows */
+.row.is-flex {
+    display: flex;
+    flex-wrap: wrap;
+}
+.row.is-flex > [class*='col-'] {
+    display: flex;
+    flex-direction: column;
+}
+
+/*
+* And with max cross-browser enabled.
+* Nobody should ever write this by hand.
+* Use a preprocesser with autoprefixing.
+*/
+.row.is-flex {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+.row.is-flex > [class*='col-'] {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
 
 /* CSS slider de logo */
 

@@ -1,31 +1,33 @@
 {% extends 'OrgabatGameBundle::base_listejeux.html.twig' %}
 {% block body %}
-    <div class="col-sm-9">
-        <h1>{{ category.name }}</h1>
+    <div class="row">
+      <div class="col-sm-9">
+          <h1>{{ category.name }}</h1>
+      </div>
+      <div class="col-sm-3">
+          <div class="panel panel-default">
+              <div class="panel-body">
+                  <p>Résumé :</p>
+                  <div class="progress health">
+                      <div class="progress-bar progress-bar-success" style="width:
+                        {{ (stats['user']['healthNote'] / stats['global']['healthNote'])*100 }}%"></div>
+                      <span class="stat">{{ stats['user']['healthNote'] }} / {{ stats['global']['healthNote'] }}</span>
+                  </div>
+                  <div class="progress organization">
+                      <div class="progress-bar progress-bar-info" style="width:
+                        {{ (stats['user']['organizationNote'] / stats['global']['organizationNote'])*100 }}%"></div>
+                      <span class="stat">{{ stats['user']['organizationNote'] }} / {{ stats['global']['organizationNote'] }}</span>
+                  </div>
+                  <div class="progress notoriety">
+                      <div class="progress-bar progress-bar-warning" style="width:
+                        {{ (stats['user']['businessNotorietyNote'] / stats['global']['businessNotorietyNote'])*100 }}%"></div>
+                      <span class="stat">{{ stats['user']['businessNotorietyNote'] }} / {{ stats['global']['businessNotorietyNote'] }}</span>
+                  </div>
+              </div>
+          </div>
+      </div>
     </div>
-    <div class="col-sm-3">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <p>Résumé :</p>
-                <div class="progress health">
-                    <div class="progress-bar progress-bar-success" style="width:
-                      {{ (stats['user']['healthNote'] / stats['global']['healthNote'])*100 }}%"></div>
-                    <span class="stat">{{ stats['user']['healthNote'] }} / {{ stats['global']['healthNote'] }}</span>
-                </div>
-                <div class="progress organization">
-                    <div class="progress-bar progress-bar-info" style="width:
-                      {{ (stats['user']['organizationNote'] / stats['global']['organizationNote'])*100 }}%"></div>
-                    <span class="stat">{{ stats['user']['organizationNote'] }} / {{ stats['global']['organizationNote'] }}</span>
-                </div>
-                <div class="progress notoriety">
-                    <div class="progress-bar progress-bar-warning" style="width:
-                      {{ (stats['user']['businessNotorietyNote'] / stats['global']['businessNotorietyNote'])*100 }}%"></div>
-                    <span class="stat">{{ stats['user']['businessNotorietyNote'] }} / {{ stats['global']['businessNotorietyNote'] }}</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modules">
+    <div class="row modules is-flex">
       {% for exercise in exercises %}
           {% set totalDoneNote = null %}
           {% set totalExerciseNote = exercise.healthMaxNote + exercise.organizationMaxNote + exercise.businessNotorietyMaxNote %}
@@ -41,20 +43,25 @@
                   <h2 id="game_label">{{ exercise.name }}</h2>
               </div>
               <div class="panel-body">
-                  <h4>
-                    {% if totalDoneNote != null %}
-                      {% if totalDoneNote >= minTotalDoneNote %}
-                          <span>Jeu terminé</span>
+                  <div class="infos">
+                    <h4>
+                      {% if totalDoneNote != null %}
+                        {% if totalDoneNote >= minTotalDoneNote %}
+                            <span>Jeu terminé</span>
+                        {% else %}
+                            <div>Meilleur score: {{ totalDoneNote }} / {{ totalExerciseNote }}</div>
+                            <h5 class="requiredScore">Score minimum requis: {{ minTotalDoneNote|round(0, 'ceil') }} / {{ totalExerciseNote }}</h5>
+                        {% endif %}
                       {% else %}
-                          <div>Meilleur score: {{ totalDoneNote }} / {{ totalExerciseNote }}</div>
-                          <h5 class="requiredScore">Score minimum requis: {{ minTotalDoneNote|round(0, 'ceil') }} / {{ totalExerciseNote }}</h5>
+                          <span>Essaie-le !</span>
                       {% endif %}
-                    {% else %}
-                        <span>Essaie-le !</span>
-                    {% endif %}
-                  </h4>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    </h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                  </div>
                   <div class="progresses">
+                    {% if dones[exercise.id] is defined %}
+                        <div class="tries">Tentatives: {{ tries[exercise.id] }}</div>
+                    {% endif %}
                     {% if dones[exercise.id] is defined %}
                       <div class="progress health">
                           <div class="progress-bar progress-bar-success" style="width:
