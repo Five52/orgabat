@@ -25,57 +25,70 @@
             </div>
         </div>
     </div>
+    <div class="modules">
+      {% for exercise in exercises %}
+          {% set totalDoneNote = null %}
+          {% set totalExerciseNote = exercise.healthMaxNote + exercise.organizationMaxNote + exercise.businessNotorietyMaxNote %}
 
-    {% for exercise in exercises %}
-        {% set totalDoneNote = null %}
-        {% set totalExerciseNote = exercise.healthMaxNote + exercise.organizationMaxNote + exercise.businessNotorietyMaxNote %}
-
-        {% if dones[exercise.id]is defined %}
-            {% set totalDoneNote = dones[exercise.id].healthNote + dones[exercise.id].organizationNote + dones[exercise.id].businessNotorietyNote %}
-        {% endif %}
-        <div class="col-sm-4 game noselect {{ totalDoneNote >= 6.5 ? 'disabled' : '' }}" data-game-id="{{ exercise.id }}">
-          <div class="content">
-            <div class="panel-heading">
-                <h2 id="game_label">{{ exercise.name }}</h2>
-            </div>
-            <div class="panel-body">
-                <h4>
-                    {% if totalDoneNote >= 6.5 %}
-                        Jeu terminé
-                    {% elseif totalDoneNote < 6.5 and totalDoneNote != null %}
-                        Meilleur score: {{ totalDoneNote }} / {{ totalExerciseNote }}
+          {% if dones[exercise.id]is defined %}
+              {% set totalDoneNote = dones[exercise.id].healthNote + dones[exercise.id].organizationNote + dones[exercise.id].businessNotorietyNote %}
+          {% endif %}
+          <div class="col-sm-4 game noselect {{ totalDoneNote >= 6.5 ? 'disabled' : '' }}" data-game-id="{{ exercise.id }}">
+            <div class="content">
+              <div class="panel-heading">
+                  <h2 id="game_label">{{ exercise.name }}</h2>
+              </div>
+              <div class="panel-body">
+                  <h4>
+                      {% if totalDoneNote >= 6.5 %}
+                          Jeu terminé
+                      {% elseif totalDoneNote < 6.5 and totalDoneNote != null %}
+                          Meilleur score: {{ totalDoneNote }} / {{ totalExerciseNote }}
+                      {% else %}
+                          Essaie-le !
+                      {% endif %}
+                  </h4>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                  <div class="progresses">
+                    {% if dones[exercise.id] is defined %}
+                      <div class="progress health">
+                          <div class="progress-bar progress-bar-success" style="width:
+                            {{ (dones[exercise.id].healthNote / exercise.healthMaxNote)*100 }}%"></div>
+                          <span class="stat">{{ dones[exercise.id].healthNote }} / {{ exercise.healthMaxNote }}</span>
+                      </div>
+                      <div class="progress organization">
+                          <div class="progress-bar progress-bar-info" style="width:
+                            {{ (dones[exercise.id].organizationNote / exercise.organizationMaxNote)*100 }}%"></div>
+                          <span class="stat">{{ dones[exercise.id].organizationNote }} / {{ exercise.organizationMaxNote }}</span>
+                      </div>
+                      <div class="progress notoriety">
+                          <div class="progress-bar progress-bar-warning" style="width:
+                            {{ (dones[exercise.id].businessNotorietyNote / exercise.businessNotorietyMaxNote)*100 }}%"></div>
+                          <span class="stat">{{ dones[exercise.id].businessNotorietyNote }} / {{ exercise.businessNotorietyMaxNote }}</span>
+                      </div>
                     {% else %}
-                        Essaie-le !
+                      <div class="progress health">
+                          <div class="progress-bar progress-bar-success" style="width:
+                            {{ (0 / exercise.healthMaxNote)*100 }}%"></div>
+                          <span class="stat">{{ 0 }} / {{ exercise.healthMaxNote }}</span>
+                      </div>
+                      <div class="progress organization">
+                          <div class="progress-bar progress-bar-info" style="width:
+                            {{ (0 / exercise.organizationMaxNote)*100 }}%"></div>
+                          <span class="stat">{{ 0 }} / {{ exercise.organizationMaxNote }}</span>
+                      </div>
+                      <div class="progress notoriety">
+                          <div class="progress-bar progress-bar-warning" style="width:
+                            {{ (0 / exercise.businessNotorietyMaxNote)*100 }}%"></div>
+                          <span class="stat">{{ 0 }} / {{ exercise.businessNotorietyMaxNote }}</span>
+                      </div>
                     {% endif %}
-                </h4>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                <div>
-                  {% if dones[exercise.id]is defined %}
-                  <div>
-                    {{ dones[exercise.id].healthNote }}
-                    /
-                    {{ exercise.healthMaxNote }}
                   </div>
-                  <div>
-                    {{ dones[exercise.id].organizationNote }}
-                    /
-                    {{ exercise.organizationMaxNote }}
-                  </div>
-                  <div>
-                    {{ dones[exercise.id].businessNotorietyNote }}
-                    /
-                    {{ exercise.businessNotorietyMaxNote }}
-                  </div>
-                  {% else %}
-                  <div>{{ exercise.healthMaxNote }}</div>
-                  <div>{{ exercise.organizationMaxNote }}</div>
-                  <div>{{ exercise.businessNotorietyMaxNote }}</div>
-                  {% endif %}
-                </div>
+              </div>
             </div>
           </div>
-        </div>
-    {% endfor %}
+      {% endfor %}
+    </div>
 
     <a href="{{ path('default_category') }}" class="col-sm-12 btn btn-success" role="button" id="return">Retourner aux modules</a>
 

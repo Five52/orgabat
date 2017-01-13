@@ -20,7 +20,7 @@ form {
   margin-top: 20px;
 }
 
-.game:not(.disabled) {
+.game:not(.disabled) .content {
   cursor: pointer;
   transition: background-color 200ms ease;
 }
@@ -53,6 +53,13 @@ form {
   border-color: #337ab7;
 }
 
+.game.disabled {
+  opacity: 0.9;
+}
+.game.disabled .panel-body {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
 /* Page connexion user */
 
 #msgFormUser {
@@ -81,6 +88,7 @@ form {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  cursor: default;
 }
 
 footer {
@@ -189,6 +197,13 @@ iframe {
 }
 .progress.notoriety {
   background-color: rgba(240, 173, 78, 0.1);
+}
+
+.modules .progresses {
+  margin-top: 20px;
+}
+.modules .progress {
+  margin: 0 50px 5px;
 }
 
 
