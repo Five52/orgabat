@@ -29,24 +29,29 @@
       {% for exercise in exercises %}
           {% set totalDoneNote = null %}
           {% set totalExerciseNote = exercise.healthMaxNote + exercise.organizationMaxNote + exercise.businessNotorietyMaxNote %}
+          {% set minTotalDoneNote = totalExerciseNote / 1.4 %}
 
-          {% if dones[exercise.id]is defined %}
+          {% if dones[exercise.id] is defined %}
               {% set totalDoneNote = dones[exercise.id].healthNote + dones[exercise.id].organizationNote + dones[exercise.id].businessNotorietyNote %}
           {% endif %}
-          <div class="col-sm-4 game noselect {{ totalDoneNote >= 6.5 ? 'disabled' : '' }}" data-game-id="{{ exercise.id }}">
+
+          <div class="col-sm-4 game noselect {{ totalDoneNote >= minTotalDoneNote ? 'disabled' : '' }}" data-game-id="{{ exercise.id }}">
             <div class="content">
               <div class="panel-heading">
                   <h2 id="game_label">{{ exercise.name }}</h2>
               </div>
               <div class="panel-body">
                   <h4>
-                      {% if totalDoneNote >= 6.5 %}
-                          Jeu terminé
-                      {% elseif totalDoneNote < 6.5 and totalDoneNote != null %}
-                          Meilleur score: {{ totalDoneNote }} / {{ totalExerciseNote }}
+                    {% if totalDoneNote != null %}
+                      {% if totalDoneNote >= minTotalDoneNote %}
+                          <span>Jeu terminé</span>
                       {% else %}
-                          Essaie-le !
+                          <div>Meilleur score: {{ totalDoneNote }} / {{ totalExerciseNote }}</div>
+                          <h5 class="requiredScore">Score minimum requis: {{ minTotalDoneNote|round(0, 'ceil') }} / {{ totalExerciseNote }}</h5>
                       {% endif %}
+                    {% else %}
+                        <span>Essaie-le !</span>
+                    {% endif %}
                   </h4>
                   <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                   <div class="progresses">

@@ -60,6 +60,17 @@ form {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
+.requiredScore {
+  color: #ff3f00;
+  padding-left: 5px;
+  font-size: initial;
+}
+
+.stars {
+  color: #f9c700;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+}
+
 /* Page connexion user */
 
 #msgFormUser {
