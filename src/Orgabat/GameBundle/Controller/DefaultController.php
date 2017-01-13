@@ -28,14 +28,37 @@ class DefaultController extends Controller
     public function showMenuAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $categories = $em
-            ->getRepository('OrgabatGameBundle:Category')
-            ->findAll()
-        ;
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $categories = $em->getRepository('OrgabatGameBundle:Category')->findAll();
+        $exercises = $em->getRepository('OrgabatGameBundle:Exercise')->findAll();
+        $dones = $em->getRepository('OrgabatGameBundle:HistoryRealisation')->findBy(['user' => $user]);
 
-        // replace this example code with whatever you need
+        // Get the total global score
+        $globalScore = ['healthNote' => 0, 'organizationNote' => 0, 'businessNotorietyNote' => 0];
+        foreach ($exercises as $exercise) {
+            $globalScore['healthNote'] += $exercise->getHealthMaxNote();
+            $globalScore['organizationNote'] += $exercise->getOrganizationMaxNote();
+            $globalScore['businessNotorietyNote'] += $exercise->getBusinessNotorietyMaxNote();
+        }
+
+        // Get the total user score
+        $userScore = ['healthNote' => 0, 'organizationNote' => 0, 'businessNotorietyNote' => 0];
+        foreach ($dones as $done) {
+            $userScore['healthNote'] += $done->getHealthNote();
+            $userScore['organizationNote'] += $done->getOrganizationNote();
+            $userScore['businessNotorietyNote'] += $done->getBusinessNotorietyNote();
+        }
+
+        // Get global stats
+        $stats = [
+            'healthNote' => $userScore['healthNote'] / $globalScore['healthNote'],
+            'organizationNote' => $userScore['organizationNote'] / $globalScore['organizationNote'],
+            'businessNotorietyNote' => $userScore['businessNotorietyNote'] / $globalScore['businessNotorietyNote'],
+        ];
+
         return $this->render('OrgabatGameBundle:User:page_rubriques.html.twig', [
             'categories' => $categories,
+            'stats' => $stats,
         ]);
     }
 

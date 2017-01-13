@@ -167,8 +167,16 @@ iframe {
   }
 }
 
-
-
+/* Stat slider */
+.progress.health {
+  background-color: rgba(92, 184, 92, 0.1);
+}
+.progress.organization {
+  background-color: rgba(91, 192, 222, 0.1);
+}
+.progress.notoriety {
+  background-color: rgba(240, 173, 78, 0.1);
+}
 
 
 /* CSS slider de logo */
