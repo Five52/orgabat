@@ -67,6 +67,7 @@ class DefaultController extends Controller
      */
     public function showGamesAction(Category $category, Request $request)
     {
+        $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
         $user = $this->get('security.token_storage')->getToken()->getUser();
         var_dump($user->getId());
@@ -79,9 +80,8 @@ class DefaultController extends Controller
             ->getRepository('OrgabatGameBundle:ExerciseHistory')
             ->findBy([
                 'exercise' => $exercises,
-                // 'user_id' => $user_id,
-            ])
-        ;
+                'user' => $user
+            ]);
         $exDones = [];
         foreach ($dones as $done) {
             foreach ($exercises as $exercise) {
@@ -95,11 +95,33 @@ class DefaultController extends Controller
             }
         }
 
-        // replace this example code with whatever you need
+        // STATS
+        // Get the total user score
+        $userScore = ['healthNote' => 0, 'organizationNote' => 0, 'businessNotorietyNote' => 0];
+        foreach ($dones as $done) {
+            $userScore['healthNote'] += $done->getHealthNote();
+            $userScore['organizationNote'] += $done->getOrganizationNote();
+            $userScore['businessNotorietyNote'] += $done->getBusinessNotorietyNote();
+        }
+        // Get the total global score
+        $globalScore = ['healthNote' => 0, 'organizationNote' => 0, 'businessNotorietyNote' => 0];
+        foreach ($exercises as $exercise) {
+            $globalScore['healthNote'] += $exercise->getHealthMaxNote();
+            $globalScore['organizationNote'] += $exercise->getOrganizationMaxNote();
+            $globalScore['businessNotorietyNote'] += $exercise->getBusinessNotorietyMaxNote();
+        }
+        // Get global stats
+        $stats = [
+            'healthNote' => $userScore['healthNote'] / $globalScore['healthNote'],
+            'organizationNote' => $userScore['organizationNote'] / $globalScore['organizationNote'],
+            'businessNotorietyNote' => $userScore['businessNotorietyNote'] / $globalScore['businessNotorietyNote'],
+        ];
+
         return $this->render('OrgabatGameBundle:User:page_jeux.html.twig', [
             'category' => $category,
             'exercises' => $exercises,
-            'dones' => $exDones
+            'dones' => $exDones,
+            'stats' => $stats
         ]);
     }
 
