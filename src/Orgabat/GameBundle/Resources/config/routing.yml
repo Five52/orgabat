@@ -18,6 +18,10 @@ default_sections:
     path:   /admin/classes
     defaults:  { _controller: OrgabatGameBundle:Default:showSections }
 
+default_editinfos:
+    path:   /admin/modifier_infos
+    defaults:  { _controller: OrgabatGameBundle:Default:showEditInfos }
+
 default_admin_board:
     path:   /admin
     defaults:  { _controller: OrgabatGameBundle:Default:showAdmin }
