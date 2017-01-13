@@ -51,14 +51,17 @@ class DefaultController extends Controller
 
         // Get global stats
         $stats = [
-            'healthNote' => $userScore['healthNote'] / $globalScore['healthNote'],
-            'organizationNote' => $userScore['organizationNote'] / $globalScore['organizationNote'],
-            'businessNotorietyNote' => $userScore['businessNotorietyNote'] / $globalScore['businessNotorietyNote'],
+            'user' => $userScore,
+            'global' => $globalScore
         ];
 
         return $this->render('OrgabatGameBundle:User:page_rubriques.html.twig', [
             'categories' => $categories,
             'stats' => $stats,
+            'minigame' => [
+                'finished' => count($dones),
+                'total' => count($exercises)
+            ]
         ]);
     }
 
@@ -112,9 +115,8 @@ class DefaultController extends Controller
         }
         // Get global stats
         $stats = [
-            'healthNote' => $userScore['healthNote'] / $globalScore['healthNote'],
-            'organizationNote' => $userScore['organizationNote'] / $globalScore['organizationNote'],
-            'businessNotorietyNote' => $userScore['businessNotorietyNote'] / $globalScore['businessNotorietyNote'],
+            'user' => $userScore,
+            'global' => $globalScore
         ];
 
         return $this->render('OrgabatGameBundle:User:page_jeux.html.twig', [

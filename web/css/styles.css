@@ -168,6 +168,19 @@ iframe {
 }
 
 /* Stat slider */
+.progress {
+  position: relative;
+}
+
+.progress .stat {
+  text-align: right;
+  z-index: 9;
+  color: rgba(0, 0, 0, 0.4);
+  position: absolute;
+  left: 0;
+  right: 10px;
+}
+
 .progress.health {
   background-color: rgba(92, 184, 92, 0.1);
 }

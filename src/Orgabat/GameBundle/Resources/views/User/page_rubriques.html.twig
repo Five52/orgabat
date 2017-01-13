@@ -48,17 +48,30 @@
     <div class="col-sm-3">
         <div class="panel panel-default">
             <div class="panel-body">
+                <p>Nombre de mini-jeux réalisés:</p>
+                <div class="progress">
+                  <div class="progress-bar" style="width:
+                    {{ (minigame['finished'] / minigame['total'])*100 }}%"></div>
+                  <span class="stat">{{ minigame['finished'] }} / {{ minigame['total'] }}</span>
+                </div>
+                <hr>
                 <p>Santé</p>
                 <div class="progress health">
-                    <div class="progress-bar progress-bar-success" style="width: {{ stats['healthNote']*10 }}%"></div>
+                    <div class="progress-bar progress-bar-success" style="width:
+                      {{ (stats['user']['healthNote'] / stats['global']['healthNote'])*100 }}%"></div>
+                    <span class="stat">{{ stats['user']['healthNote'] }} / {{ stats['global']['healthNote'] }}</span>
                 </div>
                 <p>Organisation</p>
                 <div class="progress organization">
-                    <div class="progress-bar progress-bar-info" style="width: {{ stats['organizationNote']*10 }}%"></div>
+                    <div class="progress-bar progress-bar-info" style="width:
+                      {{ (stats['user']['organizationNote'] / stats['global']['organizationNote'])*100 }}%"></div>
+                    <span class="stat">{{ stats['user']['organizationNote'] }} / {{ stats['global']['organizationNote'] }}</span>
                 </div>
                 <p>Notoriété de l'entreprise</p>
                 <div class="progress notoriety">
-                  <div class="progress-bar progress-bar-warning" style="width: {{ stats['businessNotorietyNote']*10 }}%"></div>
+                    <div class="progress-bar progress-bar-warning" style="width:
+                      {{ (stats['user']['businessNotorietyNote'] / stats['global']['businessNotorietyNote'])*100 }}%"></div>
+                    <span class="stat">{{ stats['user']['businessNotorietyNote'] }} / {{ stats['global']['businessNotorietyNote'] }}</span>
                 </div>
             </div>
         </div>
