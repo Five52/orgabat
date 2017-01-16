@@ -26,6 +26,12 @@ class Apprentice extends User
     private $section;
 
     /**
+     * @ORM\Column(type="string")
+     * Format: JJMMAAAA
+     */
+    private $birthDate;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -50,6 +56,22 @@ class Apprentice extends User
     }
 
     /**
+     * @return mixed
+     */
+    public function getBirthDate()
+    {
+        return $this->birthDate;
+    }
+
+    /**
+     * @param mixed $birthDate
+     */
+    public function setBirthDate($birthDate)
+    {
+        $this->birthDate = $birthDate;
+    }
+
+    /**
      * @param mixed $section
      */
     public function setSection($section)
@@ -57,15 +79,19 @@ class Apprentice extends User
         $this->section = $section;
     }
 
+    /**
+     * Returns an array of data for the csv generation
+     * @return array Apprentice data
+     */
     public function getData()
     {
-        $tab = [];
-        $tab[1] = $this->getFirstName();
-        $tab[2] = $this->getLastName();
-        $tab[3] = $this->getEmail();
-        $tab[4] = $this->getPassword();
-        $tab[5] = $this->getSection()->getName();
-        return $tab;
+        return [
+            $this->getFirstName(),
+            $this->getLastName(),
+            $this->getBirthDate(),
+            $this->getEmail(),
+            $this->getSection()->getName(),
+        ];
     }
 
 }

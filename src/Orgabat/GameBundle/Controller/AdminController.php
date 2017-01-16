@@ -17,9 +17,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AdminController extends Controller
 {
-    
+
     # User
-    
+
 
     /*
      * Création d'un utilisateur à partir d'un formulaire utilisant le UserType
@@ -144,6 +144,11 @@ class AdminController extends Controller
             $file = $form->get('submitFile');
             // On vérifie la validité du fichier
             if (($handle = fopen($file->getData(),"r")) !== FALSE) {
+
+                $discriminator = $this->container->get('pugx_user.manager.user_discriminator');
+                $discriminator->setClass('Orgabat\GameBundle\Entity\Apprentice');
+                $userManager = $this->container->get('pugx_user_manager');
+
                 while (($data = fgetcsv($handle, ",")) !== FALSE) {
                     $num = count($data);
                     for ($c = 0; $c < $num; $c++) {
@@ -152,14 +157,17 @@ class AdminController extends Controller
                         $apprentice = $em
                             ->getRepository('OrgabatGameBundle:Apprentice')
                             ->findOneBy(array("firstName" => $data[0]));
-                        if ( !$apprentice) {
+                        if (!$apprentice) {
                             // Création de l'apprenti à partir des données CSV
-                            $apprentice = new Apprentice();
+                            $apprentice = $userManager->createUser();
                             $apprentice->setFirstName($data[0]);
                             $apprentice->setLastName($data[1]);
                             $apprentice->setUsername($data[0] . ' ' . $data[1]);
-                            $apprentice->setEmail($data[2]);
-                            $apprentice->setPassword($data[3]);
+                            // La date de naissance de l'apprenti est utilisé
+                            // comme mot de passe
+                            $apprentice->setBirthDate($data[2]);
+                            $apprentice->setPlainPassword($data[2]);
+                            $apprentice->setEmail($data[3]);
 
                             $section = $em
                                 ->getRepository('OrgabatGameBundle:Section')
@@ -180,8 +188,8 @@ class AdminController extends Controller
             array('form' => $form->createView(),)
         );
     }
-    
-    # Trainer 
+
+    # Trainer
 
     /*
      * Création d'un enseignant à partir d'un formulaire utilisant TrainerType
@@ -309,7 +317,7 @@ class AdminController extends Controller
                         $trainer = $em
                             ->getRepository('OrgabatGameBundle:Trainer')
                             ->findOneBy(array("firstName" => $data[0]));
-                        if ( !$trainer) {
+                        if (!$trainer) {
                             // Création de l'enseignant
                             $trainer = new Trainer();
                             $trainer->setFirstName($data[0]);
@@ -337,10 +345,10 @@ class AdminController extends Controller
             array('form' => $form->createView(),)
         );
     }
-    
-    
+
+
     # Section
-    
+
     /*
      * Création d'une classe depuis un formulaire à partir de SectionType
      */
