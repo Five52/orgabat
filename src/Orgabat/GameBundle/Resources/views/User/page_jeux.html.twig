@@ -10,18 +10,18 @@
                   <p>Résumé :</p>
                   <div class="progress health">
                       <div class="progress-bar progress-bar-success" style="width:
-                        {{ (stats['user']['healthNote'] / stats['global']['healthNote'])*100 }}%"></div>
-                      <span class="stat">{{ stats['user']['healthNote'] }} / {{ stats['global']['healthNote'] }}</span>
+                        {{ (categStats['user']['healthNote'] / categStats['global']['healthNote'])*100 }}%"></div>
+                      <span class="stat">{{ categStats['user']['healthNote'] }} / {{ categStats['global']['healthNote'] }}</span>
                   </div>
                   <div class="progress organization">
                       <div class="progress-bar progress-bar-info" style="width:
-                        {{ (stats['user']['organizationNote'] / stats['global']['organizationNote'])*100 }}%"></div>
-                      <span class="stat">{{ stats['user']['organizationNote'] }} / {{ stats['global']['organizationNote'] }}</span>
+                        {{ (categStats['user']['organizationNote'] / categStats['global']['organizationNote'])*100 }}%"></div>
+                      <span class="stat">{{ categStats['user']['organizationNote'] }} / {{ categStats['global']['organizationNote'] }}</span>
                   </div>
                   <div class="progress notoriety">
                       <div class="progress-bar progress-bar-warning" style="width:
-                        {{ (stats['user']['businessNotorietyNote'] / stats['global']['businessNotorietyNote'])*100 }}%"></div>
-                      <span class="stat">{{ stats['user']['businessNotorietyNote'] }} / {{ stats['global']['businessNotorietyNote'] }}</span>
+                        {{ (categStats['user']['businessNotorietyNote'] / categStats['global']['businessNotorietyNote'])*100 }}%"></div>
+                      <span class="stat">{{ categStats['user']['businessNotorietyNote'] }} / {{ categStats['global']['businessNotorietyNote'] }}</span>
                   </div>
               </div>
           </div>
@@ -29,15 +29,12 @@
     </div>
     <div class="row modules is-flex">
       {% for exercise in exercises %}
-          {% set totalDoneNote = null %}
-          {% set totalExerciseNote = exercise.healthMaxNote + exercise.organizationMaxNote + exercise.businessNotorietyMaxNote %}
-          {% set minTotalDoneNote = totalExerciseNote / 1.4 %}
-
-          {% if dones[exercise.id] is defined %}
-              {% set totalDoneNote = dones[exercise.id].healthNote + dones[exercise.id].organizationNote + dones[exercise.id].businessNotorietyNote %}
+          {% set tryScore = null %}
+          {% if bestTries[exercise.id] is defined %}
+              {% set tryScore = bestTries[exercise.id].score %}
           {% endif %}
 
-          <div class="col-sm-4 game noselect {{ totalDoneNote >= minTotalDoneNote ? 'disabled' : '' }}" data-game-id="{{ exercise.id }}">
+          <div class="col-sm-4 game noselect {{ tryScore >= exercise.minScore ? 'disabled' : '' }}" data-game-id="{{ exercise.id }}">
             <div class="content">
               <div class="panel-heading">
                   <h2 id="game_label">{{ exercise.name }}</h2>
@@ -45,12 +42,12 @@
               <div class="panel-body">
                   <div class="infos">
                     <h4>
-                      {% if totalDoneNote != null %}
-                        {% if totalDoneNote >= minTotalDoneNote %}
+                      {% if tryScore != null %}
+                        {% if tryScore >= exercise.minScore %}
                             <span>Jeu terminé</span>
                         {% else %}
-                            <div>Meilleur score: {{ totalDoneNote }} / {{ totalExerciseNote }}</div>
-                            <h5 class="requiredScore">Score minimum requis: {{ minTotalDoneNote|round(0, 'ceil') }} / {{ totalExerciseNote }}</h5>
+                            <div>Meilleur score: {{ tryScore }} / {{ exercise.maxScore }}</div>
+                            <h5 class="requiredScore">Score minimum requis: {{ exercise.minScore }} / {{ exercise.maxScore }}</h5>
                         {% endif %}
                       {% else %}
                           <span>Essaie-le !</span>
@@ -59,24 +56,22 @@
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                   </div>
                   <div class="progresses">
-                    {% if dones[exercise.id] is defined %}
-                        <div class="tries">Tentatives: {{ tries[exercise.id] }}</div>
-                    {% endif %}
-                    {% if dones[exercise.id] is defined %}
+                    {% if tryScore != null %}
+                      <div class="tries">Tentatives: {{ tryCount[exercise.id] }}</div>
                       <div class="progress health">
                           <div class="progress-bar progress-bar-success" style="width:
-                            {{ (dones[exercise.id].healthNote / exercise.healthMaxNote)*100 }}%"></div>
-                          <span class="stat">{{ dones[exercise.id].healthNote }} / {{ exercise.healthMaxNote }}</span>
+                            {{ (bestTries[exercise.id].healthNote / exercise.healthMaxNote)*100 }}%"></div>
+                          <span class="stat">{{ bestTries[exercise.id].healthNote }} / {{ exercise.healthMaxNote }}</span>
                       </div>
                       <div class="progress organization">
                           <div class="progress-bar progress-bar-info" style="width:
-                            {{ (dones[exercise.id].organizationNote / exercise.organizationMaxNote)*100 }}%"></div>
-                          <span class="stat">{{ dones[exercise.id].organizationNote }} / {{ exercise.organizationMaxNote }}</span>
+                            {{ (bestTries[exercise.id].organizationNote / exercise.organizationMaxNote)*100 }}%"></div>
+                          <span class="stat">{{ bestTries[exercise.id].organizationNote }} / {{ exercise.organizationMaxNote }}</span>
                       </div>
                       <div class="progress notoriety">
                           <div class="progress-bar progress-bar-warning" style="width:
-                            {{ (dones[exercise.id].businessNotorietyNote / exercise.businessNotorietyMaxNote)*100 }}%"></div>
-                          <span class="stat">{{ dones[exercise.id].businessNotorietyNote }} / {{ exercise.businessNotorietyMaxNote }}</span>
+                            {{ (bestTries[exercise.id].businessNotorietyNote / exercise.businessNotorietyMaxNote)*100 }}%"></div>
+                          <span class="stat">{{ bestTries[exercise.id].businessNotorietyNote }} / {{ exercise.businessNotorietyMaxNote }}</span>
                       </div>
                     {% else %}
                       <div class="progress health">

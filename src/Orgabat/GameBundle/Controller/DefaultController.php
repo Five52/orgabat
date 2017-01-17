@@ -34,48 +34,52 @@ class DefaultController extends Controller
         $tries = $em->getRepository('OrgabatGameBundle:HistoryRealisation')->findBy(['user' => $user]);
 
         // Get the best try of each exercises
-        $dones = [];
+        $bestTries = [];
         foreach ($tries as $try) {
             $exerciseId = $try->getExercise()->getId();
-            $totalTry = $try->getHealthNote() + $try->getOrganizationNote() + $try->getBusinessNotorietyNote();
+            $currentTryScore = $try->getScore();
 
-            if (!isset($dones[$exerciseId])) {
-                $dones[$exerciseId] = $try;
+            if (!isset($bestTries[$exerciseId])) {
+                $bestTries[$exerciseId] = $try;
             } else {
-                $totalDone = $dones[$exerciseId]->getHealthNote() + $dones[$exerciseId]->getOrganizationNote() + $dones[$exerciseId]->getBusinessNotorietyNote();
-                if ($totalDone < $totalTry) {
-                    $dones[$exerciseId] = $try;
+                $storedTryScore = $bestTries[$exerciseId]->getScore();
+                if ($storedTryScore < $currentTryScore) {
+                    $bestTries[$exerciseId] = $try;
                 }
             }
         }
 
+        $finishedCount = 0;
+        foreach ($bestTries as $exerciseId => $try) {
+            if ($try->getScore() >= $try->getExercise()->getMinScore()) {
+                $finishedCount++;
+            }
+        }
+
         // Get the total global score
-        $globalScore = ['healthNote' => 0, 'organizationNote' => 0, 'businessNotorietyNote' => 0];
+        $globalCategScore = ['healthNote' => 0, 'organizationNote' => 0, 'businessNotorietyNote' => 0];
         foreach ($exercises as $exercise) {
-            $globalScore['healthNote'] += $exercise->getHealthMaxNote();
-            $globalScore['organizationNote'] += $exercise->getOrganizationMaxNote();
-            $globalScore['businessNotorietyNote'] += $exercise->getBusinessNotorietyMaxNote();
+            $globalCategScore['healthNote'] += $exercise->getHealthMaxNote();
+            $globalCategScore['organizationNote'] += $exercise->getOrganizationMaxNote();
+            $globalCategScore['businessNotorietyNote'] += $exercise->getBusinessNotorietyMaxNote();
         }
 
         // Get the total user score
-        $userScore = ['healthNote' => 0, 'organizationNote' => 0, 'businessNotorietyNote' => 0];
-        foreach ($dones as $done) {
-            $userScore['healthNote'] += $done->getHealthNote();
-            $userScore['organizationNote'] += $done->getOrganizationNote();
-            $userScore['businessNotorietyNote'] += $done->getBusinessNotorietyNote();
+        $userCategScore = ['healthNote' => 0, 'organizationNote' => 0, 'businessNotorietyNote' => 0];
+        foreach ($bestTries as $try) {
+            $userCategScore['healthNote'] += $try->getHealthNote();
+            $userCategScore['organizationNote'] += $try->getOrganizationNote();
+            $userCategScore['businessNotorietyNote'] += $try->getBusinessNotorietyNote();
         }
-
-        // Get global stats
-        $stats = [
-            'user' => $userScore,
-            'global' => $globalScore
-        ];
 
         return $this->render('OrgabatGameBundle:User:page_rubriques.html.twig', [
             'categories' => $categories,
-            'stats' => $stats,
-            'minigame' => [
-                'finished' => count($dones),
+            'stats' => [
+                'user' => $userCategScore,
+                'global' => $globalCategScore
+            ],
+            'minigames' => [
+                'finished' => $finishedCount,
                 'total' => count($exercises)
             ]
         ]);
@@ -102,64 +106,49 @@ class DefaultController extends Controller
             ]);
 
         // Get the best try of each exercises
-        $dones = [];
-        $doneTries = [];
+        $bestTries = [];
+        $tryCount = [];
         foreach ($tries as $try) {
             $exerciseId = $try->getExercise()->getId();
-            $totalTry = $try->getHealthNote() + $try->getOrganizationNote() + $try->getBusinessNotorietyNote();
+            $currentTryScore = $try->getScore();
 
-            if (!isset($dones[$exerciseId])) {
-                $dones[$exerciseId] = $try;
-                $doneTries[$exerciseId] = 1;
+            if (!isset($bestTries[$exerciseId])) {
+                $bestTries[$exerciseId] = $try;
+                $tryCount[$exerciseId] = 1;
             } else {
-                $totalDone = $dones[$exerciseId]->getHealthNote() + $dones[$exerciseId]->getOrganizationNote() + $dones[$exerciseId]->getBusinessNotorietyNote();
-                if ($totalDone < $totalTry) {
-                    $dones[$exerciseId] = $try;
-                    $doneTries[$exerciseId]++;
-                }
-            }
-        }
-
-        $exDones = [];
-        foreach ($dones as $done) {
-            foreach ($exercises as $exercise) {
-                if ($done->getExercise()->getId() === $exercise->getId()) {
-                    $exDones[$exercise->getId()] = [
-                        'healthNote' => $done->getHealthNote(),
-                        'organizationNote' => $done->getOrganizationNote(),
-                        'businessNotorietyNote' => $done->getBusinessNotorietyNote(),
-                    ];
+                $storedTryScore = $bestTries[$exerciseId]->getScore();
+                if ($storedTryScore < $currentTryScore) {
+                    $bestTries[$exerciseId] = $try;
+                    ++$tryCount[$exerciseId];
                 }
             }
         }
 
         // STATS
         // Get the total user score
-        $userScore = ['healthNote' => 0, 'organizationNote' => 0, 'businessNotorietyNote' => 0];
-        foreach ($dones as $done) {
-            $userScore['healthNote'] += $done->getHealthNote();
-            $userScore['organizationNote'] += $done->getOrganizationNote();
-            $userScore['businessNotorietyNote'] += $done->getBusinessNotorietyNote();
+        $userCategScore = ['healthNote' => 0, 'organizationNote' => 0, 'businessNotorietyNote' => 0];
+        foreach ($bestTries as $try) {
+            $userCategScore['healthNote'] += $try->getHealthNote();
+            $userCategScore['organizationNote'] += $try->getOrganizationNote();
+            $userCategScore['businessNotorietyNote'] += $try->getBusinessNotorietyNote();
         }
         // Get the total global score
-        $globalScore = ['healthNote' => 0, 'organizationNote' => 0, 'businessNotorietyNote' => 0];
+        $globalCategScore = ['healthNote' => 0, 'organizationNote' => 0, 'businessNotorietyNote' => 0];
         foreach ($exercises as $exercise) {
-            $globalScore['healthNote'] += $exercise->getHealthMaxNote();
-            $globalScore['organizationNote'] += $exercise->getOrganizationMaxNote();
-            $globalScore['businessNotorietyNote'] += $exercise->getBusinessNotorietyMaxNote();
+            $globalCategScore['healthNote'] += $exercise->getHealthMaxNote();
+            $globalCategScore['organizationNote'] += $exercise->getOrganizationMaxNote();
+            $globalCategScore['businessNotorietyNote'] += $exercise->getBusinessNotorietyMaxNote();
         }
-        // Get global stats
-        $stats = [
-            'user' => $userScore,
-            'global' => $globalScore
-        ];
 
         return $this->render('OrgabatGameBundle:User:page_jeux.html.twig', [
             'category' => $category,
             'exercises' => $exercises,
-            'dones' => $exDones,
-            'stats' => $stats,
-            'tries' => $doneTries
+            'bestTries' => $bestTries,
+            'categStats' => [
+                'user' => $userCategScore,
+                'global' => $globalCategScore
+            ],
+            'tryCount' => $tryCount
         ]);
     }
 
