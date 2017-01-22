@@ -126,6 +126,8 @@ footer {
   align-items: center;
   cursor: pointer;
   transition: background-color 200ms ease;
+  width: calc(96% / 4);
+  margin: 0px calc(0.5%) calc(1%);
 }
 .rubrique:hover {
   background-color: #E4E4E4;
@@ -133,6 +135,24 @@ footer {
 .rubrique:active {
   transition-duration: 0;
   background-color: #F5F5F5;
+}
+
+@media (max-width: 992px){
+  .container {
+    width: 100%;
+  }
+}
+
+@media (max-width: 900px){
+  .col-sm-3.rubrique {
+    width: calc(96% / 2);
+  }
+}
+
+@media (max-width: 768px){
+  .col-sm-3.rubrique {
+    width: 100%;
+  }
 }
 
 .modal-dialog {
