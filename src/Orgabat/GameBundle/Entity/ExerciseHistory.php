@@ -265,4 +265,11 @@ class ExerciseHistory
     {
         return $this->user;
     }
+
+    public function getScore()
+    {
+        $sum = $this->businessNotorietyNote + $this->healthNote + $this->organizationNote;
+        $sumCoeffs = $this->businessNotorietyMaxNote + $this->healthMaxNote + $this->organizationMaxNote;
+        return $sum / $sumCoeffs;
+    }
 }

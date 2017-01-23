@@ -14,6 +14,13 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Exercise
 {
+
+    /**
+     * @var float
+     * Value of the minimum note to consider the exercise done
+     */
+    const MINIMUM_NOTE = 0.65;
+
     /**
      * @var int
      *
@@ -70,11 +77,14 @@ class Exercise
     private $businessNotorietyMaxNote;
 
     /**
+     * @ORM\OneToOne(targetEntity="Orgabat\GameBundle\Entity\ExerciseHistory")
+     */
+    private $bestExerciseHistory;
+
+    /**
      * @ORM\OneToMany(targetEntity="Orgabat\GameBundle\Entity\ExerciseHistory", mappedBy="exercise")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $exerciseHistories;
-
 
     /**
      * Get id
@@ -245,5 +255,38 @@ class Exercise
     public function getExerciseHistories()
     {
         return $this->exerciseHistories;
+    }
+
+    /**
+     * Set bestExerciseHistory
+     *
+     * @param \Orgabat\GameBundle\Entity\ExerciseHistory $bestExerciseHistory
+     *
+     * @return Exercise
+     */
+    public function setBestExerciseHistory(\Orgabat\GameBundle\Entity\ExerciseHistory $bestExerciseHistory = null)
+    {
+        $this->bestExerciseHistory = $bestExerciseHistory;
+
+        return $this;
+    }
+
+    /**
+     * Get bestExerciseHistory
+     *
+     * @return \Orgabat\GameBundle\Entity\ExerciseHistory
+     */
+    public function getBestExerciseHistory()
+    {
+        return $this->bestExerciseHistory;
+    }
+
+    /**
+     * Check if the game has a try above the minimum note
+     * @return boolean
+     */
+    public function isFinished()
+    {
+        return $this->bestExerciseHistory->getScore() >= self::MINIMUM_NOTE;
     }
 }
