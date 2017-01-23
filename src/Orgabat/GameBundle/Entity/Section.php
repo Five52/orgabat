@@ -29,7 +29,7 @@ class Section
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="Orgabat\GameBundle\Entity\Apprentice", mappedBy="group")
+     * @ORM\OneToMany(targetEntity="Orgabat\GameBundle\Entity\Apprentice", mappedBy="section")
      */
     private $apprentices;
 

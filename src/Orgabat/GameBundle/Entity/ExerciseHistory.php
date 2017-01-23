@@ -70,7 +70,7 @@ class ExerciseHistory
     private $businessNotorietyNote;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Orgabat\GameBundle\Entity\Exercise", inversedBy="exerciseHistory", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Orgabat\GameBundle\Entity\Exercise", inversedBy="exerciseHistories", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $exercise;
