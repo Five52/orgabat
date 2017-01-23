@@ -117,6 +117,7 @@ form {
 
 footer {
   color: black;
+  margin-top: 100px;
 }
 
 .rubrique {
@@ -146,7 +147,11 @@ footer {
 @media (max-width: 900px){
   .col-sm-3.rubrique {
     width: calc(96% / 2);
-  }
+  }    font-size: 1.8em;
+    color: #1b1b1b;
+    font-weight: 600;
+    padding: 0.7em 0.5em;
+    display: block;
 }
 
 @media (max-width: 768px){
@@ -488,4 +493,14 @@ iframe {
   #block-views-marques-block-accueil .block-content {
     background-size: 262px auto;
   }
+}
+
+
+/* Dashboard */
+.dash_sidebar #title {
+  font-size: 1.8em;
+  color: #1b1b1b;
+  font-weight: 600;
+  padding: 0.7em 0.5em;
+  display: block;
 }

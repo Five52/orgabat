@@ -1,48 +1,42 @@
-<div id="sidebar-wrapper">
-    <ul class="sidebar-nav">
-        <li class="sidebar-brand">
-            <!-- /#Ajoute lien de la page d'acceuil -->
-            <a href="{{ path('default_admin_board') }}">Orgabat</a>
-        </li>
-        <div class="list-group panel">
-            <a class="list-group-item" data-parent="#MainMenu" data-toggle="collapse" href=
-            "#adminList"><span class="glyphicon glyphicon-th-list"></span> Listes des comptes  <i class="fa fa-arrow-down" aria-hidden="true"></i></a>
-            <div class="collapse" id="adminList">
-                <!-- /#Ajoute lien au methode lister formateurs -->
-                <a class="list-group-item" data-parent="#option" data-toggle="collapse"
-                   href="#"><span class="glyphicon glyphicon-user"></span> Apprentis</a>
-                <a class="list-group-item" data-parent="#option" data-toggle="collapse"
-                   href="#"><span class="glyphicon glyphicon-user"></span> Formateurs</a>
-                <a class="list-group-item" data-parent="#option" data-toggle="collapse"
-                   href="#"><span class="glyphicon glyphicon-user"></span> Administrateurs</a>
-            </div>
-        </div>
-        <div class="list-group panel">
-            <a class="list-group-item" data-parent="#MainMenu" data-toggle="collapse" href=
-            "#adminAccountCreate"><span class="glyphicon glyphicon-th-list"></span> Créer un compte  <i class="fa fa-arrow-down" aria-hidden="true"></i></a>
-            <div class="collapse" id="adminAccountCreate">
-                <!-- /#Ajoute lien au methode lister formateurs -->
-                <a class="list-group-item" data-parent="#option" data-toggle="collapse"
-                   href="{{ path('admin_create_user') }}"><span class="glyphicon glyphicon-user"></span> Compte apprenti</a>
-                <a class="list-group-item" data-parent="#option" data-toggle="collapse"
-                   href="{{ path('admin_create_trainer') }}"><span class="glyphicon glyphicon-user"></span> Compte formateur</a>
-            </div>
-        </div>
-        <div class="list-group panel">
-            <!-- /#Ajoute lien au methode changer mot de passe -->
-            <a class="list-group-item" href="{{ path('admin_import_user') }}"><span class=
-                                                                                    "glyphicon glyphicon-upload"></span> Importer des comptes utilisateurs</a>
-        </div>
-        <div class="list-group panel">
-            <!-- /#Ajoute lien au methode changer mot de passe -->
-            <a class="list-group-item" href="{{ path('default_editinfos') }}"><span class=
-                                                      "glyphicon glyphicon-user"></span> Modifier mes informations</a>
-        </div>
-        <div class="list-group panel">
-            <!-- /#Ajoute lien au logout -->
-            <a class="list-group-item" href="#"><span class=
-                                                      "glyphicon glyphicon-log-out"></span> Déconnexion</a>
-        </div>
+<div id="sidebar-wrapper" class="dash_sidebar">
+  <div>
+    <a href="{{ path('default_admin_board') }}" id="title">Orgabat</a>
+  </div>
 
-    </ul>
+  <div class="list-group panel">
+    <a class="list-group-item" data-toggle="collapse" href="#add">
+      <span><i class="fa fa-plus-circle"></i> Ajout</span>
+      <i class="fa fa-arrow-down"></i>
+    </a>
+    <div class="collapse" id="add">
+      <a class="list-group-item" href="{{ path('admin_create_user') }}"><span class="glyphicon glyphicon-user"></span> Compte apprenti</a>
+      <a class="list-group-item" href="{{ path('admin_create_trainer') }}"><span class="glyphicon glyphicon-user"></span> Compte formateur</a>
+    </div>
+
+    <a class="list-group-item" data-toggle="collapse" href="#import">
+      <span><i class="fa fa-arrow-circle-up"></i> Import</span>
+      <i class="fa fa-arrow-down"></i>
+    </a>
+    <div class="collapse" id="import">
+      <a class="list-group-item" href="{{ path('admin_create_user') }}"><span class="glyphicon glyphicon-user"></span> Compte apprenti</a>
+      <a class="list-group-item" href="{{ path('admin_create_trainer') }}"><span class="glyphicon glyphicon-user"></span> Compte formateur</a>
+    </div>
+
+    <a class="list-group-item" data-toggle="collapse" href="#export">
+      <span><i class="fa fa-arrow-circle-down"></i> Export</span>
+      <i class="fa fa-arrow-down"></i>
+    </a>
+    <div class="collapse" id="export">
+      <a class="list-group-item" href="{{ path('admin_create_user') }}"><span class="glyphicon glyphicon-user"></span> Compte apprenti</a>
+      <a class="list-group-item" href="{{ path('admin_create_trainer') }}"><span class="glyphicon glyphicon-user"></span> Compte formateur</a>
+    </div>
+  </div>
+
+  <div class="list-group panel">
+    <a class="list-group-item" href="{{ path('default_editinfos') }}"><span class="glyphicon glyphicon-user"></span> Modifier mes informations</a>
+  </div>
+
+  <div class="list-group panel">
+    <a class="list-group-item" href="{{ path('fos_user_security_logout') }}"><span class="glyphicon glyphicon-log-out"></span> Déconnexion</span></a>
+  </div>
 </div>
