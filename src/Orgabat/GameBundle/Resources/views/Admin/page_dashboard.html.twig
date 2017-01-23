@@ -11,14 +11,14 @@
     <a class="btn btn-info" href="{{ path('admin_import_user') }}">Importer des apprentis</a>
     <a class="btn btn-info" href="{{ path('admin_import_trainer') }}">Importer des enseignants</a>
     <a class="btn btn-info" href="{{ path('admin_import_section') }}">Importer des classes</a>
-    {%  for list in lists %}
-        {% if list %}
+    {%  for section in sections %}
+        {% if section %}
             <div class="col-sm-12">
-                <h2 class="text-center">{{ list[0].section.name }}
-                    <a class="btn btn-warning" href="{{ path('admin_alter_section', {'id': list[0].section.id} ) }}">Modifier</a>
+                <h2 class="text-center">{{ section.name }}
+                    <a class="btn btn-warning" href="{{ path('admin_alter_section', {'id': section.id} ) }}">Modifier</a>
                     &nbsp;
-                    <a class="btn btn-danger" href="{{ path('admin_remove_section', {'id': list[0].section.id} ) }}">Supprimer</a>
-                    <a class="btn btn-info" href="{{ path('admin_export_userBySection', {'id': list[0].section.id} ) }}">Exporter la classe</a>
+                    <a class="btn btn-danger" href="{{ path('admin_remove_section', {'id': section.id} ) }}">Supprimer</a>
+                    <a class="btn btn-info" href="{{ path('admin_export_userBySection', {'id': section.id} ) }}">Exporter la classe</a>
                 </h2>
             </div>
             <div class="col-sm-12">
@@ -35,8 +35,7 @@
                         </tr>
                         </thead>
                         <tbody >
-                        {% for apprentice in list %}
-                            {% if apprentice.roles[0] == "ROLE_APPRENTICE" %}
+                        {% for apprentice in section.apprentices %}
                                 <tr>
                                     <td>{{ apprentice.firstName }}</td>
                                     <td>{{ apprentice.lastName }}</td>
@@ -44,7 +43,6 @@
                                     <td><a class="btn btn-warning" href="{{ path('admin_alter_user', {'id': apprentice.id} ) }}">Modifier</a></td>
                                     <td><a class="btn btn-danger" href="{{ path('admin_remove_user', {'id': apprentice.id} ) }}">Supprimer</a></td>
                                 </tr>
-                            {%  endif %}
                         {% endfor %}
                         </tbody>
                     </table>
@@ -62,8 +60,7 @@
                         </tr>
                         </thead>
                         <tbody >
-                        {% for trainer in list %}
-                            {% if trainer.roles[0] == "ROLE_TRAINER" %}
+                        {% for trainer in section.trainers %}
                                 <tr>
                                     <td>{{ trainer.firstName }}</td>
                                     <td>{{ trainer.lastName }}</td>
@@ -71,7 +68,6 @@
                                     <td><a class="btn btn-warning" href="{{ path('admin_alter_trainer', {'id': trainer.id} ) }}">Modifier</a></td>
                                     <td><a class="btn btn-danger" href="{{ path('admin_remove_trainer', {'id': trainer.id} ) }}">Supprimer</a></td>
                                 </tr>
-                            {% endif %}
                         {% endfor %}
                         </tbody>
                     </table>

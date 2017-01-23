@@ -35,6 +35,7 @@ class UserType extends AbstractType
             ->add('firstName', TextType::class, ['label' => 'Prénom'])
             ->add('lastName', TextType::class, ['label' => 'Nom'])
             ->add('email', EmailType::class, ['label' => 'Email'])
+            ->add('birthdate', TextType::class, ['label' => 'Date de naissance (JJMMAAAA)'])
             /*->add('section', ChoiceType::class, [
                 'choices' => $choices, 'label' => 'Profile'
             ])*/
@@ -44,21 +45,12 @@ class UserType extends AbstractType
                 'class' => 'OrgabatGameBundle:Section',
 
                 // use the User.username property as the visible option string
-                'choice_label' => 'section',
+                'choice_label' => 'name',
 
                 // used to render a select box, check boxes or radios
                 // 'multiple' => true,
                 // 'expanded' => true,
             ))
-            // On demande une vérification du mot de passe
-            ->add('plainPassword', RepeatedType::class, [
-                'type' => PasswordType::class,
-                'invalid_message' => 'Les champs de mot de passe doivent correspondre.',
-                'options' => ['attr' => ['class' => 'password-field']],
-                'required' => true,
-                'first_options'  => ['label' => 'Mot de passe'],
-                'second_options' => ['label' => 'Répéter le mot de passe']
-            ])
             ->add('save', SubmitType::class, ['label' => 'Enregistrer'])
         ;
     }
