@@ -38,6 +38,7 @@ class LoadExerciseHistoryData implements FixtureInterface, ContainerAwareInterfa
                 ->findOneByName($line[4])
             ;
             $eh->setExercise($exercise);
+            $exercise->setBestExerciseHistory($eh);
 
             $discriminator = $this->container->get('pugx_user.manager.user_discriminator');
             $discriminator->setClass('Orgabat\GameBundle\Entity\Apprentice');

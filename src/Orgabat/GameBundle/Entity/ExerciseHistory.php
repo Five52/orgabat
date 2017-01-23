@@ -71,7 +71,7 @@ class ExerciseHistory
 
     /**
      * @ORM\ManyToOne(targetEntity="Orgabat\GameBundle\Entity\Exercise", inversedBy="exerciseHistories", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $exercise;
 
