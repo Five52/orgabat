@@ -31,7 +31,7 @@ class Exercise
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Orgabat\GameBundle\Entity\Category", inversedBy="exercises")
+     * @ORM\ManyToOne(targetEntity="Orgabat\GameBundle\Entity\Category", inversedBy="exercises", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;
@@ -70,10 +70,10 @@ class Exercise
     private $businessNotorietyMaxNote;
 
     /**
-     * @ORM\OneToMany(targetEntity="Orgabat\GameBundle\Entity\HistoryRealisation", mappedBy="exercise")
+     * @ORM\OneToMany(targetEntity="Orgabat\GameBundle\Entity\ExerciseHistory", mappedBy="exercise")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $historyRealisations;
+    private $exerciseHistories;
 
 
     /**
@@ -120,6 +120,7 @@ class Exercise
     public function setCategory(Category $category)
     {
         $this->category = $category;
+        $category->addExercise($this);
 
         return $this;
     }
@@ -133,20 +134,12 @@ class Exercise
     {
         return $this->category;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->historyRealisations = new ArrayCollection();
-    }
 
     /**
      * Set healthMaxNote
      *
      * @param integer $healthMaxNote
-     *
-     * @return HistoryRealisation
+     * @return Exercise
      */
     public function setHealthMaxNote($healthMaxNote)
     {
@@ -170,7 +163,7 @@ class Exercise
      *
      * @param integer $organizationMaxNote
      *
-     * @return HistoryRealisation
+     * @return Exercise
      */
     public function setOrganizationMaxNote($organizationMaxNote)
     {
@@ -194,7 +187,7 @@ class Exercise
      *
      * @param integer $businessNotorietyMaxNote
      *
-     * @return HistoryRealisation
+     * @return Exercise
      */
     public function setBusinessNotorietyMaxNote($businessNotorietyMaxNote)
     {
@@ -212,48 +205,45 @@ class Exercise
     {
         return $this->businessNotorietyMaxNote;
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->exerciseHistories = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
-     * Add historyRealisation
+     * Add exerciseHistory
      *
-     * @param \Orgabat\GameBundle\Entity\HistoryRealisation $historyRealisation
+     * @param \Orgabat\GameBundle\Entity\ExerciseHistory $exerciseHistory
      *
      * @return Exercise
      */
-    public function addHistoryRealisation(HistoryRealisation $historyRealisation)
+    public function addExerciseHistory(\Orgabat\GameBundle\Entity\ExerciseHistory $exerciseHistory)
     {
-        $this->historyRealisations[] = $historyRealisation;
+        $this->exerciseHistories[] = $exerciseHistory;
 
         return $this;
     }
 
     /**
-     * Remove historyRealisation
+     * Remove exerciseHistory
      *
-     * @param \Orgabat\GameBundle\Entity\HistoryRealisation $historyRealisation
+     * @param \Orgabat\GameBundle\Entity\ExerciseHistory $exerciseHistory
      */
-    public function removeHistoryRealisation(HistoryRealisation $historyRealisation)
+    public function removeExerciseHistory(\Orgabat\GameBundle\Entity\ExerciseHistory $exerciseHistory)
     {
-        $this->historyRealisations->removeElement($historyRealisation);
+        $this->exerciseHistories->removeElement($exerciseHistory);
     }
 
     /**
-     * Get historyRealisation
+     * Get exerciseHistories
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getHistoryRealisation()
+    public function getExerciseHistories()
     {
-        return $this->historyRealisations;
-    }
-
-    /**
-     * Get historyRealisations
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getHistoryRealisations()
-    {
-        return $this->historyRealisations;
+        return $this->exerciseHistories;
     }
 }

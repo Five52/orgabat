@@ -51,7 +51,7 @@ class DefaultController extends Controller
         ;
 
         $dones = $em
-            ->getRepository('OrgabatGameBundle:HistoryRealisation')
+            ->getRepository('OrgabatGameBundle:ExerciseHistory')
             ->findBy([
                 'exercise' => $exercises,
                 // 'user_id' => $user_id,
@@ -85,7 +85,8 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $sections = $em
             ->getRepository('OrgabatGameBundle:Section')
-            ->findBy(array(), array('id' => 'asc'))
+            //->findBy([], ['id' => 'asc'])
+            ->getWithTrainers()
         ;
         $fullList = [];
         foreach ($sections as $section) {
@@ -94,27 +95,32 @@ class DefaultController extends Controller
             // On crée une liste d'apprentis
             $listApprentices = $em
                 ->getRepository('OrgabatGameBundle:Apprentice')
-                ->findBy(array('section' => $section))
+                ->findBy(['section' => $section])
             ;
 
             // On crée une liste d'enseignants
-            $listTrainers = $em
-                ->getRepository('OrgabatGameBundle:Trainer')
-                ->findBy(array('section' => $section))
+            $listTrainers = $section->getTrainers();
+                //$em
+                //->getRepository('OrgabatGameBundle:Trainer')
+                //->findBySections($section)
             ;
 
             // On associe la classe, les enseignants et les apprentis
+            $listApprentices = [];
             foreach ($listTrainers as $trainer) {
-                array_push($listApprentices,$trainer);
+                $listApprentices[] = $trainer;
             }
-            $fullList[$section->getName()] =  $listApprentices;
+            $fullList[$section->getName()] = $listApprentices;
         }
         $apprenticesNoSection = $em
             ->getRepository('OrgabatGameBundle:Apprentice')
-            ->findBy(array('section' => null))
+            ->findBy(['section' => null])
         ;
 
-        return $this->render('OrgabatGameBundle:Admin:page_dashboard.html.twig', ['lists' => $fullList,'listNoSection' => $apprenticesNoSection]);
+        return $this->render('OrgabatGameBundle:Admin:page_dashboard.html.twig', [
+            'lists' => $fullList,
+            'listNoSection' => $apprenticesNoSection
+        ]);
     }
 
     // Liste des classes
@@ -147,7 +153,9 @@ class DefaultController extends Controller
             $fullList[$section->getName()] =  $listApprentices;
         }
 
-        return $this->render('OrgabatGameBundle:Admin:showSections.html.twig', ["lists" => $fullList]);
+        return $this->render('OrgabatGameBundle:Admin:showSections.html.twig', [
+            "lists" => $fullList
+        ]);
 
     }
 

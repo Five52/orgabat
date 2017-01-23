@@ -2,6 +2,8 @@
 
 namespace Orgabat\GameBundle\Repository;
 
+use Orgabat\GameBundle\Entity\Section;
+
 /**
  * SectionRepository
  *
@@ -10,4 +12,13 @@ namespace Orgabat\GameBundle\Repository;
  */
 class SectionRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getWithTrainers() {
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.trainers', 't')
+            ->addSelect('t')
+            ->orderBy('s.id', 'asc')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

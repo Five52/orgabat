@@ -20,8 +20,7 @@ class Apprentice extends User
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Orgabat\GameBundle\Entity\Section", inversedBy="apprentices")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\ManyToOne(targetEntity="Orgabat\GameBundle\Entity\Section", inversedBy="apprentices", cascade={"persist"})
      */
     private $section;
 
@@ -77,6 +76,7 @@ class Apprentice extends User
     public function setSection($section)
     {
         $this->section = $section;
+        $section->addApprentice($this);
     }
 
     /**

@@ -28,17 +28,15 @@ class Section
      */
     private $name;
 
-
     /**
      * @ORM\OneToMany(targetEntity="Orgabat\GameBundle\Entity\Apprentice", mappedBy="group")
      */
     private $apprentices;
 
     /**
-     * @ORM\OneToMany(targetEntity="Orgabat\GameBundle\Entity\Trainer", mappedBy="group")
+     * @ORM\ManyToMany(targetEntity="Orgabat\GameBundle\Entity\Trainer", mappedBy="sections")
      */
     private $trainers;
-
 
     /**
      * Get id
@@ -74,19 +72,49 @@ class Section
         return $this->name;
     }
 
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getSection()
+    public function getData()
     {
-        return $this->name;
+        $tab = [];
+        $tab[0] = $this->getName();
+        return $tab;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->apprentices = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->trainers = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+    /**
+     * Add apprentice
+     *
+     * @param \Orgabat\GameBundle\Entity\Apprentice $apprentice
+     *
+     * @return Section
+     */
+    public function addApprentice(\Orgabat\GameBundle\Entity\Apprentice $apprentice)
+    {
+        $this->apprentices[] = $apprentice;
+
+        return $this;
+    }
 
     /**
-     * @return mixed
+     * Remove apprentice
+     *
+     * @param \Orgabat\GameBundle\Entity\Apprentice $apprentice
+     */
+    public function removeApprentice(\Orgabat\GameBundle\Entity\Apprentice $apprentice)
+    {
+        $this->apprentices->removeElement($apprentice);
+    }
+
+    /**
+     * Get apprentices
+     *
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getApprentices()
     {
@@ -94,37 +122,36 @@ class Section
     }
 
     /**
-     * @param mixed $apprentices
+     * Add trainer
+     *
+     * @param \Orgabat\GameBundle\Entity\Trainer $trainer
+     *
+     * @return Section
      */
-    public function setApprentices($apprentices)
+    public function addTrainer(\Orgabat\GameBundle\Entity\Trainer $trainer)
     {
-        $this->apprentices = $apprentices;
+        $this->trainers[] = $trainer;
+
+        return $this;
     }
 
     /**
-     * @return mixed
+     * Remove trainer
+     *
+     * @param \Orgabat\GameBundle\Entity\Trainer $trainer
+     */
+    public function removeTrainer(\Orgabat\GameBundle\Entity\Trainer $trainer)
+    {
+        $this->trainers->removeElement($trainer);
+    }
+
+    /**
+     * Get trainers
+     *
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getTrainers()
     {
-        return $this->teachers;
-    }
-
-    /**
-     * @param mixed $trainers
-     */
-    public function setTrainers($trainers)
-    {
-        $this->trainers = $trainers;
-    }
-
-
-
-
-    public function getData()
-    {
-        $tab = [];
-        $tab[0] = $this->getName();
-        return $tab;
+        return $this->trainers;
     }
 }
-

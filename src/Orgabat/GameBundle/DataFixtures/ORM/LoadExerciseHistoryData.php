@@ -7,9 +7,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Orgabat\GameBundle\Entity\HistoryRealisation;
+use Orgabat\GameBundle\Entity\ExerciseHistory;
 
-class LoadHistoryRealisationData implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
+class LoadExerciseHistoryData implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
 {
     private $container;
 
@@ -27,25 +27,25 @@ class LoadHistoryRealisationData implements FixtureInterface, ContainerAwareInte
         ];
 
         foreach ($data as $line) {
-            $hr = new HistoryRealisation;
-            $hr->setTimer($line[0]);
-            $hr->setHealthNote($line[1]);
-            $hr->setOrganizationNote($line[2]);
-            $hr->setBusinessNotorietyNote($line[3]);
+            $eh = new ExerciseHistory;
+            $eh->setTimer($line[0]);
+            $eh->setHealthNote($line[1]);
+            $eh->setOrganizationNote($line[2]);
+            $eh->setBusinessNotorietyNote($line[3]);
 
             $exercise = $manager
                 ->getRepository('OrgabatGameBundle:Exercise')
                 ->findOneByName($line[4])
             ;
-            $hr->setExercise($exercise);
+            $eh->setExercise($exercise);
 
             $discriminator = $this->container->get('pugx_user.manager.user_discriminator');
             $discriminator->setClass('Orgabat\GameBundle\Entity\Apprentice');
             $userManager = $this->container->get('pugx_user_manager');
             $user = $userManager->findUserBy(['username' => $line[5]]);
-            $hr->setUser($user);
+            $eh->setUser($user);
 
-            $manager->persist($hr);
+            $manager->persist($eh);
         }
 
         // On déclenche l'enregistrement de tous les tags

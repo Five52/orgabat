@@ -20,10 +20,10 @@ class Trainer extends User
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Orgabat\GameBundle\Entity\Section", inversedBy="trainers")
+     * @ORM\ManyToMany(targetEntity="Orgabat\GameBundle\Entity\Section", inversedBy="trainers", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
-    private $section;
+    private $sections;
 
     /**
      * @return mixed
@@ -41,22 +41,6 @@ class Trainer extends User
         $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getSection()
-    {
-        return $this->section;
-    }
-
-    /**
-     * @param mixed $section
-     */
-    public function setSection($section)
-    {
-        $this->section = $section;
-    }
-
     public function getData()
     {
         $tab = [];
@@ -68,4 +52,40 @@ class Trainer extends User
         return $tab;
     }
 
+
+    /**
+     * Add section
+     *
+     * @param \Orgabat\GameBundle\Entity\Section $section
+     *
+     * @return Trainer
+     */
+    public function addSection(\Orgabat\GameBundle\Entity\Section $section)
+    {
+        $this->sections[] = $section;
+        $section->addTrainer($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove section
+     *
+     * @param \Orgabat\GameBundle\Entity\Section $section
+     */
+    public function removeSection(\Orgabat\GameBundle\Entity\Section $section)
+    {
+        $this->sections->removeElement($section);
+        $section->removeTrainer($this);
+    }
+
+    /**
+     * Get sections
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSections()
+    {
+        return $this->sections;
+    }
 }

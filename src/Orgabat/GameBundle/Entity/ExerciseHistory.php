@@ -6,12 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * HistoricalRealisation
+ * ExerciseHistory
  *
- * @ORM\Table(name="history_realisation")
- * @ORM\Entity(repositoryClass="Orgabat\GameBundle\Repository\HistoryRealisationRepository")
+ * @ORM\Table(name="exercise_history")
+ * @ORM\Entity(repositoryClass="Orgabat\GameBundle\Repository\ExerciseHistoryRepository")
  */
-class HistoryRealisation
+class ExerciseHistory
 {
     /**
      * @var int
@@ -70,7 +70,7 @@ class HistoryRealisation
     private $businessNotorietyNote;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Orgabat\GameBundle\Entity\Exercise", inversedBy="historyRealisations")
+     * @ORM\ManyToOne(targetEntity="Orgabat\GameBundle\Entity\Exercise", inversedBy="exerciseHistory", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $exercise;
@@ -155,6 +155,7 @@ class HistoryRealisation
     public function setExercise(Exercise $exercise)
     {
         $this->exercise = $exercise;
+        $exercise->addExerciseHistory($this);
 
         return $this;
     }
