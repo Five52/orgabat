@@ -45,9 +45,11 @@ class DefaultController extends Controller
     public function showGamesAction(Category $category, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        var_dump($user->getId());
         $exercises = $em
             ->getRepository('OrgabatGameBundle:Exercise')
-            ->getExercisesOfCategory($category)
+            ->getExercisesOfCategoryWithUserInfos($category, $user)
         ;
 
         $dones = $em
