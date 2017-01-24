@@ -190,9 +190,10 @@ class AdminController extends Controller
             }
             return $this->redirectToRoute('default_admin_board');
         }
-        return $this->render('OrgabatGameBundle:Admin:importFromCsv.html.twig',
-            array('form' => $form->createView(),)
-        );
+        return $this->render('OrgabatGameBundle:Admin:importFromCsv.html.twig', [
+            'form' => $form->createView(),
+            'entities' => 'apprentis'
+        ]);
     }
 
     # Trainer
@@ -333,10 +334,14 @@ class AdminController extends Controller
                             $trainer->setEmail($data[2]);
                             $trainer->setPassword($data[3]);
 
-                            $section = $em
-                                ->getRepository('OrgabatGameBundle:Section')
-                                ->findOneBy(array("name" => $data[4]));
-                            $trainer->setSection($section);
+                            $sectionNames = array_slice($data, 4);
+                            foreach ($sectionNames as $sectionName) {
+                                $section = $em
+                                    ->getRepository('OrgabatGameBundle:Section')
+                                    ->findOneBy(["name" => $sectionName])
+                                ;
+                                $trainer->addSection($section);
+                            }
                             $trainer->setEnabled(true);
                             $trainer->addRole('ROLE_TRAINER');
                             $em->persist($trainer);
@@ -348,9 +353,10 @@ class AdminController extends Controller
             }
             return $this->redirectToRoute('default_admin_board');
         }
-        return $this->render('OrgabatGameBundle:Admin:importFromCsv.html.twig',
-            array('form' => $form->createView(),)
-        );
+        return $this->render('OrgabatGameBundle:Admin:importFromCsv.html.twig', [
+            'form' => $form->createView(),
+            'entities' => 'enseignants'
+        ]);
     }
 
 
@@ -463,8 +469,9 @@ class AdminController extends Controller
             }
             return $this->redirectToRoute('default_admin_board');
         }
-        return $this->render('OrgabatGameBundle:Admin:importFromCsv.html.twig',
-            array('form' => $form->createView(),)
-        );
+        return $this->render('OrgabatGameBundle:Admin:importFromCsv.html.twig', [
+            'form' => $form->createView(),
+            'entities' => 'sections'
+        ]);
     }
 }
