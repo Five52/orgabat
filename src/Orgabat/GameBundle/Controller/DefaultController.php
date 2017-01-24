@@ -90,14 +90,19 @@ class DefaultController extends Controller
             //->findBy([], ['id' => 'asc'])
             ->getWithTrainersAndApprentices()
         ;
-        $apprenticesNoSection = $em
+        $apprenticesWithoutSection = $em
             ->getRepository('OrgabatGameBundle:Apprentice')
             ->findBy(['section' => null])
+        ;
+        $trainersWithoutSection = $em
+            ->getRepository('OrgabatGameBundle:Trainer')
+            ->getWithoutSections()
         ;
 
         return $this->render('OrgabatGameBundle:Admin:page_dashboard.html.twig', [
             'sections' => $sections,
-            'listNoSection' => $apprenticesNoSection
+            'apprenticesWithoutSection' => $apprenticesWithoutSection,
+            'trainersWithoutSection' => $trainersWithoutSection
         ]);
     }
 

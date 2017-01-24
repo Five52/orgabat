@@ -35,5 +35,19 @@ class TrainerRepository extends EntityRepository
             ->getResult()
         ;
     }
+    public function getWithoutSections() {
+        $trainersWithSection = $this
+            ->createQueryBuilder('t')
+            ->join('t.sections', 's')
+            ->getQuery()
+            ->getResult()
+        ;
 
+        return $this->createQueryBuilder('t')
+            ->where('t not in (:trainersWithSections)')
+            ->setParameter('trainersWithSections', $trainersWithSection)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }
