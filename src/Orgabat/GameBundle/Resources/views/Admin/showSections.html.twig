@@ -3,10 +3,10 @@
 {% block body %}
     <header class="page-header"><h1>Liste des apprentis par classe</h1></header>
     <a class="btn btn-success" href="{{ path('admin_create_user') }}">Ajouter un apprenti</a>
-    {%  for list in lists %}
-        {% if list %}
+    {%  for section in sections %}
+        {% if section %}
             <div class="col-sm-12">
-                <h2 class="text-center">{{ list[0].section.name }}</h2>
+                <h2 class="text-center">{{ section.name }}</h2>
             </div>
             <div class="col-sm-12">
                 <h3>Elèves</h3>
@@ -21,8 +21,7 @@
                     </tr>
                     </thead>
                     <tbody >
-                    {% for apprentice in list %}
-                        {% if apprentice.roles[0] == "ROLE_APPRENTICE" %}
+                    {% for apprentice in section.apprentices %}
                             <tr>
                                 <td>{{ apprentice.firstName }}</td>
                                 <td>{{ apprentice.lastName }}</td>
@@ -30,7 +29,6 @@
                                 <td><a class="btn btn-warning" href="{{ path('admin_alter_user', {'id': apprentice.id} ) }}">Modifier</a></td>
                                 <td><a class="btn btn-danger" href="{{ path('admin_remove_user', {'id': apprentice.id} ) }}">Supprimer</a></td>
                             </tr>
-                        {%  endif %}
                     {% endfor %}
                     </tbody>
                 </table>

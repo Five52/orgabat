@@ -12,10 +12,12 @@ use Orgabat\GameBundle\Entity\Section;
  */
 class SectionRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getWithTrainers() {
+    public function getWithTrainersAndApprentices() {
         return $this->createQueryBuilder('s')
             ->leftJoin('s.trainers', 't')
+            ->leftJoin('s.apprentices','a' )
             ->addSelect('t')
+            ->addSelect('a')
             ->orderBy('s.id', 'asc')
             ->getQuery()
             ->getResult()

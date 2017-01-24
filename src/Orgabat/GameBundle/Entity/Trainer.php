@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use PUGX\MultiUserBundle\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Orgabat\GameBundle\Repository\TrainerRepository")
  * @ORM\Table(name="trainer")
  * @UniqueEntity(fields = "username", targetClass = "Orgabat\GameBundle\Entity\User", message="fos_user.username.already_used")
  */
@@ -48,7 +48,9 @@ class Trainer extends User
         $tab[2] = $this->getLastName();
         $tab[3] = $this->getEmail();
         $tab[4] = $this->getPassword();
-        $tab[5] = $this->getSection()->getName();
+        foreach ($this->getSections() as $section) {
+            $tab[] = $section->getName();
+        }
         return $tab;
     }
 

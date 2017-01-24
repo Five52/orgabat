@@ -88,39 +88,15 @@ class DefaultController extends Controller
         $sections = $em
             ->getRepository('OrgabatGameBundle:Section')
             //->findBy([], ['id' => 'asc'])
-            ->getWithTrainers()
+            ->getWithTrainersAndApprentices()
         ;
-        $fullList = [];
-        foreach ($sections as $section) {
-            // Pour chaque classe
-
-            // On crée une liste d'apprentis
-            $listApprentices = $em
-                ->getRepository('OrgabatGameBundle:Apprentice')
-                ->findBy(['section' => $section])
-            ;
-
-            // On crée une liste d'enseignants
-            $listTrainers = $section->getTrainers();
-                //$em
-                //->getRepository('OrgabatGameBundle:Trainer')
-                //->findBySections($section)
-            ;
-
-            // On associe la classe, les enseignants et les apprentis
-            $listApprentices = [];
-            foreach ($listTrainers as $trainer) {
-                $listApprentices[] = $trainer;
-            }
-            $fullList[$section->getName()] = $listApprentices;
-        }
         $apprenticesNoSection = $em
             ->getRepository('OrgabatGameBundle:Apprentice')
             ->findBy(['section' => null])
         ;
 
         return $this->render('OrgabatGameBundle:Admin:page_dashboard.html.twig', [
-            'lists' => $fullList,
+            'sections' => $sections,
             'listNoSection' => $apprenticesNoSection
         ]);
     }
@@ -131,32 +107,22 @@ class DefaultController extends Controller
         // On récupère les informations de l'utilisateur du site
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
-        $fullList = [];
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             // S'il s'agit d'un admin on retourne tous les classes avec tous les apprentis
             $sections = $em
                 ->getRepository('OrgabatGameBundle:Section')
-                ->findBy(array(), array('id' => 'asc'))
+                //->findBy([], ['id' => 'asc'])
+                ->getWithTrainersAndApprentices()
             ;
-            foreach ($sections as $section) {
-                $listApprentices = $em
-                    ->getRepository('OrgabatGameBundle:Apprentice')
-                    ->findBy(array('section' => $section))
-                ;
-                $fullList[$section->getName()] =  $listApprentices;
-            }
         }else {
-            // S'il s'agit d'un enseignant, on retoune la classe qu'il anime (TODO)
-            $section = $user->getSection();
-            $listApprentices = $em
-                ->getRepository('OrgabatGameBundle:Apprentice')
-                ->findBy(array('section' => $section))
+            // S'il s'agit d'un enseignant, on retoune la classe qu'il anime
+            $trainerRepository = $this->getDoctrine()->getRepository('OrgabatGameBundle:Trainer');
+            $sections = $trainerRepository->getWithSections($user->getId())[0]->getSections();
             ;
-            $fullList[$section->getName()] =  $listApprentices;
         }
 
         return $this->render('OrgabatGameBundle:Admin:showSections.html.twig', [
-            "lists" => $fullList
+            "sections" => $sections
         ]);
 
     }

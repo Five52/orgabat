@@ -33,7 +33,9 @@ class AdminController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
             $user->setUsername($user->getFirstName().' '.$user->getLastName());
+            $user->setPlainPassword($user->getBirthDate());
             $user->addRole('ROLE_APPRENTICE');
+            $user->setEnabled(true);
             $em->persist($user);
             $em->flush();
 
@@ -54,6 +56,7 @@ class AdminController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
             $user->setUsername($user->getFirstName().' '.$user->getLastName());
+            $user->setPlainPassword($user->getBirthDate());
             $em->persist($user);
             $em->flush();
             return $this->redirectToRoute('default_admin_board');
@@ -69,7 +72,7 @@ class AdminController extends Controller
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('OrgabatGameBundle:Apprentice')->find($id);
         // On supprime aussi ses réalisations sur les jeux auxquels il a joué
-        $realisations = $em->getRepository('OrgabatGameBundle:HistoryRealisation')->findBy(array('user' => $user));
+        $realisations = $em->getRepository('OrgabatGameBundle:ExerciseHistory')->findBy(array('user' => $user));
         foreach ($realisations as $realisation) {
             $em->remove($realisation);
         }
@@ -172,7 +175,9 @@ class AdminController extends Controller
                             $section = $em
                                 ->getRepository('OrgabatGameBundle:Section')
                                 ->findOneBy(array("name" => $data[4]));
-                            $apprentice->setSection($section);
+                            if ($section != null) {
+                                $apprentice->setSection($section);
+                            }
                             $apprentice->setEnabled(true);
                             $apprentice->addRole('ROLE_APPRENTICE');
                             $em->persist($apprentice);
@@ -204,6 +209,7 @@ class AdminController extends Controller
             $trainer = $form->getData();
             $trainer->setUsername($trainer->getFirstName().' '.$trainer->getLastName());
             $trainer->addRole('ROLE_TRAINER');
+            $trainer->setEnabled(true);
             $em->persist($trainer);
             $em->flush();
 
