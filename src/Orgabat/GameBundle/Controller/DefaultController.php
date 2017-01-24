@@ -3,8 +3,6 @@
 namespace Orgabat\GameBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Orgabat\GameBundle\Form\TrainerUpdateType;
 use Orgabat\GameBundle\Form\AdminUpdateType;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -12,7 +10,6 @@ use Orgabat\GameBundle\Entity\Category;
 
 class DefaultController extends Controller
 {
-
     public function showRulesAction(Request $request)
     {
         // replace this example code with whatever you need
@@ -31,57 +28,46 @@ class DefaultController extends Controller
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $categories = $em->getRepository('OrgabatGameBundle:Category')->findAll();
         $exercises = $em->getRepository('OrgabatGameBundle:Exercise')->findAll();
-        $tries = $em->getRepository('OrgabatGameBundle:HistoryRealisation')->findBy(['user' => $user]);
+        $historyCateg = $em
+            ->getRepository('OrgabatGameBundle:Category')
+            ->getExercisesOfAllCategoriesByUser($user)
+        ;
 
-        // Get the best try of each exercises
-        $bestTries = [];
-        foreach ($tries as $try) {
-            $exerciseId = $try->getExercise()->getId();
-            $currentTryScore = $try->getScore();
+        $finishedCount = 0;
+        $userScore = ['healthNote' => 0, 'organizationNote' => 0, 'businessNotorietyNote' => 0];
+        foreach ($historyCateg as $category) {
+            foreach ($category->getExercises() as $exercise) {
+                $best = $exercise->getBestExerciseHistory();
 
-            if (!isset($bestTries[$exerciseId])) {
-                $bestTries[$exerciseId] = $try;
-            } else {
-                $storedTryScore = $bestTries[$exerciseId]->getScore();
-                if ($storedTryScore < $currentTryScore) {
-                    $bestTries[$exerciseId] = $try;
+                // Get the total user score
+                $userScore['healthNote'] += $best->getHealthNote();
+                $userScore['organizationNote'] += $best->getOrganizationNote();
+                $userScore['businessNotorietyNote'] += $best->getBusinessNotorietyNote();
+
+                if ($exercise->isFinished()) {
+                    ++$finishedCount;
                 }
             }
         }
 
-        $finishedCount = 0;
-        foreach ($bestTries as $exerciseId => $try) {
-            if ($try->getScore() >= $try->getExercise()->getMinScore()) {
-                $finishedCount++;
-            }
-        }
-
         // Get the total global score
-        $globalCategScore = ['healthNote' => 0, 'organizationNote' => 0, 'businessNotorietyNote' => 0];
+        $globalScore = ['healthNote' => 0, 'organizationNote' => 0, 'businessNotorietyNote' => 0];
         foreach ($exercises as $exercise) {
-            $globalCategScore['healthNote'] += $exercise->getHealthMaxNote();
-            $globalCategScore['organizationNote'] += $exercise->getOrganizationMaxNote();
-            $globalCategScore['businessNotorietyNote'] += $exercise->getBusinessNotorietyMaxNote();
-        }
-
-        // Get the total user score
-        $userCategScore = ['healthNote' => 0, 'organizationNote' => 0, 'businessNotorietyNote' => 0];
-        foreach ($bestTries as $try) {
-            $userCategScore['healthNote'] += $try->getHealthNote();
-            $userCategScore['organizationNote'] += $try->getOrganizationNote();
-            $userCategScore['businessNotorietyNote'] += $try->getBusinessNotorietyNote();
+            $globalScore['healthNote'] += $exercise->getHealthMaxNote();
+            $globalScore['organizationNote'] += $exercise->getOrganizationMaxNote();
+            $globalScore['businessNotorietyNote'] += $exercise->getBusinessNotorietyMaxNote();
         }
 
         return $this->render('OrgabatGameBundle:User:page_rubriques.html.twig', [
             'categories' => $categories,
             'stats' => [
-                'user' => $userCategScore,
-                'global' => $globalCategScore
+                'user' => $userScore,
+                'global' => $globalScore,
             ],
             'minigames' => [
                 'finished' => $finishedCount,
-                'total' => count($exercises)
-            ]
+                'total' => count($exercises),
+            ],
         ]);
     }
 
@@ -93,48 +79,23 @@ class DefaultController extends Controller
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
         $user = $this->get('security.token_storage')->getToken()->getUser();
-        var_dump($user->getId());
         $exercises = $em
             ->getRepository('OrgabatGameBundle:Exercise')
             ->getExercisesOfCategoryWithUserInfos($category, $user)
         ;
-        $tries = $em
-            ->getRepository('OrgabatGameBundle:ExerciseHistory')
-            ->findBy([
-                'exercise' => $exercises,
-                'user' => $user
-            ]);
-
-        // Get the best try of each exercises
-        $bestTries = [];
-        $tryCount = [];
-        foreach ($tries as $try) {
-            $exerciseId = $try->getExercise()->getId();
-            $currentTryScore = $try->getScore();
-
-            if (!isset($bestTries[$exerciseId])) {
-                $bestTries[$exerciseId] = $try;
-                $tryCount[$exerciseId] = 1;
-            } else {
-                $storedTryScore = $bestTries[$exerciseId]->getScore();
-                if ($storedTryScore < $currentTryScore) {
-                    $bestTries[$exerciseId] = $try;
-                    ++$tryCount[$exerciseId];
-                }
-            }
-        }
 
         // STATS
-        // Get the total user score
         $userCategScore = ['healthNote' => 0, 'organizationNote' => 0, 'businessNotorietyNote' => 0];
-        foreach ($bestTries as $try) {
-            $userCategScore['healthNote'] += $try->getHealthNote();
-            $userCategScore['organizationNote'] += $try->getOrganizationNote();
-            $userCategScore['businessNotorietyNote'] += $try->getBusinessNotorietyNote();
-        }
-        // Get the total global score
         $globalCategScore = ['healthNote' => 0, 'organizationNote' => 0, 'businessNotorietyNote' => 0];
         foreach ($exercises as $exercise) {
+            $best = $exercise->getBestExerciseHistory();
+            if (!is_null($best)) {
+                // Get the total user score
+                $userCategScore['healthNote'] += $best->getHealthNote();
+                $userCategScore['organizationNote'] += $best->getOrganizationNote();
+                $userCategScore['businessNotorietyNote'] += $best->getBusinessNotorietyNote();
+            }
+            // Get the total global score
             $globalCategScore['healthNote'] += $exercise->getHealthMaxNote();
             $globalCategScore['organizationNote'] += $exercise->getOrganizationMaxNote();
             $globalCategScore['businessNotorietyNote'] += $exercise->getBusinessNotorietyMaxNote();
@@ -143,19 +104,18 @@ class DefaultController extends Controller
         return $this->render('OrgabatGameBundle:User:page_jeux.html.twig', [
             'category' => $category,
             'exercises' => $exercises,
-            'bestTries' => $bestTries,
+            'bestTries' => [],
             'categStats' => [
                 'user' => $userCategScore,
-                'global' => $globalCategScore
+                'global' => $globalCategScore,
             ],
-            'tryCount' => $tryCount
+            'tryCount' => [],
         ]);
     }
 
     // Dashboard principal de l'administrateur
     public function showAdminAction()
     {
-
         $em = $this->getDoctrine()->getManager();
         $sections = $em
             ->getRepository('OrgabatGameBundle:Section')
@@ -177,7 +137,6 @@ class DefaultController extends Controller
                 //$em
                 //->getRepository('OrgabatGameBundle:Trainer')
                 //->findBySections($section)
-            ;
 
             // On associe la classe, les enseignants et les apprentis
             $listApprentices = [];
@@ -193,7 +152,7 @@ class DefaultController extends Controller
 
         return $this->render('OrgabatGameBundle:Admin:page_dashboard.html.twig', [
             'lists' => $fullList,
-            'listNoSection' => $apprenticesNoSection
+            'listNoSection' => $apprenticesNoSection,
         ]);
     }
 
@@ -215,22 +174,21 @@ class DefaultController extends Controller
                     ->getRepository('OrgabatGameBundle:Apprentice')
                     ->findBy(array('section' => $section))
                 ;
-                $fullList[$section->getName()] =  $listApprentices;
+                $fullList[$section->getName()] = $listApprentices;
             }
-        }else {
+        } else {
             // S'il s'agit d'un enseignant, on retoune la classe qu'il anime (TODO)
             $section = $user->getSection();
             $listApprentices = $em
                 ->getRepository('OrgabatGameBundle:Apprentice')
                 ->findBy(array('section' => $section))
             ;
-            $fullList[$section->getName()] =  $listApprentices;
+            $fullList[$section->getName()] = $listApprentices;
         }
 
         return $this->render('OrgabatGameBundle:Admin:showSections.html.twig', [
-            "lists" => $fullList
+            'lists' => $fullList,
         ]);
-
     }
 
     public function showEditInfosAction(Request $request)
@@ -240,7 +198,7 @@ class DefaultController extends Controller
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             $form = $this->createForm(AdminUpdateType::class, $user);
         } else {
-            $form = $this->createForm(TrainerUpdateType::class, $user);
+            $form = $this->createForm(TrainerSelfUpdateType::class, $user);
         }
 
         $form->handleRequest($request);
@@ -268,7 +226,7 @@ class DefaultController extends Controller
         }
 
         return $this->render('OrgabatGameBundle:Admin:showEditInfos.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 }

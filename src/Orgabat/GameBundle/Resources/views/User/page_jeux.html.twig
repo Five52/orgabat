@@ -29,12 +29,7 @@
     </div>
     <div class="row modules is-flex">
       {% for exercise in exercises %}
-          {% set tryScore = null %}
-          {% if bestTries[exercise.id] is defined %}
-              {% set tryScore = bestTries[exercise.id].score %}
-          {% endif %}
-
-          <div class="col-sm-4 game noselect {{ tryScore >= exercise.minScore ? 'disabled' : '' }}" data-game-id="{{ exercise.id }}">
+          <div class="col-sm-4 game noselect {{ exercise.finished ? 'disabled' : '' }}" data-game-id="{{ exercise.id }}">
             <div class="content">
               <div class="panel-heading">
                   <h2 id="game_label">{{ exercise.name }}</h2>
@@ -42,11 +37,11 @@
               <div class="panel-body">
                   <div class="infos">
                     <h4>
-                      {% if tryScore != null %}
-                        {% if tryScore >= exercise.minScore %}
+                      {% if exercise.bestExerciseHistory %}
+                        {% if exercise.finished %}
                             <span>Jeu terminé</span>
                         {% else %}
-                            <div>Meilleur score: {{ tryScore }} / {{ exercise.maxScore }}</div>
+                            <div>Meilleur score: {{ exercise.bestExerciseHistory.humanScore }} / {{ exercise.maxScore }}</div>
                             <h5 class="requiredScore">Score minimum requis: {{ exercise.minScore }} / {{ exercise.maxScore }}</h5>
                         {% endif %}
                       {% else %}
@@ -56,22 +51,22 @@
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                   </div>
                   <div class="progresses">
-                    {% if tryScore != null %}
-                      <div class="tries">Tentatives: {{ tryCount[exercise.id] }}</div>
+                    {% if exercise.bestExerciseHistory %}
+                      <div class="tries">Tentatives: {{ exercise.exerciseHistories|length }}</div>
                       <div class="progress health">
                           <div class="progress-bar progress-bar-success" style="width:
-                            {{ (bestTries[exercise.id].healthNote / exercise.healthMaxNote)*100 }}%"></div>
-                          <span class="stat">{{ bestTries[exercise.id].healthNote }} / {{ exercise.healthMaxNote }}</span>
+                            {{ (exercise.bestExerciseHistory.healthNote / exercise.healthMaxNote)*100 }}%"></div>
+                          <span class="stat">{{ exercise.bestExerciseHistory.healthNote }} / {{ exercise.healthMaxNote }}</span>
                       </div>
                       <div class="progress organization">
                           <div class="progress-bar progress-bar-info" style="width:
-                            {{ (bestTries[exercise.id].organizationNote / exercise.organizationMaxNote)*100 }}%"></div>
-                          <span class="stat">{{ bestTries[exercise.id].organizationNote }} / {{ exercise.organizationMaxNote }}</span>
+                            {{ (exercise.bestExerciseHistory.organizationNote / exercise.organizationMaxNote)*100 }}%"></div>
+                          <span class="stat">{{ exercise.bestExerciseHistory.organizationNote }} / {{ exercise.organizationMaxNote }}</span>
                       </div>
                       <div class="progress notoriety">
                           <div class="progress-bar progress-bar-warning" style="width:
-                            {{ (bestTries[exercise.id].businessNotorietyNote / exercise.businessNotorietyMaxNote)*100 }}%"></div>
-                          <span class="stat">{{ bestTries[exercise.id].businessNotorietyNote }} / {{ exercise.businessNotorietyMaxNote }}</span>
+                            {{ (exercise.bestExerciseHistory.businessNotorietyNote / exercise.businessNotorietyMaxNote)*100 }}%"></div>
+                          <span class="stat">{{ exercise.bestExerciseHistory.businessNotorietyNote }} / {{ exercise.businessNotorietyMaxNote }}</span>
                       </div>
                     {% else %}
                       <div class="progress health">

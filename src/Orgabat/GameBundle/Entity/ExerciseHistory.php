@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * ExerciseHistory
+ * ExerciseHistory.
  *
  * @ORM\Table(name="exercise_history")
  * @ORM\Entity(repositoryClass="Orgabat\GameBundle\Repository\ExerciseHistoryRepository")
@@ -86,9 +86,8 @@ class ExerciseHistory
         $this->date = new \DateTime();
     }
 
-
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -98,7 +97,7 @@ class ExerciseHistory
     }
 
     /**
-     * Set date
+     * Set date.
      *
      * @param \DateTime $date
      *
@@ -112,7 +111,7 @@ class ExerciseHistory
     }
 
     /**
-     * Get date
+     * Get date.
      *
      * @return \DateTime
      */
@@ -122,7 +121,7 @@ class ExerciseHistory
     }
 
     /**
-     * Set timer
+     * Set timer.
      *
      * @param \DateTime $timer
      *
@@ -136,7 +135,7 @@ class ExerciseHistory
     }
 
     /**
-     * Get timer
+     * Get timer.
      *
      * @return \DateTime
      */
@@ -146,7 +145,7 @@ class ExerciseHistory
     }
 
     /**
-     * Set exercise
+     * Set exercise.
      *
      * @param Exercise $exercise
      *
@@ -161,7 +160,7 @@ class ExerciseHistory
     }
 
     /**
-     * Get exercise
+     * Get exercise.
      *
      * @return Exercise
      */
@@ -171,9 +170,9 @@ class ExerciseHistory
     }
 
     /**
-     * Set healthNote
+     * Set healthNote.
      *
-     * @param integer $healthNote
+     * @param int $healthNote
      *
      * @return HistoryRealisation
      */
@@ -185,9 +184,9 @@ class ExerciseHistory
     }
 
     /**
-     * Get healthNote
+     * Get healthNote.
      *
-     * @return integer
+     * @return int
      */
     public function getHealthNote()
     {
@@ -195,9 +194,9 @@ class ExerciseHistory
     }
 
     /**
-     * Set organizationNote
+     * Set organizationNote.
      *
-     * @param integer $organizationNote
+     * @param int $organizationNote
      *
      * @return HistoryRealisation
      */
@@ -209,9 +208,9 @@ class ExerciseHistory
     }
 
     /**
-     * Get organizationNote
+     * Get organizationNote.
      *
-     * @return integer
+     * @return int
      */
     public function getOrganizationNote()
     {
@@ -219,9 +218,9 @@ class ExerciseHistory
     }
 
     /**
-     * Set businessNotorietyNote
+     * Set businessNotorietyNote.
      *
-     * @param integer $businessNotorietyNote
+     * @param int $businessNotorietyNote
      *
      * @return HistoryRealisation
      */
@@ -233,9 +232,9 @@ class ExerciseHistory
     }
 
     /**
-     * Get businessNotoriety
+     * Get businessNotoriety.
      *
-     * @return integer
+     * @return int
      */
     public function getBusinessNotorietyNote()
     {
@@ -243,7 +242,7 @@ class ExerciseHistory
     }
 
     /**
-     * Set user
+     * Set user.
      *
      * @param \Orgabat\GameBundle\Entity\User $user
      *
@@ -257,7 +256,7 @@ class ExerciseHistory
     }
 
     /**
-     * Get user
+     * Get user.
      *
      * @return \Orgabat\GameBundle\Entity\User
      */
@@ -266,10 +265,28 @@ class ExerciseHistory
         return $this->user;
     }
 
+    /**
+     * Get the score.
+     *
+     * @return float The score
+     */
     public function getScore()
     {
-        $sum = $this->businessNotorietyNote + $this->healthNote + $this->organizationNote;
-        $sumCoeffs = $this->businessNotorietyMaxNote + $this->healthMaxNote + $this->organizationMaxNote;
+        $sum = $this->getHumanScore();
+        $sumCoeffs = $this->getExercise()->getBusinessNotorietyMaxNote()
+            + $this->getExercise()->getHealthMaxNote()
+            + $this->getExercise()->getOrganizationMaxNote();
+
         return $sum / $sumCoeffs;
+    }
+
+    /**
+     * Get the human readable score.
+     *
+     * @return int The human readable score
+     */
+    public function getHumanScore()
+    {
+        return $this->businessNotorietyNote + $this->healthNote + $this->organizationNote;
     }
 }

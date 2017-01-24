@@ -4,20 +4,17 @@ namespace Orgabat\GameBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Exercise
+ * Exercise.
  *
  * @ORM\Table(name="exercise")
  * @ORM\Entity(repositoryClass="Orgabat\GameBundle\Repository\ExerciseRepository")
  */
 class Exercise
 {
-
     /**
-     * @var float
-     * Value of the minimum note to consider the exercise done
+     * @var float Value of the minimum note to consider the exercise done
      */
     const MINIMUM_NOTE = 0.65;
 
@@ -77,17 +74,12 @@ class Exercise
     private $businessNotorietyMaxNote;
 
     /**
-     * @ORM\OneToOne(targetEntity="Orgabat\GameBundle\Entity\ExerciseHistory")
-     */
-    private $bestExerciseHistory;
-
-    /**
      * @ORM\OneToMany(targetEntity="Orgabat\GameBundle\Entity\ExerciseHistory", mappedBy="exercise")
      */
     private $exerciseHistories;
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -97,7 +89,7 @@ class Exercise
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -111,7 +103,7 @@ class Exercise
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -121,7 +113,7 @@ class Exercise
     }
 
     /**
-     * Set category
+     * Set category.
      *
      * @param \Orgabat\GameBundle\Entity\Category $category
      *
@@ -136,7 +128,7 @@ class Exercise
     }
 
     /**
-     * Get category
+     * Get category.
      *
      * @return \Orgabat\GameBundle\Entity\Category
      */
@@ -146,9 +138,10 @@ class Exercise
     }
 
     /**
-     * Set healthMaxNote
+     * Set healthMaxNote.
      *
-     * @param integer $healthMaxNote
+     * @param int $healthMaxNote
+     *
      * @return Exercise
      */
     public function setHealthMaxNote($healthMaxNote)
@@ -159,9 +152,9 @@ class Exercise
     }
 
     /**
-     * Get healthMaxNote
+     * Get healthMaxNote.
      *
-     * @return integer
+     * @return int
      */
     public function getHealthMaxNote()
     {
@@ -169,9 +162,9 @@ class Exercise
     }
 
     /**
-     * Set organizationMaxNote
+     * Set organizationMaxNote.
      *
-     * @param integer $organizationMaxNote
+     * @param int $organizationMaxNote
      *
      * @return Exercise
      */
@@ -183,9 +176,9 @@ class Exercise
     }
 
     /**
-     * Get organizationMaxNote
+     * Get organizationMaxNote.
      *
-     * @return integer
+     * @return int
      */
     public function getOrganizationMaxNote()
     {
@@ -193,9 +186,9 @@ class Exercise
     }
 
     /**
-     * Set businessNotorietyMaxNote
+     * Set businessNotorietyMaxNote.
      *
-     * @param integer $businessNotorietyMaxNote
+     * @param int $businessNotorietyMaxNote
      *
      * @return Exercise
      */
@@ -207,16 +200,16 @@ class Exercise
     }
 
     /**
-     * Get businessNotorietyMaxNote
+     * Get businessNotorietyMaxNote.
      *
-     * @return integer
+     * @return int
      */
     public function getBusinessNotorietyMaxNote()
     {
         return $this->businessNotorietyMaxNote;
     }
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
@@ -224,7 +217,7 @@ class Exercise
     }
 
     /**
-     * Add exerciseHistory
+     * Add exerciseHistory.
      *
      * @param \Orgabat\GameBundle\Entity\ExerciseHistory $exerciseHistory
      *
@@ -238,7 +231,7 @@ class Exercise
     }
 
     /**
-     * Remove exerciseHistory
+     * Remove exerciseHistory.
      *
      * @param \Orgabat\GameBundle\Entity\ExerciseHistory $exerciseHistory
      */
@@ -248,7 +241,7 @@ class Exercise
     }
 
     /**
-     * Get exerciseHistories
+     * Get exerciseHistories.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -258,35 +251,61 @@ class Exercise
     }
 
     /**
-     * Set bestExerciseHistory
-     *
-     * @param \Orgabat\GameBundle\Entity\ExerciseHistory $bestExerciseHistory
-     *
-     * @return Exercise
-     */
-    public function setBestExerciseHistory(\Orgabat\GameBundle\Entity\ExerciseHistory $bestExerciseHistory = null)
-    {
-        $this->bestExerciseHistory = $bestExerciseHistory;
-
-        return $this;
-    }
-
-    /**
-     * Get bestExerciseHistory
+     * Get bestExerciseHistory.
      *
      * @return \Orgabat\GameBundle\Entity\ExerciseHistory
      */
     public function getBestExerciseHistory()
     {
-        return $this->bestExerciseHistory;
+        if (count($this->exerciseHistories) == 0) {
+            return null;
+        }
+
+        $tab = ['index' => -1, 'score' => -1];
+        foreach ($this->exerciseHistories as $index => $try) {
+            if ($try->getScore() > $tab['score']) {
+                $tab['score'] = $try->getScore();
+                $tab['index'] = $index;
+            }
+        }
+
+        return $this->exerciseHistories[$tab['index']];
     }
 
     /**
-     * Check if the game has a try above the minimum note
-     * @return boolean
+     * Get the max score.
+     *
+     * @return int The max score
+     */
+    public function getMaxScore()
+    {
+        return $this->getHealthMaxNote()
+            + $this->getOrganizationMaxNote()
+            + $this->getBusinessNotorietyMaxNote();
+    }
+
+    /**
+     * Get the min score.
+     *
+     * @return float The min score
+     */
+    public function getMinScore()
+    {
+        return ceil($this->getMaxScore() * self::MINIMUM_NOTE);
+    }
+
+    /**
+     * Check if the game has a try above the minimum note.
+     *
+     * @return bool
      */
     public function isFinished()
     {
-        return $this->bestExerciseHistory->getScore() >= self::MINIMUM_NOTE;
+        $best = $this->getBestExerciseHistory();
+        if (is_null($best)) {
+            return false;
+        }
+
+        return $best->getScore() >= self::MINIMUM_NOTE;
     }
 }
