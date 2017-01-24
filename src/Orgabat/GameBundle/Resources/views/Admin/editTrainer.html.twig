@@ -7,12 +7,6 @@
     <div class="col-sm-12">{{ form_row(form.lastName) }}</div>
     <div class="col-sm-12">{{ form_row(form.email) }}</div>
     <div class="col-sm-12">{{ form_row(form.sections) }}</div>
-    <div class="col-sm-12">
-        {% for pwd in form.plainPassword %}
-           {{ form_row(pwd) }}
-        {% endfor %}
-    </div>
-
     <div>
         {{ form_widget(form.save, {'attr': {'class': 'btn-primary center-block'}} ) }}
     </div>

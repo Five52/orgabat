@@ -3,12 +3,14 @@
 namespace Orgabat\GameBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Section
  *
  * @ORM\Table(name="section")
  * @ORM\Entity(repositoryClass="Orgabat\GameBundle\Repository\SectionRepository")
+ * @UniqueEntity(fields="name", message="Une classe existe déjà avec ce nom.")
  */
 class Section
 {

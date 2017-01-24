@@ -23,9 +23,6 @@ class TrainerType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        /** @var \Doctrine\ORM\EntityManager $em */
-
-
         $builder
             ->add('firstName', TextType::class, ['label' => 'Prénom'])
             ->add('lastName', TextType::class, ['label' => 'Nom'])
@@ -34,7 +31,8 @@ class TrainerType extends AbstractType
             ->add('sections', EntityType::class, array(
                 'class' => 'OrgabatGameBundle:Section',
                 'choice_label' => 'name',
-                'multiple' => true
+                'multiple' => true,
+                'expanded' => true
             ))
             // On demande une vérification du mot de passe
             ->add('plainPassword', RepeatedType::class, [

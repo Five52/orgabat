@@ -7,6 +7,7 @@ use Orgabat\GameBundle\Entity\Section;
 use Orgabat\GameBundle\Entity\Trainer;
 use Orgabat\GameBundle\Form\SectionType;
 use Orgabat\GameBundle\Form\TrainerType;
+use Orgabat\GameBundle\Form\TrainerUpdateType;
 use Orgabat\GameBundle\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Finder\Finder;
@@ -219,13 +220,13 @@ class AdminController extends Controller
     }
 
     /*
-     * Modification d'un enseignant à partir d'un formulaire utilisant TrainerType
+     * Modification d'un enseignant à partir d'un formulaire utilisant TrainerUpdateType
      */
     public function editTrainerAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $trainer = $em->getRepository('OrgabatGameBundle:Trainer')->find($id);
-        $form = $this->createForm(TrainerType::class, $trainer);
+        $form = $this->createForm(TrainerUpdateType::class, $trainer);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $trainer = $form->getData();
@@ -400,9 +401,6 @@ class AdminController extends Controller
         $em = $this->getDoctrine()->getManager();
         $section = $em->getRepository('OrgabatGameBundle:Section')->find($id);
         $apprentices = $em->getRepository('OrgabatGameBundle:Apprentice')->findBy(array('section' => $section));
-        foreach ($apprentices as $apprentice) {
-            $apprentice->setSection(null);
-        }
         $em->remove($section);
         $em->flush();
         return $this->redirectToRoute('default_admin_board');

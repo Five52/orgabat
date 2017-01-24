@@ -4,7 +4,7 @@ namespace Orgabat\GameBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Orgabat\GameBundle\Form\TrainerUpdateType;
+use Orgabat\GameBundle\Form\TrainerSelfUpdateType;
 use Orgabat\GameBundle\Form\AdminUpdateType;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -134,7 +134,7 @@ class DefaultController extends Controller
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             $form = $this->createForm(AdminUpdateType::class, $user);
         } else {
-            $form = $this->createForm(TrainerUpdateType::class, $user);
+            $form = $this->createForm(TrainerSelfUpdateType::class, $user);
         }
 
         $form->handleRequest($request);

@@ -21,6 +21,7 @@ class Apprentice extends User
 
     /**
      * @ORM\ManyToOne(targetEntity="Orgabat\GameBundle\Entity\Section", inversedBy="apprentices", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     private $section;
 
@@ -90,7 +91,9 @@ class Apprentice extends User
             $this->getLastName(),
             $this->getBirthDate(),
             $this->getEmail(),
-            $this->getSection()->getName(),
+            ($this->getSection() !== null)
+            ? $this->getSection()->getName()
+            : "null"
         ];
     }
 
