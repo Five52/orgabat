@@ -26,7 +26,7 @@ security:
                 # if you are using Symfony < 2.8, use the following config instead:
                 # csrf_provider: form.csrf_provider
             logout:
-                path: /logout
+                path: /deconnexion
                 target: /
             anonymous:    true
 
@@ -36,9 +36,7 @@ security:
     access_control:
         - { path: ^/$, role: IS_AUTHENTICATED_FULLY }
         - { path: ^/rubriques, roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/connexion$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/classes$, role: ROLE_TRAINER }
         - { path: ^/admin/modifier_infos$, role: ROLE_TRAINER }
         - { path: ^/admin/classe$, role: ROLE_TRAINER }
