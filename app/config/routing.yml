@@ -6,8 +6,15 @@ app:
     resource: "@OrgabatGameBundle/Controller/"
     type:     annotation
 
+root:
+    path: /login
+    defaults:
+        _controller: FrameworkBundle:Redirect:urlRedirect
+        path: /connexion
+        permanent: true
+
 fos_user_security:
-    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+    resource: "@OrgabatGameBundle/Resources/config/security.xml"
 
 fos_user_profile:
    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
