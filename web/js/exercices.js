@@ -10,7 +10,7 @@
       games[g].onclick = null;
 
       if (!games[g].classList.contains('disabled')) {
-        games[g].onclick = clickHandler;
+        games[g].querySelector('.content').onclick = clickHandler;
       }
     }
   }
