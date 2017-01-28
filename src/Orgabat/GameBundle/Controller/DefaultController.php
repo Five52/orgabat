@@ -212,6 +212,7 @@ class DefaultController extends Controller
             ->getRepository('OrgabatGameBundle:Category')
             ->getExercisesOfAllCategoriesByUser($user)
         ;
+        $userScore = [];
         foreach ($categories as $category) {
             foreach ($category->getExercises() as $exercise) {
                 $userScore[$category->getName()] = ['healthNote' => 0, 'organizationNote' => 0, 'businessNotorietyNote' => 0];
@@ -240,7 +241,7 @@ class DefaultController extends Controller
                 'user' => $userScore,
                 'global' => $globalScore,
             ],
-        ]);*/
+        ]);/*
         $html = $this->renderView('OrgabatGameBundle:Pdf:user.html.twig', array(
             'user' => $user,
             'categories' => $categories,
@@ -252,6 +253,29 @@ class DefaultController extends Controller
 
         return new Response(
             $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
+            200,
+            array(
+                'Content-Type'          => 'application/pdf',
+                'Content-Disposition'   => 'attachment; filename="' . $user->getName() . '".pdf"'
+            )
+        );
+        */
+        $html = $this->renderView('OrgabatGameBundle:Pdf:user.html.twig', array(
+            'user' => $user,
+            'categories' => $categories,
+            'stats' => [
+                'user' => $userScore,
+                'global' => $globalScore,
+            ],
+        ));
+        $html2pdf = $this->get('html2pdf_factory')->create();
+        //real : utilise la taille réelle
+        $html2pdf->pdf->SetDisplayMode('real');
+        //writeHTML va tout simplement prendre la vue stocker dans la variable $html pour la convertir en format PDF
+        $html2pdf->writeHTML($html);
+        //Output envoit le document PDF au navigateur internet
+        return new Response(
+            $html2pdf->Output(__DIR__.$user->getName().".pdf", 'S'),
             200,
             array(
                 'Content-Type'          => 'application/pdf',

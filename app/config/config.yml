@@ -68,17 +68,6 @@ doctrine:
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
-
-knp_snappy:
-    pdf:
-        enabled:    true
-        binary:     "\"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe\""
-        options:    []
-    image:
-        enabled:    true
-        binary:     "\"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltoimage.exe\""
-        options:    []
-
 # Swiftmailer Configuration
 swiftmailer:
     transport: "%mailer_transport%"

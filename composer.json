@@ -31,8 +31,8 @@
         "doctrine/doctrine-fixtures-bundle": "~2.2",
         "pugx/multi-user-bundle": "~3.0@dev",
         "symfony/var-dumper": "^3.2",
-        "knplabs/knp-snappy-bundle": "^1.4",
-        "twig/extensions": "^1.2"
+        "twig/extensions": "^1.2",
+        "ensepar/html2pdf-bundle": "^3.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

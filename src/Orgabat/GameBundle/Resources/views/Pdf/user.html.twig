@@ -5,24 +5,59 @@
     <title>
         Orgabat
     </title>
-    <link rel="stylesheet" href="{{ absolute_url(asset('vendor/bootstrap/css/bootstrap.min.css')) }}">
-    <link rel="stylesheet" href="{{ absolute_url(asset('css/styles.css')) }}">
-    <link rel="stylesheet" href="{{ absolute_url(asset('css/headerIllustration.css')) }}">
-    <link rel="stylesheet" href="{{ absolute_url(asset('vendor/fontawesome/css/font-awesome.min.css')) }}">
-    <link rel="icon" type="image/x-icon" href="{{ absolute_url(asset('favicon.ico')) }}"/>
+    <style>
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+        h1, h2, h3 {
+            text-align: center;
+        }
+        .user-info {
+            border: 1px solid black;
+            padding: 12px;
+            text-align: center;
+        }
+        .user-info .name, .user-info .section .sectionName{
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .titlePdf {
+            padding: 15px;
+        }
+        .table-stats {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            border: 1px solid #c8c8c8;
+            margin-top: 20px;
+            margin-left: 100px;
+        }
+        .table-stats th{
+            font-weight: 500;
+            text-align: center;
+        }
+        .table-stats tr th:first-child, .table-stats tr td:first-child, .table-stats tr:last-child td {
+            font-weight: bold;
+        }
+        .table-stats>tbody>tr>td, .table-stats>tbody>tr>th, .table-stats>tfoot>tr>td, .table-stats>tfoot>tr>th, .table-stats>thead>tr>td, .table-stats>thead>tr>th {
+            padding: 12px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
-    <h1 class="text-center">Orgabat</h1>
-    <h2 class="text-center">Résultats des jeux</h2>
-    <div class="user-info col-sm-4">
+    <h1 class="">Orgabat</h1>
+    <h2 class="">Résultats des jeux</h2>
+    <div class="user-info">
         <p class="name">{{ user.lastName|upper }} {{ user.firstName }}</p>
         <p class="birth">Né le : {{ user.formattedBirthDate|date("d/m/Y") }}</p>
         <p class="section">Inscrit en <span class="sectionName">{{ user.section.name }}</span></p>
     </div>
     {% for category in categories  %}
-        <h3 class="text-center clearfix col-sm-12 titlePdf">{{ category.name }}</h3>
-        <table class="table table-stats">
+        <h3 class=" titlePdf">{{ category.name }}</h3>
+        <table class="table-stats">
             <thead>
             <tr>
                 <th>#</th>
@@ -35,7 +70,7 @@
             <tbody >
             {% for exercise in category.exercises|sort %}
             <tr>
-                <td scope="row">{{ exercise.name }}</td>
+                <td>{{ exercise.name }}</td>
                 <td>{{ exercise.bestExerciseHistory.timer }}</td>
                 <td>{{ exercise.bestExerciseHistory.healthNote }} / {{ exercise.healthMaxNote }}</td>
                 <td>{{ exercise.bestExerciseHistory.organizationNote }} / {{ exercise.organizationMaxNote }}</td>
@@ -43,7 +78,7 @@
             </tr>
             {% endfor %}
             <tr>
-                <td scope="row">Total</td>
+                <td>Total</td>
                 <td>{{ category.dataFromAllBestExercises.timer }}</td>
                 <td>{{ category.dataFromAllBestExercises.healthNote }} / {{ stats.global.healthNote }}</td>
                 <td>{{ category.dataFromAllBestExercises.organizationNote }} / {{ stats.global.organizationNote }}</td>

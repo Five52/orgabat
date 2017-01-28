@@ -50,7 +50,7 @@ class Apprentice extends User
     }
 
     public function getName() {
-        return $this->getFirstName() . " " . $this->getLastName();
+        return $this->getFirstName().$this->getLastName();
     }
 
     /**

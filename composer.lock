@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ba4e4c42125c8045955bf977aeb51ca2",
-    "content-hash": "ef2007df8a81cd469286ec2e2bb0c531",
+    "hash": "b09e382a329c4dfba9375a818f60c644",
+    "content-hash": "f2fc74b6da89dccdb0b741c9eed10d5c",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -888,6 +888,54 @@
             "time": "2016-01-05 21:34:58"
         },
         {
+            "name": "ensepar/html2pdf-bundle",
+            "version": "v3.0.0",
+            "target-dir": "Ensepar/Html2pdfBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/OwlyCode/EnseparHtml2pdfBundle.git",
+                "reference": "37ddcd51ad8ffe64c181597af963f899fb3ca1f4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/OwlyCode/EnseparHtml2pdfBundle/zipball/37ddcd51ad8ffe64c181597af963f899fb3ca1f4",
+                "reference": "37ddcd51ad8ffe64c181597af963f899fb3ca1f4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2",
+                "spipu/html2pdf": "~4.5",
+                "symfony/symfony": ">=2.0"
+            },
+            "require-dev": {
+                "sensio/framework-extra-bundle": "~3.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "Ensepar\\Html2pdfBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tristan Maindron",
+                    "email": "tmaindron@gmail.com"
+                }
+            ],
+            "description": "Use HTML2PDF as a Symfony2 Service",
+            "homepage": "https://github.com/OwlyCode/EnseparHtml2pdfBundle",
+            "keywords": [
+                "TCPDF",
+                "html2pdf",
+                "pdf"
+            ],
+            "time": "2016-01-02 14:09:52"
+        },
+        {
             "name": "friendsofsymfony/user-bundle",
             "version": "dev-master",
             "source": {
@@ -1056,128 +1104,6 @@
                 "sql"
             ],
             "time": "2014-01-12 16:20:24"
-        },
-        {
-            "name": "knplabs/knp-snappy",
-            "version": "0.4.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/KnpLabs/snappy.git",
-                "reference": "44f7a9b37d5686fd7db4c1e9569a802a5d16923f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/snappy/zipball/44f7a9b37d5686fd7db4c1e9569a802a5d16923f",
-                "reference": "44f7a9b37d5686fd7db4c1e9569a802a5d16923f",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3",
-                "symfony/process": "~2.3|~3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.7"
-            },
-            "suggest": {
-                "h4cc/wkhtmltoimage-amd64": "Provides wkhtmltoimage-amd64 binary for Linux-compatible machines, use version `~0.12` as dependency",
-                "h4cc/wkhtmltoimage-i386": "Provides wkhtmltoimage-i386 binary for Linux-compatible machines, use version `~0.12` as dependency",
-                "h4cc/wkhtmltopdf-amd64": "Provides wkhtmltopdf-amd64 binary for Linux-compatible machines, use version `~0.12` as dependency",
-                "h4cc/wkhtmltopdf-i386": "Provides wkhtmltopdf-i386 binary for Linux-compatible machines, use version `~0.12` as dependency",
-                "wemersonjanuario/wkhtmltopdf-windows": "Provides wkhtmltopdf executable for Windows, use version `~0.12` as dependency"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.5.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Knp\\Snappy": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "KNPLabs Team",
-                    "homepage": "http://knplabs.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "http://github.com/KnpLabs/snappy/contributors"
-                }
-            ],
-            "description": "PHP5 library allowing thumbnail, snapshot or PDF generation from a url or a html page. Wrapper for wkhtmltopdf/wkhtmltoimage.",
-            "homepage": "http://github.com/KnpLabs/snappy",
-            "keywords": [
-                "knp",
-                "knplabs",
-                "pdf",
-                "snapshot",
-                "thumbnail",
-                "wkhtmltopdf"
-            ],
-            "time": "2015-11-17 13:16:27"
-        },
-        {
-            "name": "knplabs/knp-snappy-bundle",
-            "version": "v1.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/KnpLabs/KnpSnappyBundle.git",
-                "reference": "efda38a2f9eb47830eb2a7642541abaaf5a1d34f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/KnpSnappyBundle/zipball/efda38a2f9eb47830eb2a7642541abaaf5a1d34f",
-                "reference": "efda38a2f9eb47830eb2a7642541abaaf5a1d34f",
-                "shasum": ""
-            },
-            "require": {
-                "knplabs/knp-snappy": "~0.1",
-                "php": ">=5.3.2",
-                "symfony/finder": "~2.3|~3.0",
-                "symfony/framework-bundle": "~2.3|~3.0",
-                "symfony/validator": "~2.3|~3.0"
-            },
-            "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.2.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Knp\\Bundle\\SnappyBundle\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "KNPLabs Team",
-                    "homepage": "http://knplabs.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "http://github.com/KnpLabs/KnpSnappyBundle/contributors"
-                }
-            ],
-            "description": "Easily create PDF and images in Symfony2 by converting Twig/HTML templates.",
-            "homepage": "http://github.com/KnpLabs/KnpSnappyBundle",
-            "keywords": [
-                "bundle",
-                "knp",
-                "knplabs",
-                "pdf",
-                "snappy"
-            ],
-            "time": "2015-11-11 17:40:14"
         },
         {
             "name": "monolog/monolog",
@@ -1556,6 +1482,59 @@
             ],
             "description": "A security checker for your composer.lock",
             "time": "2015-11-07 08:07:40"
+        },
+        {
+            "name": "spipu/html2pdf",
+            "version": "v4.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spipu/html2pdf.git",
+                "reference": "4898439e170ebf032513b8d3a83f0f5ffe85fece"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spipu/html2pdf/zipball/4898439e170ebf032513b8d3a83f0f5ffe85fece",
+                "reference": "4898439e170ebf032513b8d3a83f0f5ffe85fece",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2",
+                "tecnickcom/tcpdf": "~6.2.0"
+            },
+            "suggest": {
+                "ext-gd": "Allows to embed images into the PDF",
+                "fagundes/zff-html2pdf": "zff-html2pdf module ~0.1.1, if you need to integrate HTML2PDF with Zend Framework 2 (zf2)"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "html2pdf.class.php",
+                    "_class/exception.class.php",
+                    "_class/locale.class.php",
+                    "_class/myPdf.class.php",
+                    "_class/parsingHtml.class.php",
+                    "_class/parsingCss.class.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Spipu",
+                    "homepage": "https://github.com/spipu",
+                    "role": "Developer"
+                }
+            ],
+            "description": "HTML2PDF is a HTML to PDF converter written in PHP5 (it uses TCPDF). OFFICIAL PACKAGE",
+            "homepage": "http://html2pdf.fr/",
+            "keywords": [
+                "html",
+                "html2pdf",
+                "pdf"
+            ],
+            "time": "2016-04-05 12:25:17"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -2203,6 +2182,69 @@
                 "dump"
             ],
             "time": "2016-12-11 14:34:22"
+        },
+        {
+            "name": "tecnickcom/tcpdf",
+            "version": "6.2.12",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tecnickcom/TCPDF.git",
+                "reference": "2f732eaa91b5665274689b1d40b285a7bacdc37f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/2f732eaa91b5665274689b1d40b285a7bacdc37f",
+                "reference": "2f732eaa91b5665274689b1d40b285a7bacdc37f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "fonts",
+                    "config",
+                    "include",
+                    "tcpdf.php",
+                    "tcpdf_parser.php",
+                    "tcpdf_import.php",
+                    "tcpdf_barcodes_1d.php",
+                    "tcpdf_barcodes_2d.php",
+                    "include/tcpdf_colors.php",
+                    "include/tcpdf_filters.php",
+                    "include/tcpdf_font_data.php",
+                    "include/tcpdf_fonts.php",
+                    "include/tcpdf_images.php",
+                    "include/tcpdf_static.php",
+                    "include/barcodes/datamatrix.php",
+                    "include/barcodes/pdf417.php",
+                    "include/barcodes/qrcode.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPLv3"
+            ],
+            "authors": [
+                {
+                    "name": "Nicola Asuni",
+                    "email": "info@tecnick.com",
+                    "homepage": "http://nicolaasuni.tecnick.com"
+                }
+            ],
+            "description": "TCPDF is a PHP class for generating PDF documents and barcodes.",
+            "homepage": "http://www.tcpdf.org/",
+            "keywords": [
+                "PDFD32000-2008",
+                "TCPDF",
+                "barcodes",
+                "datamatrix",
+                "pdf",
+                "pdf417",
+                "qrcode"
+            ],
+            "time": "2015-09-12 10:08:34"
         },
         {
             "name": "twig/extensions",
