@@ -12,6 +12,12 @@ root:
         _controller: FrameworkBundle:Redirect:urlRedirect
         path: /connexion
         permanent: true
+profil:
+    path: /profil/
+    defaults:
+        _controller: FrameworkBundle:Redirect:urlRedirect
+        path: /connexion
+        permanent: true
 
 fos_user_security:
     resource: "@OrgabatGameBundle/Resources/config/security.xml"
@@ -25,7 +31,7 @@ fos_user_register:
    prefix: /inscription
 
 fos_user_resetting:
-   resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
+   resource: "@OrgabatGameBundle/Resources/config/resetting.xml"
    prefix: /reinitialisation
 
 fos_user_change_password:
