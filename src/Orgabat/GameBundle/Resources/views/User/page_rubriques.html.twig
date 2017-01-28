@@ -74,6 +74,9 @@
                     <span class="stat">{{ stats['user']['businessNotorietyNote'] }} / {{ stats['global']['businessNotorietyNote'] }}</span>
                 </div>
             </div>
+            <div class="panel-footer">
+                <a class="btn btn-info" href="{{ path('admin_get_user_infos_pdf') }}">Récupérer ses statistiques</a>
+            </div>
         </div>
     </div>
 {% endblock %}

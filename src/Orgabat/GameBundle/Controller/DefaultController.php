@@ -8,6 +8,7 @@ use Orgabat\GameBundle\Form\AdminUpdateType;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Orgabat\GameBundle\Entity\Category;
+use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends Controller
 {
@@ -77,7 +78,6 @@ class DefaultController extends Controller
      */
     public function showGamesAction(Category $category, Request $request)
     {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $exercises = $em
@@ -203,4 +203,61 @@ class DefaultController extends Controller
             'form' => $form->createView(),
         ]);
     }
+
+    public function getUserInfosUsingPDFAction() {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $exercises = $em->getRepository('OrgabatGameBundle:Exercise')->findAll();
+        $categories = $em
+            ->getRepository('OrgabatGameBundle:Category')
+            ->getExercisesOfAllCategoriesByUser($user)
+        ;
+        foreach ($categories as $category) {
+            foreach ($category->getExercises() as $exercise) {
+                $userScore[$category->getName()] = ['healthNote' => 0, 'organizationNote' => 0, 'businessNotorietyNote' => 0];
+                $best = $exercise->getBestExerciseHistory();
+
+                // Get the total user score
+                $userScore[$category->getName()]['timer'] = $best->getTimer();
+                $userScore[$category->getName()]['healthNote'] = $best->getHealthNote();
+                $userScore[$category->getName()]['organizationNote'] = $best->getOrganizationNote();
+                $userScore[$category->getName()]['businessNotorietyNote'] = $best->getBusinessNotorietyNote();
+            }
+        }
+
+        // Get the total global score
+        $globalScore = ['healthNote' => 0, 'organizationNote' => 0, 'businessNotorietyNote' => 0];
+        foreach ($exercises as $exercise) {
+            $globalScore['healthNote'] += $exercise->getHealthMaxNote();
+            $globalScore['organizationNote'] += $exercise->getOrganizationMaxNote();
+            $globalScore['businessNotorietyNote'] += $exercise->getBusinessNotorietyMaxNote();
+        }
+
+        /*return $this->render('OrgabatGameBundle:Pdf:user.html.twig', [
+            'user' => $user,
+            'categories' => $categories,
+            'stats' => [
+                'user' => $userScore,
+                'global' => $globalScore,
+            ],
+        ]);*/
+        $html = $this->renderView('OrgabatGameBundle:Pdf:user.html.twig', array(
+            'user' => $user,
+            'categories' => $categories,
+            'stats' => [
+                'user' => $userScore,
+                'global' => $globalScore,
+            ],
+        ));
+
+        return new Response(
+            $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
+            200,
+            array(
+                'Content-Type'          => 'application/pdf',
+                'Content-Disposition'   => 'attachment; filename="' . $user->getName() . '".pdf"'
+            )
+        );
+    }
+
 }

@@ -17,6 +17,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new PUGX\MultiUserBundle\PUGXMultiUserBundle(),
             new FOS\UserBundle\FOSUserBundle(),
+            new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
             new Orgabat\GameBundle\OrgabatGameBundle(),
         ];
 

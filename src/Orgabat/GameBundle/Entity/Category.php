@@ -98,6 +98,7 @@ class Category
         $this->exercises->removeElement($exercise);
     }
 
+
     /**
      * Get exercises
      *
@@ -106,5 +107,19 @@ class Category
     public function getExercises()
     {
         return $this->exercises;
+    }
+
+    public function getDataFromAllBestExercises() {
+        $results = ["timer" => 0, "healthNote" => 0, "organizationNote" => 0, "businessNotorietyNote" => 0];
+        $compteur = 0;
+        foreach ($this->exercises as $exercise) {
+            $results["timer"] += $exercise->getBestExerciseHistory()->getTimer();
+            $results["healthNote"] += $exercise->getBestExerciseHistory()->getHealthNote();
+            $results["organizationNote"] += $exercise->getBestExerciseHistory()->getOrganizationNote();
+            $results["businessNotorietyNote"] += $exercise->getBestExerciseHistory()->getBusinessNotorietyNote();
+            $compteur ++;
+        }
+        $results["timer"] /= $compteur;
+        return $results;
     }
 }

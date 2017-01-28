@@ -114,3 +114,8 @@ admin_export_section:
 admin_import_section:
     path:   /admin/classes/importer
     defaults: { _controller: OrgabatGameBundle:Admin:importSections}
+
+# PDF
+admin_get_user_infos_pdf:
+    path:   /statistiques
+    defaults: { _controller: OrgabatGameBundle:Default:getUserInfosUsingPDF}
