@@ -138,8 +138,8 @@ admin_import_section:
 # PDF
 user_get_infos_pdf:
     path:   /statistiques
-    defaults: { _controller: OrgabatGameBundle:Default:getUserInfosUsingPDF}
+    defaults: { _controller: OrgabatGameBundle:PDF:getUserInfosUsingPDF}
 
 admin_get_users_infos_pdf:
     path:   /admin/apprentis/statistiques
-    defaults: { _controller: OrgabatGameBundle:Default:getAllUsersInfosUsingPDF}
+    defaults: { _controller: OrgabatGameBundle:PDF:getAllUsersInfosUsingPDF}

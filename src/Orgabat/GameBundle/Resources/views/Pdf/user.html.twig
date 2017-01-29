@@ -54,6 +54,8 @@
 <div class="container">
     <h1 class="">Orgabat</h1>
     <h2 class="">Résultats des jeux</h2>
+
+    {# User informations #}
     <div class="user-info">
         <p class="name">{{ user.lastName|upper }} {{ user.firstName }}</p>
         <p class="birth">Né le : {{ user.formattedBirthDate|date("d/m/Y") }}</p>
@@ -61,6 +63,8 @@
             <p class="section">Inscrit en <span class="sectionName">{{ user.section.name }}</span></p>
         {% endif %}
     </div>
+
+    {# Iterate all categories played by an apprentice #}
     {% for category in categories  %}
         <h3 class=" titlePdf">{{ category.name }}</h3>
         <table class="table-stats">
@@ -83,6 +87,8 @@
                 <td>{{ exercise.bestExerciseHistory.businessNotorietyNote }} / {{ exercise.businessNotorietyMaxNote }}</td>
             </tr>
             {% endfor %}
+
+            {# Total stats for a category #}
             <tr>
                 <td>Total</td>
                 <td>{{ category.dataFromAllBestExercises.timer }}</td>
