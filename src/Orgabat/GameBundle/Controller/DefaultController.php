@@ -8,21 +8,27 @@ use Orgabat\GameBundle\Form\AdminUpdateType;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Orgabat\GameBundle\Entity\Category;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class DefaultController extends Controller
 {
+    /**
+     * @Security("has_role('ROLE_APPRENTICE')")
+     */
     public function showRulesAction(Request $request)
     {
-        // replace this example code with whatever you need
         return $this->render('OrgabatGameBundle:User:page_regles.html.twig');
     }
 
     public function showConnectionFormUserAction(Request $request)
     {
-        // replace this example code with whatever you need
         return $this->render('OrgabatGameBundle:User:page_co.html.twig');
     }
 
+
+    /**
+     * @Security("has_role('ROLE_APPRENTICE')")
+     */
     public function showMenuAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -74,6 +80,7 @@ class DefaultController extends Controller
 
     /**
      * @ParamConverter("category", options={"mapping": {"category_id": "id"}})
+     * @Security("has_role('ROLE_APPRENTICE')")
      */
     public function showGamesAction(Category $category, Request $request)
     {
@@ -114,7 +121,10 @@ class DefaultController extends Controller
         ]);
     }
 
-    // Dashboard principal de l'administrateur
+    /**
+     * Dashboard principal de l'administrateur
+     * @Security("has_role('ROLE_TRAINER')")
+     */
     public function showAdminAction()
     {
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
@@ -143,7 +153,9 @@ class DefaultController extends Controller
         ]);
     }
 
-    // Liste des classes
+    /**
+     * @Security("has_role('ROLE_TRAINER')")
+     */
     public function showSectionsAction()
     {
         // On récupère les informations de l'utilisateur du site
@@ -170,6 +182,9 @@ class DefaultController extends Controller
 
     }
 
+    /**
+     * @Security("has_role('ROLE_TRAINER')")
+     */
     public function showEditInfosAction(Request $request)
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
