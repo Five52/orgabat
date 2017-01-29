@@ -1,35 +1,42 @@
-<div id="sidebar-wrapper" class="dash_sidebar">
+<div class="sidebar-content">
   <div>
     <a href="{{ path('default_admin_board') }}" id="title">Orgabat</a>
   </div>
 
   <div class="list-group panel">
-    <a class="list-group-item" data-toggle="collapse" href="#add">
-      <span><i class="fa fa-plus-circle"></i> Ajout</span>
-      <i class="fa fa-arrow-down"></i>
-    </a>
-    <div class="collapse" id="add">
-      <a class="list-group-item" href="{{ path('admin_create_user') }}"><span class="glyphicon glyphicon-user"></span> Compte apprenti</a>
-      <a class="list-group-item" href="{{ path('admin_create_trainer') }}"><span class="glyphicon glyphicon-user"></span> Compte formateur</a>
-    </div>
+    {% if is_granted('ROLE_ADMIN') %}
+      <a class="list-group-item" data-toggle="collapse" href="#add">
+        <span><i class="fa fa-plus-circle"></i> Ajout</span>
+        <i class="fa fa-arrow-down"></i>
+      </a>
+      <div class="collapse" id="add">
+        <a class="list-group-item user_color" href="{{ path('admin_create_user') }}"><i class="fa fa-user-plus"></i> Compte apprenti</a>
+          <a class="list-group-item trainer_color" href="{{ path('admin_create_trainer') }}"><i class="fa fa-user-plus"></i> Compte formateur</a>
+          <a class="list-group-item section_color" href="{{ path('admin_create_section') }}"><i class="fa fa-list-alt"></i> Une classe</a>
+      </div>
 
-    <a class="list-group-item" data-toggle="collapse" href="#import">
-      <span><i class="fa fa-arrow-circle-up"></i> Import</span>
-      <i class="fa fa-arrow-down"></i>
-    </a>
-    <div class="collapse" id="import">
-      <a class="list-group-item" href="{{ path('admin_create_user') }}"><span class="glyphicon glyphicon-user"></span> Compte apprenti</a>
-      <a class="list-group-item" href="{{ path('admin_create_trainer') }}"><span class="glyphicon glyphicon-user"></span> Compte formateur</a>
-    </div>
+      <a class="list-group-item" data-toggle="collapse" href="#import">
+        <span><i class="fa fa-arrow-circle-up"></i> Import</span>
+        <i class="fa fa-arrow-down"></i>
+      </a>
+      <div class="collapse" id="import">
+        <a class="list-group-item user_color" href="{{ path('admin_import_user') }}"><i class="fa fa-users"></i> Des apprentis</a>
+        <a class="list-group-item trainer_color" href="{{ path('admin_import_trainer') }}"><i class="fa fa-users"></i> Des enseignants</a>
+        <a class="list-group-item section_color" href="{{ path('admin_import_section') }}"><i class="fa fa-list-alt"></i> Des classes</a>
+      </div>
 
-    <a class="list-group-item" data-toggle="collapse" href="#export">
-      <span><i class="fa fa-arrow-circle-down"></i> Export</span>
-      <i class="fa fa-arrow-down"></i>
-    </a>
-    <div class="collapse" id="export">
-      <a class="list-group-item" href="{{ path('admin_create_user') }}"><span class="glyphicon glyphicon-user"></span> Compte apprenti</a>
-      <a class="list-group-item" href="{{ path('admin_create_trainer') }}"><span class="glyphicon glyphicon-user"></span> Compte formateur</a>
-    </div>
+      <a class="list-group-item" data-toggle="collapse" href="#export">
+        <span><i class="fa fa-arrow-circle-down"></i> Export</span>
+        <i class="fa fa-arrow-down"></i>
+      </a>
+      <div class="collapse" id="export">
+        <a class="list-group-item user_color" href="{{ path('admin_export_user') }}"><i class="fa fa-users"></i> Les apprentis</a>
+        <a class="list-group-item trainer_color" href="{{ path('admin_export_trainer') }}"><i class="fa fa-users"></i> Les enseignants</a>
+        <a class="list-group-item section_color" href="{{ path('admin_export_section') }}"><i class="fa fa-list-alt"></i> Les classes</a>
+      </div>
+    {% elseif is_granted('ROLE_TRAINER') %}
+      <a class="list-group-item" href="{{ path('admin_create_user') }}"><i class="fa fa-user-plus"></i> Ajouter un compte apprenti</a>
+    {% endif %}
   </div>
 
   <div class="list-group panel">
