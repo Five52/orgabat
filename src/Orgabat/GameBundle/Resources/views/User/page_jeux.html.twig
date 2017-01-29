@@ -1,10 +1,11 @@
 {% extends 'OrgabatGameBundle::base_listejeux.html.twig' %}
 {% block body %}
+  <div class="games">
     <div class="row">
       <div class="col-sm-9">
-          <h1>{{ category.name }}</h1>
+          <h1 class="title">{{ category.name }}</h1>
       </div>
-      <div class="col-sm-3">
+      <div class="col-sm-3 stats">
           <div class="panel panel-default">
               <div class="panel-body">
                   <p>Résumé :</p>
@@ -32,7 +33,7 @@
           <div class="col-sm-4 game noselect {{ exercise.finished ? 'disabled' : '' }}" data-game-id="{{ exercise.id }}">
             <div class="content">
               <div class="panel-heading">
-                  <h2 id="game_label">{{ exercise.name }}</h2>
+                  <h2 class="game_label">{{ exercise.name }}</h2>
               </div>
               <div class="panel-body">
                   <div class="infos">
@@ -93,6 +94,7 @@
     </div>
 
     <a href="{{ path('default_category') }}" class="col-sm-12 btn btn-success" role="button" id="return">Retourner aux modules</a>
+  </div>
 
 {% endblock %}
 {% block javascripts %}

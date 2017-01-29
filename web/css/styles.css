@@ -1,21 +1,60 @@
-/* Pied de page */
+/* GLOBAL */
+html {
+   height: 100%;
+}
+
+body {
+   min-height: 100%;
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+}
 
 footer {
-  color: white;
+  color: #000;
+  margin-top: 100px;
+  float: left;
+  width: 100%;
 }
 
 .header a {
   text-decoration: none;
-  color: black;
+  color: #000;
 }
 
-/* Règles générales */
+.logout_wrapper {
+  text-align: center;
+}
+
+h3 {
+  margin-bottom: 50px;
+}
 
 form {
   margin: 10px;
 }
 
-/* Page Exercices */
+.section_color {
+  color: #188c33 !important;
+}
+
+.trainer_color {
+  color: #bd8432 !important;
+}
+
+.user_color {
+  color: #487fbb !important;
+}
+
+
+/* JEUX */
 #return {
   margin-top: 20px;
 }
@@ -84,8 +123,27 @@ form {
   text-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
 }
 
-/* Page connexion user */
+.games .title {
+  margin-bottom: 40px;
+}
 
+@media (max-width: 767px) {
+  .game {
+    margin-bottom: 20px;
+  }
+
+  .game_label {
+    margin: 7px 0px;
+    font-size: 1.7em;
+  }
+
+  .games .stats {
+    margin-bottom: 40px;
+  }
+}
+
+
+/* Page connexion user */
 #msgFormUser {
   text-align: center;
   margin: 10px;
@@ -104,21 +162,6 @@ form {
 }
 
 /* RUBRIQUES */
-
-.noselect {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  cursor: default;
-}
-
-footer {
-  color: black;
-}
-
 .rubrique {
   height: 85px;
   display: flex;
@@ -126,6 +169,8 @@ footer {
   align-items: center;
   cursor: pointer;
   transition: background-color 200ms ease;
+  width: calc(96% / 4);
+  margin: 0px calc(0.5%) calc(1%);
 }
 .rubrique:hover {
   background-color: #E4E4E4;
@@ -133,6 +178,28 @@ footer {
 .rubrique:active {
   transition-duration: 0;
   background-color: #F5F5F5;
+}
+
+@media (max-width: 992px){
+  .container {
+    width: 100%;
+  }
+}
+
+@media (max-width: 900px){
+  .col-sm-3.rubrique {
+    width: calc(96% / 2);
+  }    font-size: 1.8em;
+    color: #1b1b1b;
+    font-weight: 600;
+    padding: 0.7em 0.5em;
+    display: block;
+}
+
+@media (max-width: 768px){
+  .col-sm-3.rubrique {
+    width: 100%;
+  }
 }
 
 .modal-dialog {
@@ -167,8 +234,8 @@ iframe {
   max-width: 100%;
 }
 
-/* Page de règles */
 
+/* Page de règles */
 .regles {
   text-align: center;
   margin-left: 15%;
@@ -180,7 +247,6 @@ iframe {
 }
 
 /* Bandeau d'en-tête */
-
 .header h1 {
     text-align: center;
     font-weight: bold;
@@ -273,11 +339,6 @@ iframe {
     flex-direction: column;
 }
 
-/*
-* And with max cross-browser enabled.
-* Nobody should ever write this by hand.
-* Use a preprocesser with autoprefixing.
-*/
 .row.is-flex {
     display: -webkit-box;
     display: -webkit-flex;
@@ -300,8 +361,46 @@ iframe {
     flex-direction: column;
 }
 
-/* CSS slider de logo */
 
+/* Dashboard */
+.sidebar-content #title {
+  font-size: 1.8em;
+  color: #1b1b1b;
+  font-weight: 600;
+  padding: 0.7em 0.5em;
+  display: block;
+}
+
+a[data-toggle="collapse"] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 20px;
+}
+
+a[data-toggle="collapse"][aria-expanded="true"] {
+  color: #337ab7;
+  text-decoration: none;
+  background-color: #f5f5f5;
+}
+
+.icons {
+  font-size: .55em;
+  vertical-align: middle;
+  margin-left: 12px;
+}
+.icons a {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.section {
+  margin-bottom: 60px;
+  float: left;
+  width: 100%;
+}
+
+
+/* CSS slider de logo */
 #block-views-marques-block,
 #block-views-marques-block-accueil {
   text-align: center;

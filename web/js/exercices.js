@@ -17,7 +17,7 @@
   initGames();
 
   function clickHandler() {
-    window.parent.loadGame(this.dataset.gameId, this.querySelector('#game_label').textContent);
+    window.parent.loadGame(this.dataset.gameId, this.querySelector('.game_label').textContent);
   }
 
 })();

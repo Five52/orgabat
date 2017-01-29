@@ -2,96 +2,113 @@
 
 namespace Orgabat\GameBundle\Controller;
 
+use Orgabat\GameBundle\Entity\User;
 use Orgabat\GameBundle\Entity\Apprentice;
 use Orgabat\GameBundle\Entity\Section;
 use Orgabat\GameBundle\Entity\Trainer;
 use Orgabat\GameBundle\Form\SectionType;
 use Orgabat\GameBundle\Form\TrainerType;
 use Orgabat\GameBundle\Form\TrainerUpdateType;
-use Orgabat\GameBundle\Form\UserType;
+use Orgabat\GameBundle\Form\ApprenticeType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class AdminController extends Controller
 {
 
-    # User
-
-
     /*
-     * Création d'un utilisateur à partir d'un formulaire utilisant le UserType
+     * Création d'un utilisateur à partir d'un formulaire utilisant le ApprenticeType
     */
-    public function createUserAction(Request $request)
+    public function createApprenticeAction(Request $request)
     {
-        $user = new Apprentice();
+        $apprentice = new Apprentice();
         $em = $this->getDoctrine()->getManager();
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(ApprenticeType::class, $apprentice);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $form->getData();
-            $user->setUsername($user->getFirstName().' '.$user->getLastName());
-            $user->setPlainPassword($user->getBirthDate());
-            $user->addRole('ROLE_APPRENTICE');
-            $user->setEnabled(true);
-            $em->persist($user);
+            $apprentice = $form->getData();
+            $apprentice->setUsername($apprentice->getFirstName().' '.$apprentice->getLastName());
+            $apprentice->setPlainPassword($apprentice->getBirthDate());
+            $apprentice->addRole('ROLE_APPRENTICE');
+            $apprentice->setEnabled(true);
+            $em->persist($apprentice);
             $em->flush();
 
+            $request->getSession()->getFlashBag()->add(
+                'message',
+                "L'apprenti " . $apprentice->getUsername() . " a bien été créé !"
+            );
             return $this->redirectToRoute('default_admin_board');
         }
-        return $this->render('OrgabatGameBundle:Admin:addUser.html.twig', ['form' => $form->createView()]);
+        return $this->render('OrgabatGameBundle:Admin:addApprentice.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
-    /*
-     * Edition d'un utilisateur à partir d'un formulaire utilisant le UserType
-    */
-    public function editUserAction($id, Request $request)
+    /**
+     * @ParamConverter("apprentice", options={"mapping": {"apprentice_id": "id"}})
+     */
+    public function editApprenticeAction(Apprentice $apprentice, Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('OrgabatGameBundle:Apprentice')->find($id);
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(ApprenticeType::class, $apprentice);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $form->getData();
-            $user->setUsername($user->getFirstName().' '.$user->getLastName());
-            $user->setPlainPassword($user->getBirthDate());
-            $em->persist($user);
+            $apprentice = $form->getData();
+            $apprentice->setUsername($apprentice->getFirstName().' '.$apprentice->getLastName());
+            $apprentice->setPlainPassword($apprentice->getBirthDate());
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($apprentice);
             $em->flush();
+
+            $request->getSession()->getFlashBag()->add(
+                'message',
+                "L'apprenti " . $apprentice->getUsername() . " a bien été modifié !"
+            );
             return $this->redirectToRoute('default_admin_board');
         }
-        return $this->render('OrgabatGameBundle:Admin:editUser.html.twig', ['form' => $form->createView()]);
+        return $this->render('OrgabatGameBundle:Admin:editApprentice.html.twig', ['form' => $form->createView()]);
     }
 
-    /*
-     * Suppression d'un utilisateur
-    */
-    public function deleteUserAction($id)
+    /**
+     * @ParamConverter("user", options={"mapping": {"user_id": "id"}})
+     */
+    public function deleteUserAction(User $user, Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('OrgabatGameBundle:Apprentice')->find($id);
-        // On supprime aussi ses réalisations sur les jeux auxquels il a joué
-        $realisations = $em->getRepository('OrgabatGameBundle:ExerciseHistory')->findBy(array('user' => $user));
-        foreach ($realisations as $realisation) {
-            $em->remove($realisation);
+        $form = $this->createFormBuilder()->getForm();
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($user);
+            $em->flush();
+
+            $request->getSession()->getFlashBag()->add(
+                'message',
+                "L'utilisateur " . $user->getUsername() . " a bien été supprimé !"
+            );
+            return $this->redirectToRoute('default_admin_board');
         }
-        $em->remove($user);
-        $em->flush();
-        return $this->redirectToRoute('default_admin_board');
+        return $this->render('OrgabatGameBundle:Admin:deleteUser.html.twig', [
+            'user' => $user,
+            'form' => $form->createView()
+        ]);
     }
 
-    /*
+    /**
      * Exportation des apprentis d'une classe au format CSV => apprentis.csv
+     * @ParamConverter("section", options={"mapping": {"section_id": "id"}})
     */
-    public function exportApprenticesBySectionAction($id)
+    public function exportApprenticesBySectionAction(Section $section)
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $section = $em->getRepository('OrgabatGameBundle:Section')->find($id);
-
-        $apprentices = $em->getRepository('OrgabatGameBundle:Apprentice')->findBy(array('section'=>$section));
+        $apprentices = $em
+            ->getRepository('OrgabatGameBundle:Apprentice')
+            ->findBy(['section'=>$section])
+        ;
         $handle = fopen('php://memory', 'r+');
 
         foreach ($apprentices as $apprentice) {
@@ -108,7 +125,7 @@ class AdminController extends Controller
         ));
     }
 
-    /*
+    /**
      * Exportation de tous les apprentis au format CSV => apprentis.CSV
      */
     public function exportAllApprenticesAction()
@@ -196,8 +213,6 @@ class AdminController extends Controller
         ]);
     }
 
-    # Trainer
-
     /*
      * Création d'un enseignant à partir d'un formulaire utilisant TrainerType
      */
@@ -215,52 +230,53 @@ class AdminController extends Controller
             $em->persist($trainer);
             $em->flush();
 
+            $request->getSession()->getFlashBag()->add(
+                'message',
+                "Le formateur " . $trainer->getUsername() . " a bien été créé !"
+            );
             return $this->redirectToRoute('default_admin_board');
         }
-        return $this->render('OrgabatGameBundle:Admin:addTrainer.html.twig', ['form' => $form->createView()]);
+        return $this->render('OrgabatGameBundle:Admin:addTrainer.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
-    /*
-     * Modification d'un enseignant à partir d'un formulaire utilisant TrainerUpdateType
+    /**
+     * @ParamConverter("trainer", options={"mapping": {"trainer_id": "id"}})
      */
-    public function editTrainerAction($id, Request $request)
+    public function editTrainerAction(Trainer $trainer, Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $trainer = $em->getRepository('OrgabatGameBundle:Trainer')->find($id);
         $form = $this->createForm(TrainerUpdateType::class, $trainer);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $trainer = $form->getData();
             $trainer->setUsername($trainer->getFirstName().' '.$trainer->getLastName());
+            $em = $this->getDoctrine()->getManager();
             $em->persist($trainer);
             $em->flush();
+
+            $request->getSession()->getFlashBag()->add(
+                'message',
+                "L'apprenti " . $apprentice->getUsername() . " a bien été modifié !"
+            );
             return $this->redirectToRoute('default_admin_board');
         }
-        return $this->render('OrgabatGameBundle:Admin:editTrainer.html.twig', ['form' => $form->createView()]);
+        return $this->render('OrgabatGameBundle:Admin:editTrainer.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
-    /*
-    * Suppression d'un enseignant
-    */
-    public function deleteTrainerAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $trainer = $em->getRepository('OrgabatGameBundle:Trainer')->find($id);
-        $em->remove($trainer);
-        $em->flush();
-        return $this->redirectToRoute('default_admin_board');
-    }
-
-    /*
+    /**
+     * @ParamConverter("section", options={"mapping": {"section_id": "id"}})
      * Exportation de tous les enseignants d'une classe au format CSV => enseignants.csv
      */
-    public function exportTrainersBySectionAction($id)
+    public function exportTrainersBySectionAction(Section $section)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $trainers = $this->getDoctrine()->getManager()
+            ->getRepository('OrgabatGameBundle:Trainer')
+            ->findBy(['section'=>$section])
+        ;
 
-        $section = $em->getRepository('OrgabatGameBundle:Section')->find($id);
-
-        $trainers = $em->getRepository('OrgabatGameBundle:Trainer')->findBy(array('section'=>$section));
         $handle = fopen('php://memory', 'r+');
 
         foreach ($trainers as $trainer) {
@@ -282,9 +298,10 @@ class AdminController extends Controller
      */
     public function exportAllTrainersAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
-
-        $trainers = $em->getRepository('OrgabatGameBundle:Trainer')->findAll();
+        $trainers = $this->getDoctrine()->getEntityManager()
+            ->getRepository('OrgabatGameBundle:Trainer')
+            ->findAll()
+        ;
         $handle = fopen('php://memory', 'r+');
 
         foreach ($trainers as $trainer) {
@@ -295,10 +312,10 @@ class AdminController extends Controller
         $content = stream_get_contents($handle);
         fclose($handle);
 
-        return new Response($content, 200, array(
+        return new Response($content, 200, [
             'Content-Type' => 'application/force-download',
             'Content-Disposition' => 'attachment; filename="enseignants.csv"'
-        ));
+        ]);
     }
 
     /*
@@ -308,9 +325,10 @@ class AdminController extends Controller
     {
         // Création du formulaire d'importation du fichier
         $form = $this->createFormBuilder()
-            ->add('submitFile', FileType::class, array('label' => 'Fichier CSV :'))
+            ->add('submitFile', FileType::class, ['label' => 'Fichier CSV :'])
             ->add('save', SubmitType::class, ['label' => 'Importer'])
-            ->getForm();
+            ->getForm()
+        ;
 
         $form->handleRequest($request);
         if ($form->isValid()) {
@@ -359,57 +377,79 @@ class AdminController extends Controller
         ]);
     }
 
-
-    # Section
-
     /*
      * Création d'une classe depuis un formulaire à partir de SectionType
      */
     public function createSectionAction(Request $request)
     {
         $section = new Section();
-        $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(SectionType::class, $section);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
             $section = $form->getData();
             $em->persist($section);
             $em->flush();
 
+            $request->getSession()->getFlashBag()->add(
+                'message',
+                "La section " . $section->getName() . " a bien été créée !"
+            );
+
             return $this->redirectToRoute('default_admin_board');
         }
-        return $this->render('OrgabatGameBundle:Admin:addSection.html.twig', ['form' => $form->createView()]);
+        return $this->render('OrgabatGameBundle:Admin:addSection.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
-    /*
+    /**
      * Modification d'une classe depuis un formulaire à partir de SectionType
+     * @ParamConverter("section", options={"mapping": {"section_id": "id"}})
      */
-    public function editSectionAction($id, Request $request)
+    public function editSectionAction(Section $section, Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $section = $em->getRepository('OrgabatGameBundle:Section')->find($id);
         $form = $this->createForm(SectionType::class, $section);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $section = $form->getData();
+            $em = $this->getDoctrine()->getManager();
             $em->persist($section);
             $em->flush();
+
+            $request->getSession()->getFlashBag()->add(
+                'message',
+                "La section " . $section->getName() . " a bien été modifiée !"
+            );
             return $this->redirectToRoute('default_admin_board');
         }
-        return $this->render('OrgabatGameBundle:Admin:editSection.html.twig', ['form' => $form->createView()]);
+        return $this->render('OrgabatGameBundle:Admin:editSection.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
-    /*
-     * Suppression d'une classe
+    /**
+     * @ParamConverter("section", options={"mapping": {"section_id": "id"}})
      */
-    public function deleteSectionAction($id)
+    public function deleteSectionAction(Section $section, Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $section = $em->getRepository('OrgabatGameBundle:Section')->find($id);
-        $apprentices = $em->getRepository('OrgabatGameBundle:Apprentice')->findBy(array('section' => $section));
-        $em->remove($section);
-        $em->flush();
-        return $this->redirectToRoute('default_admin_board');
+        $form = $this->createFormBuilder()->getForm();
+
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($section);
+            $em->flush();
+
+            $request->getSession()->getFlashBag()->add(
+                'message',
+                "La section " . $section->getName() . " a bien été supprimée !"
+            );
+            return $this->redirectToRoute('default_admin_board');
+        }
+        return $this->render('OrgabatGameBundle:Admin:deleteSection.html.twig', [
+            'section' => $section,
+            'form' => $form->createView()
+        ]);
     }
 
 

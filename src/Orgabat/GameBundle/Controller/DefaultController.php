@@ -117,6 +117,10 @@ class DefaultController extends Controller
     // Dashboard principal de l'administrateur
     public function showAdminAction()
     {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            return $this->forward('OrgabatGameBundle:Default:showSections');
+        }
+
         $em = $this->getDoctrine()->getManager();
         $sections = $em
             ->getRepository('OrgabatGameBundle:Section')
@@ -149,13 +153,14 @@ class DefaultController extends Controller
             // S'il s'agit d'un admin on retourne tous les classes avec tous les apprentis
             $sections = $em
                 ->getRepository('OrgabatGameBundle:Section')
-                //->findBy([], ['id' => 'asc'])
                 ->getWithTrainersAndApprentices()
             ;
-        }else {
+        } else {
             // S'il s'agit d'un enseignant, on retoune la classe qu'il anime
-            $trainerRepository = $this->getDoctrine()->getRepository('OrgabatGameBundle:Trainer');
-            $sections = $trainerRepository->getWithSections($user->getId())[0]->getSections();
+            $sections = $em
+                ->getRepository('OrgabatGameBundle:Trainer')
+                ->getWithSections($user->getId())
+                ->getSections()
             ;
         }
 

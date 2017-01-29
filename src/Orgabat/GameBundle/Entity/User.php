@@ -87,6 +87,4 @@ abstract class User extends BaseUser
     {
         $this->lastName = $lastName;
     }
-
-
 }
