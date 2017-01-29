@@ -1,39 +1,38 @@
 {% extends '::base_dashboard.html.twig' %}
 
 {% block body %}
-    <header class="page-header"><h1>Liste des apprentis par classe</h1></header>
-    <a class="btn btn-success" href="{{ path('admin_create_apprentice') }}">Ajouter un apprenti</a>
-    {%  for section in sections %}
-        {% if section %}
-            <div class="col-sm-12">
-                <h2 class="text-center">{{ section.name }}</h2>
-            </div>
-            <div class="col-sm-12">
-                <h3>Elèves</h3>
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Prénom</th>
-                        <th>Nom</th>
-                        <th>Adresse email</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody >
-                    {% for apprentice in section.apprentices %}
-                            <tr>
-                                <td>{{ apprentice.firstName }}</td>
-                                <td>{{ apprentice.lastName }}</td>
-                                <td>{{ apprentice.email}}</td>
-                                <td><a class="btn btn-warning" href="{{ path('admin_edit_apprentice', {'apprentice_id': apprentice.id} ) }}">Modifier</a></td>
-                                <td><a class="btn btn-danger" href="{{ path('admin_remove_user', {'user_id': apprentice.id} ) }}">Supprimer</a></td>
-                            </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        {% endif %}
-    {% endfor %}
-{% endblock %}
+  <h3 class="text-center">Liste des apprentis par classe</h3>
 
+  {% for section in sections %}
+    {% if section %}
+      <div class="col-sm-12">
+        <h2 class="noselect">{{ section.name }}</h2>
+      </div>
+      <div class="col-sm-12">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Prénom</th>
+              <th>Nom</th>
+              <th>Adresse email</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody >
+          {% for apprentice in section.apprentices %}
+            <tr>
+              <td>{{ apprentice.firstName }}</td>
+              <td>{{ apprentice.lastName }}</td>
+              <td>{{ apprentice.email}}</td>
+              <td>
+                <a class="btn btn-warning" href="{{ path('admin_edit_apprentice', {'apprentice_id': apprentice.id} ) }}"><i class="fa fa-pencil"></i> Modifier</a>
+                <a class="btn btn-danger" href="{{ path('admin_remove_user', {'user_id': apprentice.id} ) }}"><i class="fa fa-trash-o"></i> Supprimer</a>
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% endif %}
+  {% endfor %}
+{% endblock %}
