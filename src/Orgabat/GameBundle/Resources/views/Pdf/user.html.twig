@@ -53,7 +53,9 @@
     <div class="user-info">
         <p class="name">{{ user.lastName|upper }} {{ user.firstName }}</p>
         <p class="birth">Né le : {{ user.formattedBirthDate|date("d/m/Y") }}</p>
-        <p class="section">Inscrit en <span class="sectionName">{{ user.section.name }}</span></p>
+        {% if user.section %}
+            <p class="section">Inscrit en <span class="sectionName">{{ user.section.name }}</span></p>
+        {% endif %}
     </div>
     {% for category in categories  %}
         <h3 class=" titlePdf">{{ category.name }}</h3>
