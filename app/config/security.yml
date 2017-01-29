@@ -49,4 +49,4 @@ security:
         - { path: ^/admin/enseignants/importer, role: ROLE_ADMIN }
         - { path: ^/admin/classes/exporter, role: ROLE_ADMIN }
         - { path: ^/admin/classes/importer, role: ROLE_ADMIN }
-        - { path: ^/admin, role: ROLE_ADMIN }
+        - { path: ^/admin/, role: ROLE_TRAINER }
