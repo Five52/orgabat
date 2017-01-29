@@ -15,10 +15,14 @@
             text-align: center;
         }
         .user-info {
-            margin-top: 20px;
             border: 1px solid black;
-            padding: 12px;
+            padding: 8px;
             text-align: center;
+            margin-top: 20px;
+        }
+        .user-info p {
+            margin: 5px 0;
+            padding: 0;
         }
         .user-info .name, .user-info .section .sectionName{
             font-weight: bold;
@@ -31,7 +35,6 @@
             font-family: arial, sans-serif;
             border-collapse: collapse;
             border: 1px solid #c8c8c8;
-            margin-top: 20px;
             margin-left: 100px;
         }
         .table-stats th{
@@ -59,38 +62,42 @@
                 <p class="section">Inscrit en <span class="sectionName">{{ user.section.name }}</span></p>
             {% endif %}
         </div>
-        {% for category in categories[key]  %}
-            <h3 class=" titlePdf">{{ category.name }}</h3>
-            <table class="table-stats">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Temps ( en secondes )</th>
-                    <th>Santé</th>
-                    <th>Organisation</th>
-                    <th>Notoriété de l'entreprise</th>
-                </tr>
-                </thead>
-                <tbody >
-                {% for exercise in category.exercises|sort %}
+        {% if categories[key] is empty %}
+            <h3>Pas de données de jeu enregistrées.</h3>
+        {% else %}
+            {% for category in categories[key]  %}
+                <h3 class=" titlePdf">{{ category.name }}</h3>
+                <table class="table-stats">
+                    <thead>
                     <tr>
-                        <td>{{ exercise.name }}</td>
-                        <td>{{ exercise.bestExerciseHistory.timer }}</td>
-                        <td>{{ exercise.bestExerciseHistory.healthNote }} / {{ exercise.healthMaxNote }}</td>
-                        <td>{{ exercise.bestExerciseHistory.organizationNote }} / {{ exercise.organizationMaxNote }}</td>
-                        <td>{{ exercise.bestExerciseHistory.businessNotorietyNote }} / {{ exercise.businessNotorietyMaxNote }}</td>
+                        <th>#</th>
+                        <th>Temps ( en secondes )</th>
+                        <th>Santé</th>
+                        <th>Organisation</th>
+                        <th>Notoriété de l'entreprise</th>
                     </tr>
-                {% endfor %}
-                <tr>
-                    <td>Total</td>
-                    <td>{{ category.dataFromAllBestExercises.timer }}</td>
-                    <td>{{ category.dataFromAllBestExercises.healthNote }} / {{ stats.global.healthNote }}</td>
-                    <td>{{ category.dataFromAllBestExercises.organizationNote }} / {{ stats.global.organizationNote }}</td>
-                    <td>{{ category.dataFromAllBestExercises.businessNotorietyNote }} / {{ stats.global.businessNotorietyNote }}</td>
-                </tr>
-                </tbody>
-            </table>
-        {% endfor %}
+                    </thead>
+                    <tbody >
+                    {% for exercise in category.exercises|sort %}
+                        <tr>
+                            <td>{{ exercise.name }}</td>
+                            <td>{{ exercise.bestExerciseHistory.timer }}</td>
+                            <td>{{ exercise.bestExerciseHistory.healthNote }} / {{ exercise.healthMaxNote }}</td>
+                            <td>{{ exercise.bestExerciseHistory.organizationNote }} / {{ exercise.organizationMaxNote }}</td>
+                            <td>{{ exercise.bestExerciseHistory.businessNotorietyNote }} / {{ exercise.businessNotorietyMaxNote }}</td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td>Total</td>
+                        <td>{{ category.dataFromAllBestExercises.timer }}</td>
+                        <td>{{ category.dataFromAllBestExercises.healthNote }} / {{ stats.global.healthNote }}</td>
+                        <td>{{ category.dataFromAllBestExercises.organizationNote }} / {{ stats.global.organizationNote }}</td>
+                        <td>{{ category.dataFromAllBestExercises.businessNotorietyNote }} / {{ stats.global.businessNotorietyNote }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            {% endfor %}
+        {% endif %}
     {% endfor %}
 </div>
 </body>

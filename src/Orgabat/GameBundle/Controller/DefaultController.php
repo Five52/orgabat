@@ -258,40 +258,54 @@ class DefaultController extends Controller
         return new Response(
             $html2pdf->Output(__DIR__.$user->getName().".pdf", 'S'),
             200,
-            array(
+            [
                 'Content-Type'          => 'application/pdf',
                 'Content-Disposition'   => 'attachment; filename="' . $user->getName() . '".pdf"'
-            )
+            ]
         );
     }
 
     public function getAllUsersInfosUsingPDFAction() {
         $em = $this->getDoctrine()->getManager();
-        $apprentices = $em
-            ->getRepository('OrgabatGameBundle:Apprentice')
-            ->findAll()
-        ;
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            // S'il s'agit d'un admin on retourne tous les classes avec tous les apprentis
+            $sections = $em
+                ->getRepository('OrgabatGameBundle:Section')
+                ->getWithTrainersAndApprentices()
+            ;
+        } else {
+            // S'il s'agit d'un enseignant, on retoune la classe qu'il anime
+            $sections = $em
+                ->getRepository('OrgabatGameBundle:Trainer')
+                ->getWithSections($user->getId())
+                ->getSections()
+            ;
+        }
         $exercises = $em->getRepository('OrgabatGameBundle:Exercise')->findAll();
         $categoriesOfAllUsers = [];
-        foreach ($apprentices as $apprentice) {
-            $categories = $em
-                ->getRepository('OrgabatGameBundle:Category')
-                ->getExercisesOfAllCategoriesByUser($apprentice)
-            ;
-            $userScore = [];
-            foreach ($categories as $category) {
-                foreach ($category->getExercises() as $exercise) {
-                    $userScore[$category->getName()] = ['healthNote' => 0, 'organizationNote' => 0, 'businessNotorietyNote' => 0];
-                    $best = $exercise->getBestExerciseHistory();
+        $apprentices = [];
+        foreach ($sections as $section) {
+            foreach ($section->getApprentices() as $apprentice) {
+                $apprentices[] = $apprentice;
+                $categories = $em
+                    ->getRepository('OrgabatGameBundle:Category')
+                    ->getExercisesOfAllCategoriesByUser($apprentice);
+                $userScore = [];
+                foreach ($categories as $category) {
+                    foreach ($category->getExercises() as $exercise) {
+                        $userScore[$category->getName()] = ['healthNote' => 0, 'organizationNote' => 0, 'businessNotorietyNote' => 0];
+                        $best = $exercise->getBestExerciseHistory();
 
-                    // Get the total user score
-                    $userScore[$category->getName()]['timer'] = $best->getTimer();
-                    $userScore[$category->getName()]['healthNote'] = $best->getHealthNote();
-                    $userScore[$category->getName()]['organizationNote'] = $best->getOrganizationNote();
-                    $userScore[$category->getName()]['businessNotorietyNote'] = $best->getBusinessNotorietyNote();
+                        // Get the total user score
+                        $userScore[$category->getName()]['timer'] = $best->getTimer();
+                        $userScore[$category->getName()]['healthNote'] = $best->getHealthNote();
+                        $userScore[$category->getName()]['organizationNote'] = $best->getOrganizationNote();
+                        $userScore[$category->getName()]['businessNotorietyNote'] = $best->getBusinessNotorietyNote();
+                    }
                 }
+                $categoriesOfAllUsers[] = $categories;
             }
-            $categoriesOfAllUsers[] = $categories;
         }
         // Get the total global score
         $globalScore = ['healthNote' => 0, 'organizationNote' => 0, 'businessNotorietyNote' => 0];
@@ -320,67 +334,12 @@ class DefaultController extends Controller
         return new Response(
             $html2pdf->Output(__DIR__."apprentis.pdf", 'S'),
             200,
-            array(
+            [
                 'Content-Type'          => 'application/pdf',
                 'Content-Disposition'   => 'attachment; filename="apprentis.pdf"'
-            )
+            ]
         );
 
-    }
-    public function getUsersInfosUsingPDFBySectionAction() {
-        $em = $this->getDoctrine()->getManager();
-        $users = $em
-            ->getRepository('OrgabatGameBundle:Apprentice')
-            ->findAll()
-        ;
-        $exercises = $em->getRepository('OrgabatGameBundle:Exercise')->findAll();
-        $categoriesOfAllUsers = [];
-        foreach ($users as $user) {
-            $categories = $em
-                ->getRepository('OrgabatGameBundle:Category')
-                ->getExercisesOfAllCategoriesByUser($user)
-            ;
-            $userScore = [];
-            foreach ($categories as $category) {
-                foreach ($category->getExercises() as $exercise) {
-                    $userScore[$category->getName()] = ['healthNote' => 0, 'organizationNote' => 0, 'businessNotorietyNote' => 0];
-                    $best = $exercise->getBestExerciseHistory();
-
-                    // Get the total user score
-                    $userScore[$category->getName()]['timer'] = $best->getTimer();
-                    $userScore[$category->getName()]['healthNote'] = $best->getHealthNote();
-                    $userScore[$category->getName()]['organizationNote'] = $best->getOrganizationNote();
-                    $userScore[$category->getName()]['businessNotorietyNote'] = $best->getBusinessNotorietyNote();
-                }
-            }
-            $categoriesOfAllUsers[] = $categories;
-        }
-        // Get the total global score
-        $globalScore = ['healthNote' => 0, 'organizationNote' => 0, 'businessNotorietyNote' => 0];
-        foreach ($exercises as $exercise) {
-            $globalScore['healthNote'] += $exercise->getHealthMaxNote();
-            $globalScore['organizationNote'] += $exercise->getOrganizationMaxNote();
-            $globalScore['businessNotorietyNote'] += $exercise->getBusinessNotorietyMaxNote();
-        }
-        return $this->render('OrgabatGameBundle:Pdf:allUsers.html.twig', array(
-            'users' => $users,
-            'categories' => $categoriesOfAllUsers,
-            'stats' => [
-                'global' => $globalScore
-            ],
-        ));
-        /*$html2pdf = $this->get('html2pdf_factory')->create();
-        $html2pdf->pdf->SetDisplayMode('real');
-        $html2pdf->writeHTML($html);
-        return new Response(
-            $html2pdf->Output(__DIR__.$user->getName().".pdf", 'S'),
-            200,
-            array(
-                'Content-Type'          => 'application/pdf',
-                'Content-Disposition'   => 'attachment; filename="' . $user->getName() . '".pdf"'
-            )
-        );
-        */
     }
 
 }

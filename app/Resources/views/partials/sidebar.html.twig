@@ -33,9 +33,13 @@
         <a class="list-group-item user_color" href="{{ path('admin_export_user') }}"><i class="fa fa-users"></i> Les apprentis</a>
         <a class="list-group-item trainer_color" href="{{ path('admin_export_trainer') }}"><i class="fa fa-users"></i> Les enseignants</a>
         <a class="list-group-item section_color" href="{{ path('admin_export_section') }}"><i class="fa fa-list-alt"></i> Les classes</a>
+        <a class="list-group-item" href="{{ path('admin_get_users_infos_pdf') }}"><i class="fa fa-bar-chart"></i> Les statistiques</a>
       </div>
     {% elseif is_granted('ROLE_TRAINER') %}
       <a class="list-group-item" href="{{ path('admin_create_apprentice') }}"><i class="fa fa-user-plus"></i> Ajouter un compte apprenti</a>
+      <div class="list-group panel">
+        <a class="list-group-item" href="{{ path('admin_get_users_infos_pdf') }}"><i class="fa fa-bar-chart"></i> Exporter les statistiques</a>
+      </div>
     {% endif %}
   </div>
 

@@ -42,6 +42,7 @@ security:
         - { path: ^/admin/classe$, role: ROLE_TRAINER }
         - { path: ^/admin/apprentis, role: ROLE_TRAINER }
         - { path: ^/admin/apprenti, role: ROLE_TRAINER }
+        - { path: ^/admin/apprentis/statistiques, role: ROLE_TRAINER }
         - { path: ^/admin/enseignants$, role: ROLE_ADMIN }
         - { path: ^/admin/apprentis/exporter, role: ROLE_ADMIN }
         - { path: ^/admin/apprentis/importer, role: ROLE_ADMIN }
