@@ -4,6 +4,7 @@ namespace Orgabat\GameBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Section
@@ -27,6 +28,7 @@ class Section
      * @var string
      *
      * @ORM\Column(type="string")
+     * @Assert\NotBlank(message="Le champ ne doit pas être vide")
      */
     private $name;
 
