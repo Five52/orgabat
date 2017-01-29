@@ -33,8 +33,7 @@ default_admin_board:
 apigame_score:
     path:     /api/score
     defaults: { _controller: OrgabatGameBundle:APIGame:score }
-    requirements:
-      sf_method: 'post'
+    methods: [POST]
 
 # GameController
 
