@@ -62,7 +62,7 @@
     $('#categoryModal').modal('hide');
 
     gameModalElement.iframe.gameTitle = title;
-    gameModalElement.iframe.src = './jeu/' + id;
+    gameModalElement.iframe.src = '/jeu/' + id;
 
     $('#gameModal').modal({
       keyboard: false
