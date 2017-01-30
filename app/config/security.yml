@@ -4,7 +4,7 @@ security:
 
     role_hierarchy:
         ROLE_APPRENTICE: ROLE_USER
-        ROLE_TRAINER:  ROLE_USER
+        ROLE_TRAINER:  ROLE_APPRENTICE
         ROLE_ADMIN:       ROLE_TRAINER
         ROLE_SUPER_ADMIN: ROLE_ADMIN
 

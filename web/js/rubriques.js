@@ -46,7 +46,7 @@
     categoryModalElement.iframe.categoryTitle = this.querySelector('#category_title').textContent;
 
     // Chargement de la page
-    categoryModalElement.iframe.src = './rubriques/' + this.dataset.categoryId;
+    categoryModalElement.iframe.src = './' + this.dataset.categoryId;
 
     // Affichage du modal
     $('#categoryModal').modal({
