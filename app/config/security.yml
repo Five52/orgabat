@@ -1,14 +1,10 @@
-# To get started with security, check out the documentation:
-# http://symfony.com/doc/current/book/security.html
 security:
-
-    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     encoders:
         FOS\UserBundle\Model\UserInterface: bcrypt
 
     role_hierarchy:
         ROLE_APPRENTICE: ROLE_USER
-        ROLE_TRAINER:  ROLE_USER
+        ROLE_TRAINER:  ROLE_APPRENTICE
         ROLE_ADMIN:       ROLE_TRAINER
         ROLE_SUPER_ADMIN: ROLE_ADMIN
 
@@ -23,15 +19,10 @@ security:
                 success_handler: orgabat.security.login_handler
                 provider: fos_userbundle
                 csrf_token_generator: security.csrf.token_manager
-                # if you are using Symfony < 2.8, use the following config instead:
-                # csrf_provider: form.csrf_provider
             logout:
                 path: /deconnexion
                 target: /
             anonymous:    true
-
-
-
 
     access_control:
         - { path: ^/$, role: IS_AUTHENTICATED_FULLY }
@@ -51,3 +42,4 @@ security:
         - { path: ^/admin/classes/exporter, role: ROLE_ADMIN }
         - { path: ^/admin/classes/importer, role: ROLE_ADMIN }
         - { path: ^/admin/, role: ROLE_TRAINER }
+

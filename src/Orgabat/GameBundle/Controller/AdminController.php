@@ -17,13 +17,14 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class AdminController extends Controller
 {
 
-    /*
-     * Création d'un utilisateur à partir d'un formulaire utilisant le ApprenticeType
-    */
+    /**
+     * @Security("has_role('ROLE_TRAINER')")
+     */
     public function createApprenticeAction(Request $request)
     {
         $apprentice = new Apprentice();
@@ -52,6 +53,7 @@ class AdminController extends Controller
 
     /**
      * @ParamConverter("apprentice", options={"mapping": {"apprentice_id": "id"}})
+     * @Security("has_role('ROLE_TRAINER')")
      */
     public function editApprenticeAction(Apprentice $apprentice, Request $request)
     {
@@ -76,6 +78,7 @@ class AdminController extends Controller
 
     /**
      * @ParamConverter("user", options={"mapping": {"user_id": "id"}})
+     * @Security("has_role('ROLE_TRAINER')")
      */
     public function deleteUserAction(User $user, Request $request)
     {
@@ -100,7 +103,8 @@ class AdminController extends Controller
     /**
      * Exportation des apprentis d'une classe au format CSV => apprentis.csv
      * @ParamConverter("section", options={"mapping": {"section_id": "id"}})
-    */
+     * @Security("has_role('ROLE_ADMIN')")
+     */
     public function exportApprenticesBySectionAction(Section $section)
     {
         $em = $this->getDoctrine()->getEntityManager();
@@ -127,6 +131,7 @@ class AdminController extends Controller
 
     /**
      * Exportation de tous les apprentis au format CSV => apprentis.CSV
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function exportAllApprenticesAction()
     {
@@ -151,7 +156,8 @@ class AdminController extends Controller
 
     /*
      * Importation de plusieurs apprentis depuis un fichier CSV
-    */
+     * @Security("has_role('ROLE_ADMIN')")
+     */
     public function importApprenticesAction(Request $request)
     {
         // Création du formulaire
@@ -213,8 +219,8 @@ class AdminController extends Controller
         ]);
     }
 
-    /*
-     * Création d'un enseignant à partir d'un formulaire utilisant TrainerType
+    /**
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function createTrainerAction(Request $request)
     {
@@ -243,6 +249,7 @@ class AdminController extends Controller
 
     /**
      * @ParamConverter("trainer", options={"mapping": {"trainer_id": "id"}})
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function editTrainerAction(Trainer $trainer, Request $request)
     {
@@ -267,8 +274,9 @@ class AdminController extends Controller
     }
 
     /**
-     * @ParamConverter("section", options={"mapping": {"section_id": "id"}})
      * Exportation de tous les enseignants d'une classe au format CSV => enseignants.csv
+     * @ParamConverter("section", options={"mapping": {"section_id": "id"}})
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function exportTrainersBySectionAction(Section $section)
     {
@@ -295,6 +303,7 @@ class AdminController extends Controller
 
     /*
      * Exportation de tous les enseignants au format CSV => enseignants.csv
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function exportAllTrainersAction()
     {
@@ -320,6 +329,7 @@ class AdminController extends Controller
 
     /*
      * Importation de plusieurs enseignants depuis un fichier CSV
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function importTrainersAction(Request $request)
     {
@@ -379,6 +389,7 @@ class AdminController extends Controller
 
     /*
      * Création d'une classe depuis un formulaire à partir de SectionType
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function createSectionAction(Request $request)
     {
@@ -406,6 +417,7 @@ class AdminController extends Controller
     /**
      * Modification d'une classe depuis un formulaire à partir de SectionType
      * @ParamConverter("section", options={"mapping": {"section_id": "id"}})
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function editSectionAction(Section $section, Request $request)
     {
@@ -430,6 +442,7 @@ class AdminController extends Controller
 
     /**
      * @ParamConverter("section", options={"mapping": {"section_id": "id"}})
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function deleteSectionAction(Section $section, Request $request)
     {
@@ -455,6 +468,7 @@ class AdminController extends Controller
 
     /*
      * Exportation de tous les classes au format CSV => classes.csv
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function exportAllSectionsAction()
     {
@@ -479,6 +493,7 @@ class AdminController extends Controller
 
     /*
      * Importation de plusieurs classes depuis un fichier CSV
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function importSectionsAction(Request $request)
     {

@@ -3,12 +3,15 @@
 namespace Orgabat\GameBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Category
  *
  * @ORM\Table(name="category")
  * @ORM\Entity(repositoryClass="Orgabat\GameBundle\Repository\CategoryRepository")
+ * @UniqueEntity(fields="name", message="Une catégorie existe déjà avec ce nom.")
  */
 class Category
 {
@@ -25,6 +28,7 @@ class Category
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @Assert\NotBlank(message="Le message ne doit pas être vide")
      */
     private $name;
 

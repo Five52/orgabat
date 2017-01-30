@@ -5,7 +5,7 @@ default_rules:
     defaults: { _controller: OrgabatGameBundle:Default:showRules }
 
 default_category:
-    path:    /rubriques
+    path:    /rubriques/
     defaults: { _controller: OrgabatGameBundle:Default:showMenu }
 
 default_games:
@@ -15,7 +15,7 @@ default_games:
         category_id:   \d+
 
 default_sections:
-    path:   /admin/classes
+    path:   /admin/classes/
     defaults:  { _controller: OrgabatGameBundle:Default:showSections }
 
 default_editinfos:
@@ -33,8 +33,7 @@ default_admin_board:
 apigame_score:
     path:     /api/score
     defaults: { _controller: OrgabatGameBundle:APIGame:score }
-    requirements:
-      sf_method: 'post'
+    methods: [POST]
 
 # GameController
 
@@ -48,24 +47,30 @@ game_game:
 
 # Apprentice
 admin_create_apprentice:
-    path:    /admin/apprenti/creer
-    defaults: { _controller: OrgabatGameBundle:Admin:createApprentice}
+    path:    /admin/apprentis/creer
+    defaults: { _controller: OrgabatGameBundle:Admin:createApprentice }
+
+admin_view_apprentice:
+    path: /admin/apprentis/{apprentice_id}/
+    defaults: { _controller: OrgabatGameBundle:Admin:viewApprentice }
+    requirements:
+        apprentice_id: \d+
 
 admin_edit_apprentice:
-    path:    /admin/apprenti/{apprentice_id}/modifier
-    defaults: { _controller: OrgabatGameBundle:Admin:editApprentice}
+    path:    /admin/apprentis/{apprentice_id}/modifier
+    defaults: { _controller: OrgabatGameBundle:Admin:editApprentice }
     requirements:
         apprentice_id: \d+
 
 admin_remove_apprentice:
-    path:    /admin/apprenti/{user_id}/supprimer
-    defaults: { _controller: OrgabatGameBundle:Admin:deleteUser}
+    path:    /admin/apprentis/{user_id}/supprimer
+    defaults: { _controller: OrgabatGameBundle:Admin:deleteUser }
     requirements:
         user_id: \d+
 
 admin_remove_user:
-    path: /admin/utilisateur/{user_id}/supprimer
-    defaults: { _controller: OrgabatGameBundle:Admin:deleteUser}
+    path: /admin/utilisateurs/{user_id}/supprimer
+    defaults: { _controller: OrgabatGameBundle:Admin:deleteUser }
     requirements:
         user_id: \d+
 
@@ -86,18 +91,17 @@ admin_import_user:
 # Trainer
 
 admin_create_trainer:
-    path:    /admin/enseignant/creer
+    path:    /admin/enseignants/creer
     defaults: { _controller: OrgabatGameBundle:Admin:createTrainer}
 
 admin_edit_trainer:
-    path:    /admin/enseignant/{trainer_id}/modifier
+    path:    /admin/enseignants/{trainer_id}/modifier
     defaults: { _controller: OrgabatGameBundle:Admin:editTrainer}
     requirements:
         trainer_id: \d+
 
-
 admin_remove_trainer:
-    path:    /admin/enseignant/{user_id}/supprimer
+    path:    /admin/enseignants/{user_id}/supprimer
     defaults: { _controller: OrgabatGameBundle:Admin:deleteUser}
     requirements:
         user_id: \d+
@@ -112,17 +116,17 @@ admin_import_trainer:
 
 # Section
 admin_create_section:
-    path:    /admin/classe/creer
+    path:    /admin/classes/creer
     defaults: { _controller: OrgabatGameBundle:Admin:createSection}
 
 admin_edit_section:
-    path:    /admin/classe/{section_id}/modifier
+    path:    /admin/classes/{section_id}/modifier
     defaults: { _controller: OrgabatGameBundle:Admin:editSection}
     requirements:
         section_id: \d+
 
 admin_remove_section:
-    path:    /admin/classe/{section_id}/supprimer
+    path:    /admin/classes/{section_id}/supprimer
     defaults: { _controller: OrgabatGameBundle:Admin:deleteSection}
     requirements:
         section_id: \d+

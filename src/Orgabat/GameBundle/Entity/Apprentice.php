@@ -4,8 +4,7 @@ namespace Orgabat\GameBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use PUGX\MultiUserBundle\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints\Date;
-use Symfony\Component\Validator\Constraints\DateTime;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -28,8 +27,12 @@ class Apprentice extends User
     private $section;
 
     /**
-     * @ORM\Column(type="string")
      * Format: JJMMAAAA
+     * @ORM\Column(type="string")
+     * @Assert\Regex(
+     *      pattern="/^\d{8}/",
+     *      message="Le champ doit être de la forme JJMMAAAA"
+     * )
      */
     private $birthDate;
 
