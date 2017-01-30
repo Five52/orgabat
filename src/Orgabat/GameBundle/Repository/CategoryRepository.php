@@ -18,7 +18,7 @@ class CategoryRepository extends \Doctrine\ORM\EntityRepository
             ->join('e.exerciseHistories', 'eh', 'WITH', 'eh.user = :user')
             ->setParameter('user', $user)
             ->addSelect('eh')
-            ->orderBy('e.id', 'desc')
+            ->orderBy('e.id', 'asc')
             ->getQuery()
             ->getResult()
         ;
