@@ -10,3 +10,7 @@ services:
      orgabat.security.login_handler:
          class: Orgabat\GameBundle\Handler\AuthenticationSuccessHandler
          arguments: ["@router"]
+     twig.extension.intl:
+         class: Twig_Extensions_Extension_Intl
+         tags:
+          - { name: twig.extension }

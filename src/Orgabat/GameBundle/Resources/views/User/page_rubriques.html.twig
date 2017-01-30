@@ -74,6 +74,9 @@
                     <span class="stat">{{ stats['user']['businessNotorietyNote'] }} / {{ stats['global']['businessNotorietyNote'] }}</span>
                 </div>
             </div>
+            <div class="panel-footer">
+                <a class="btn btn-info text-center" href="{{ path('user_get_infos_pdf') }}"><i class="fa fa-download"></i> Statistiques</a>
+            </div>
         </div>
         <div class="logout_wrapper">
           <a class="btn btn-danger" href="{{ path('fos_user_security_logout') }}">Déconnexion</a>

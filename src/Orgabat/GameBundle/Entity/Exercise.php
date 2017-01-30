@@ -268,7 +268,6 @@ class Exercise
                 $tab['index'] = $index;
             }
         }
-
         return $this->exerciseHistories[$tab['index']];
     }
 

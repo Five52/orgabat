@@ -84,7 +84,6 @@ class DefaultController extends Controller
      */
     public function showGamesAction(Category $category, Request $request)
     {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $exercises = $em
@@ -223,4 +222,5 @@ class DefaultController extends Controller
             'form' => $form->createView(),
         ]);
     }
+
 }

@@ -2,8 +2,6 @@
 
 namespace Orgabat\GameBundle\Repository;
 
-use Orgabat\GameBundle\Entity\Section;
-
 /**
  * SectionRepository
  *

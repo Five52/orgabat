@@ -102,6 +102,7 @@ class Category
         $this->exercises->removeElement($exercise);
     }
 
+
     /**
      * Get exercises
      *
@@ -110,5 +111,22 @@ class Category
     public function getExercises()
     {
         return $this->exercises;
+    }
+
+    /**
+     * Get the sum of all best exercises for a category
+     *
+     * @return array : results of all exercises for a category
+     */
+    public function getDataFromAllBestExercises() {
+        $results = ["timer" => 0, "healthNote" => 0, "organizationNote" => 0, "businessNotorietyNote" => 0];
+        foreach ($this->exercises as $exercise) {
+            $results["timer"] += $exercise->getBestExerciseHistory()->getTimer();
+            $results["healthNote"] += $exercise->getBestExerciseHistory()->getHealthNote();
+            $results["organizationNote"] += $exercise->getBestExerciseHistory()->getOrganizationNote();
+            $results["businessNotorietyNote"] += $exercise->getBestExerciseHistory()->getBusinessNotorietyNote();
+        }
+        $results["timer"] /= count($this->exercises);
+        return $results;
     }
 }
