@@ -77,7 +77,11 @@ button.list-group-item:hover {
 
   .page-content {
     padding: 20px;
-    position: relative;
+    position: initial;
+  }
+
+  .footer {
+    padding-left: 250px;
   }
 }
 @media(max-width:899px) {
