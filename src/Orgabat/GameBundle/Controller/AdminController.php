@@ -11,7 +11,6 @@ use Orgabat\GameBundle\Form\TrainerType;
 use Orgabat\GameBundle\Form\TrainerUpdateType;
 use Orgabat\GameBundle\Form\ApprenticeType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,6 +20,59 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class AdminController extends Controller
 {
+    /**
+     * @ParamConverter("apprentice", options={"mapping": {"apprentice_id": "id"}})
+     * @Security("has_role('ROLE_TRAINER')")
+     */
+    public function viewApprenticeAction(Apprentice $apprentice, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $categories = $em->getRepository('OrgabatGameBundle:Category')->findAll();
+        $exercises = $em->getRepository('OrgabatGameBundle:Exercise')->findAll();
+        $historyCateg = $em
+            ->getRepository('OrgabatGameBundle:Category')
+            ->getExercisesOfAllCategoriesByUser($apprentice)
+        ;
+
+        $finishedCount = 0;
+        $userScore = ['healthNote' => 0, 'organizationNote' => 0, 'businessNotorietyNote' => 0];
+        foreach ($historyCateg as $category) {
+            foreach ($category->getExercises() as $exercise) {
+                $best = $exercise->getBestExerciseHistory();
+
+                // Get the total user score
+                $userScore['healthNote'] += $best->getHealthNote();
+                $userScore['organizationNote'] += $best->getOrganizationNote();
+                $userScore['businessNotorietyNote'] += $best->getBusinessNotorietyNote();
+
+                if ($exercise->isFinished()) {
+                    ++$finishedCount;
+                }
+            }
+        }
+
+        // Get the total global score
+        $globalScore = ['healthNote' => 0, 'organizationNote' => 0, 'businessNotorietyNote' => 0];
+        foreach ($exercises as $exercise) {
+            $globalScore['healthNote'] += $exercise->getHealthMaxNote();
+            $globalScore['organizationNote'] += $exercise->getOrganizationMaxNote();
+            $globalScore['businessNotorietyNote'] += $exercise->getBusinessNotorietyMaxNote();
+        }
+
+        return $this->render('OrgabatGameBundle:Admin:userProfile.html.twig', [
+            'apprentice' => $apprentice,
+            'historyCateg' => $historyCateg,
+            'stats' => [
+                'user' => $userScore,
+                'global' => $globalScore,
+            ],
+            'minigames' => [
+                'finished' => $finishedCount,
+                'total' => count($exercises),
+            ],
+        ]);
+    }
 
     /**
      * @Security("has_role('ROLE_TRAINER')")
@@ -42,12 +94,14 @@ class AdminController extends Controller
 
             $request->getSession()->getFlashBag()->add(
                 'message',
-                "L'apprenti " . $apprentice->getUsername() . " a bien été créé !"
+                "L'apprenti ".$apprentice->getUsername().' a bien été créé !'
             );
+
             return $this->redirectToRoute('default_admin_board');
         }
+
         return $this->render('OrgabatGameBundle:Admin:addApprentice.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
@@ -69,10 +123,12 @@ class AdminController extends Controller
 
             $request->getSession()->getFlashBag()->add(
                 'message',
-                "L'apprenti " . $apprentice->getUsername() . " a bien été modifié !"
+                "L'apprenti ".$apprentice->getUsername().' a bien été modifié !'
             );
+
             return $this->redirectToRoute('default_admin_board');
         }
+
         return $this->render('OrgabatGameBundle:Admin:editApprentice.html.twig', ['form' => $form->createView()]);
     }
 
@@ -90,18 +146,21 @@ class AdminController extends Controller
 
             $request->getSession()->getFlashBag()->add(
                 'message',
-                "L'utilisateur " . $user->getUsername() . " a bien été supprimé !"
+                "L'utilisateur ".$user->getUsername().' a bien été supprimé !'
             );
+
             return $this->redirectToRoute('default_admin_board');
         }
+
         return $this->render('OrgabatGameBundle:Admin:deleteUser.html.twig', [
             'user' => $user,
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
     /**
-     * Exportation des apprentis d'une classe au format CSV => apprentis.csv
+     * Exportation des apprentis d'une classe au format CSV => apprentis.csv.
+     *
      * @ParamConverter("section", options={"mapping": {"section_id": "id"}})
      * @Security("has_role('ROLE_ADMIN')")
      */
@@ -111,7 +170,7 @@ class AdminController extends Controller
 
         $apprentices = $em
             ->getRepository('OrgabatGameBundle:Apprentice')
-            ->findBy(['section'=>$section])
+            ->findBy(['section' => $section])
         ;
         $handle = fopen('php://memory', 'r+');
 
@@ -125,12 +184,13 @@ class AdminController extends Controller
 
         return new Response($content, 200, array(
             'Content-Type' => 'application/force-download',
-            'Content-Disposition' => 'attachment; filename="apprentis.csv"'
+            'Content-Disposition' => 'attachment; filename="apprentis.csv"',
         ));
     }
 
     /**
-     * Exportation de tous les apprentis au format CSV => apprentis.CSV
+     * Exportation de tous les apprentis au format CSV => apprentis.CSV.
+     *
      * @Security("has_role('ROLE_ADMIN')")
      */
     public function exportAllApprenticesAction()
@@ -150,7 +210,7 @@ class AdminController extends Controller
 
         return new Response($content, 200, array(
             'Content-Type' => 'application/force-download',
-            'Content-Disposition' => 'attachment; filename="apprentis.csv"'
+            'Content-Disposition' => 'attachment; filename="apprentis.csv"',
         ));
     }
 
@@ -170,26 +230,25 @@ class AdminController extends Controller
         if ($form->isValid()) {
             $file = $form->get('submitFile');
             // On vérifie la validité du fichier
-            if (($handle = fopen($file->getData(),"r")) !== FALSE) {
-
+            if (($handle = fopen($file->getData(), 'r')) !== false) {
                 $discriminator = $this->container->get('pugx_user.manager.user_discriminator');
                 $discriminator->setClass('Orgabat\GameBundle\Entity\Apprentice');
                 $userManager = $this->container->get('pugx_user_manager');
 
-                while (($data = fgetcsv($handle, ",")) !== FALSE) {
+                while (($data = fgetcsv($handle, ',')) !== false) {
                     $num = count($data);
-                    for ($c = 0; $c < $num; $c++) {
+                    for ($c = 0; $c < $num; ++$c) {
                         $em = $this->getDoctrine()->getManager();
                         // On vérifie que l'apprenti n'est pas déjà créé
                         $apprentice = $em
                             ->getRepository('OrgabatGameBundle:Apprentice')
-                            ->findOneBy(array("firstName" => $data[0]));
+                            ->findOneBy(array('firstName' => $data[0]));
                         if (!$apprentice) {
                             // Création de l'apprenti à partir des données CSV
                             $apprentice = $userManager->createUser();
                             $apprentice->setFirstName($data[0]);
                             $apprentice->setLastName($data[1]);
-                            $apprentice->setUsername($data[0] . ' ' . $data[1]);
+                            $apprentice->setUsername($data[0].' '.$data[1]);
                             // La date de naissance de l'apprenti est utilisé
                             // comme mot de passe
                             $apprentice->setBirthDate($data[2]);
@@ -198,7 +257,7 @@ class AdminController extends Controller
 
                             $section = $em
                                 ->getRepository('OrgabatGameBundle:Section')
-                                ->findOneBy(array("name" => $data[4]));
+                                ->findOneBy(array('name' => $data[4]));
                             if ($section != null) {
                                 $apprentice->setSection($section);
                             }
@@ -211,11 +270,13 @@ class AdminController extends Controller
                 }
                 fclose($handle);
             }
+
             return $this->redirectToRoute('default_admin_board');
         }
+
         return $this->render('OrgabatGameBundle:Admin:importFromCsv.html.twig', [
             'form' => $form->createView(),
-            'entities' => 'apprentis'
+            'entities' => 'apprentis',
         ]);
     }
 
@@ -238,12 +299,14 @@ class AdminController extends Controller
 
             $request->getSession()->getFlashBag()->add(
                 'message',
-                "Le formateur " . $trainer->getUsername() . " a bien été créé !"
+                'Le formateur '.$trainer->getUsername().' a bien été créé !'
             );
+
             return $this->redirectToRoute('default_admin_board');
         }
+
         return $this->render('OrgabatGameBundle:Admin:addTrainer.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
@@ -264,17 +327,20 @@ class AdminController extends Controller
 
             $request->getSession()->getFlashBag()->add(
                 'message',
-                "L'apprenti " . $apprentice->getUsername() . " a bien été modifié !"
+                "L'apprenti ".$apprentice->getUsername().' a bien été modifié !'
             );
+
             return $this->redirectToRoute('default_admin_board');
         }
+
         return $this->render('OrgabatGameBundle:Admin:editTrainer.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
     /**
-     * Exportation de tous les enseignants d'une classe au format CSV => enseignants.csv
+     * Exportation de tous les enseignants d'une classe au format CSV => enseignants.csv.
+     *
      * @ParamConverter("section", options={"mapping": {"section_id": "id"}})
      * @Security("has_role('ROLE_ADMIN')")
      */
@@ -282,7 +348,7 @@ class AdminController extends Controller
     {
         $trainers = $this->getDoctrine()->getManager()
             ->getRepository('OrgabatGameBundle:Trainer')
-            ->findBy(['section'=>$section])
+            ->findBy(['section' => $section])
         ;
 
         $handle = fopen('php://memory', 'r+');
@@ -297,7 +363,7 @@ class AdminController extends Controller
 
         return new Response($content, 200, array(
             'Content-Type' => 'application/force-download',
-            'Content-Disposition' => 'attachment; filename="enseignants.csv"'
+            'Content-Disposition' => 'attachment; filename="enseignants.csv"',
         ));
     }
 
@@ -323,7 +389,7 @@ class AdminController extends Controller
 
         return new Response($content, 200, [
             'Content-Type' => 'application/force-download',
-            'Content-Disposition' => 'attachment; filename="enseignants.csv"'
+            'Content-Disposition' => 'attachment; filename="enseignants.csv"',
         ]);
     }
 
@@ -344,21 +410,21 @@ class AdminController extends Controller
         if ($form->isValid()) {
             $file = $form->get('submitFile');
             // On vérifie que le fichier CSV est valide
-            if (($handle = fopen($file->getData(),"r")) !== FALSE) {
-                while (($data = fgetcsv($handle, ",")) !== FALSE) {
+            if (($handle = fopen($file->getData(), 'r')) !== false) {
+                while (($data = fgetcsv($handle, ',')) !== false) {
                     $num = count($data);
-                    for ($c = 0; $c < $num; $c++) {
+                    for ($c = 0; $c < $num; ++$c) {
                         // On vérifie que l'enseignant n'existe pas déjà
                         $em = $this->getDoctrine()->getManager();
                         $trainer = $em
                             ->getRepository('OrgabatGameBundle:Trainer')
-                            ->findOneBy(array("firstName" => $data[0]));
+                            ->findOneBy(array('firstName' => $data[0]));
                         if (!$trainer) {
                             // Création de l'enseignant
                             $trainer = new Trainer();
                             $trainer->setFirstName($data[0]);
                             $trainer->setLastName($data[1]);
-                            $trainer->setUsername($data[0] . ' ' . $data[1]);
+                            $trainer->setUsername($data[0].' '.$data[1]);
                             $trainer->setEmail($data[2]);
                             $trainer->setPassword($data[3]);
 
@@ -366,7 +432,7 @@ class AdminController extends Controller
                             foreach ($sectionNames as $sectionName) {
                                 $section = $em
                                     ->getRepository('OrgabatGameBundle:Section')
-                                    ->findOneBy(["name" => $sectionName])
+                                    ->findOneBy(['name' => $sectionName])
                                 ;
                                 $trainer->addSection($section);
                             }
@@ -379,11 +445,13 @@ class AdminController extends Controller
                 }
                 fclose($handle);
             }
+
             return $this->redirectToRoute('default_admin_board');
         }
+
         return $this->render('OrgabatGameBundle:Admin:importFromCsv.html.twig', [
             'form' => $form->createView(),
-            'entities' => 'enseignants'
+            'entities' => 'enseignants',
         ]);
     }
 
@@ -404,18 +472,20 @@ class AdminController extends Controller
 
             $request->getSession()->getFlashBag()->add(
                 'message',
-                "La section " . $section->getName() . " a bien été créée !"
+                'La section '.$section->getName().' a bien été créée !'
             );
 
             return $this->redirectToRoute('default_admin_board');
         }
+
         return $this->render('OrgabatGameBundle:Admin:addSection.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
     /**
-     * Modification d'une classe depuis un formulaire à partir de SectionType
+     * Modification d'une classe depuis un formulaire à partir de SectionType.
+     *
      * @ParamConverter("section", options={"mapping": {"section_id": "id"}})
      * @Security("has_role('ROLE_ADMIN')")
      */
@@ -431,12 +501,14 @@ class AdminController extends Controller
 
             $request->getSession()->getFlashBag()->add(
                 'message',
-                "La section " . $section->getName() . " a bien été modifiée !"
+                'La section '.$section->getName().' a bien été modifiée !'
             );
+
             return $this->redirectToRoute('default_admin_board');
         }
+
         return $this->render('OrgabatGameBundle:Admin:editSection.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
@@ -455,16 +527,17 @@ class AdminController extends Controller
 
             $request->getSession()->getFlashBag()->add(
                 'message',
-                "La section " . $section->getName() . " a bien été supprimée !"
+                'La section '.$section->getName().' a bien été supprimée !'
             );
+
             return $this->redirectToRoute('default_admin_board');
         }
+
         return $this->render('OrgabatGameBundle:Admin:deleteSection.html.twig', [
             'section' => $section,
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
-
 
     /*
      * Exportation de tous les classes au format CSV => classes.csv
@@ -487,7 +560,7 @@ class AdminController extends Controller
 
         return new Response($content, 200, array(
             'Content-Type' => 'application/force-download',
-            'Content-Disposition' => 'attachment; filename="classes.csv"'
+            'Content-Disposition' => 'attachment; filename="classes.csv"',
         ));
     }
 
@@ -507,12 +580,12 @@ class AdminController extends Controller
         if ($form->isValid()) {
             $file = $form->get('submitFile');
             // On vérifie que le fichier est valide
-            if (($handle = fopen($file->getData(),"r")) !== FALSE) {
-                while (($data = fgetcsv($handle, ",")) !== FALSE) {
+            if (($handle = fopen($file->getData(), 'r')) !== false) {
+                while (($data = fgetcsv($handle, ',')) !== false) {
                     $num = count($data);
-                    for ($c=0; $c < $num; $c++) {
+                    for ($c = 0; $c < $num; ++$c) {
                         // Création de la classe
-                        $data = explode(",",$data[$c]);
+                        $data = explode(',', $data[$c]);
                         $em = $this->getDoctrine()->getManager();
                         $section = new Section();
                         $section->setName($data[0]);
@@ -522,11 +595,13 @@ class AdminController extends Controller
                 }
                 fclose($handle);
             }
+
             return $this->redirectToRoute('default_admin_board');
         }
+
         return $this->render('OrgabatGameBundle:Admin:importFromCsv.html.twig', [
             'form' => $form->createView(),
-            'entities' => 'sections'
+            'entities' => 'sections',
         ]);
     }
 }

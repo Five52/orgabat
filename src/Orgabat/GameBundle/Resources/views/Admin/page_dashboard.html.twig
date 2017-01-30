@@ -44,7 +44,7 @@
           </table>
         </div>
         <div class="col-sm-12">
-          <h3>Elèves</h3>
+          <h3>Apprentis</h3>
           <table class="table">
             <thead>
               <tr>
@@ -61,6 +61,7 @@
                 <td>{{ apprentice.lastName }}</td>
                 <td>{{ apprentice.email}}</td>
                 <td>
+                  <a class="btn btn-primary" href="{{ path('admin_view_apprentice', {'apprentice_id': apprentice.id}) }}"><i class="fa fa-eye"></i> Voir le profil</a>
                   <a class="btn btn-warning" href="{{ path('admin_edit_apprentice', {'apprentice_id': apprentice.id} ) }}"><i class="fa fa-pencil"></i> Modifier</a>
                   <a class="btn btn-danger" href="{{ path('admin_remove_user', {'user_id': apprentice.id} ) }}"><i class="fa fa-trash-o"></i> Supprimer</a>
                 </td>
@@ -73,32 +74,6 @@
       </div>
     {% endif %}
   {% endfor %}
-  {% if apprenticesWithoutSection %}
-    <h2 class="text-center">Apprentis sans classe</h2>
-    <table class="table">
-      <thead>
-      <tr>
-        <th>Prénom</th>
-        <th>Nom</th>
-        <th>Adresse email</th>
-        <th>Actions</th>
-      </tr>
-      </thead>
-      <tbody >
-      {% for apprentice in apprenticesWithoutSection %}
-        <tr>
-          <td>{{ apprentice.firstName }}</td>
-          <td>{{ apprentice.lastName }}</td>
-          <td>{{ apprentice.email}}</td>
-          <td>
-            <a class="btn btn-warning" href="{{ path('admin_edit_apprentice', {'apprentice_id': apprentice.id} ) }}"><i class="fa fa-pencil"></i> Modifier</a>
-            <a class="btn btn-danger" href="{{ path('admin_remove_user', {'user_id': apprentice.id} ) }}"><i class="fa fa-trash-o"></i> Supprimer</a>
-          </td>
-        </tr>
-      {% endfor %}
-      </tbody>
-    </table>
-  {% endif %}
   {% if trainersWithoutSection %}
     <h2 class="text-center">Enseignants sans classe</h2>
     <table class="table">
@@ -119,6 +94,33 @@
           <td>
             <a class="btn btn-warning" href="{{ path('admin_edit_trainer', {'trainer_id': trainer.id} ) }}"><i class="fa fa-pencil"></i> Modifier</a>
             <a class="btn btn-danger" href="{{ path('admin_remove_user', {'user_id': trainer.id} ) }}"><i class="fa fa-trash-o"></i> Supprimer</a>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+  {% if apprenticesWithoutSection %}
+    <h2 class="text-center">Apprentis sans classe</h2>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Prénom</th>
+        <th>Nom</th>
+        <th>Adresse email</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody >
+      {% for apprentice in apprenticesWithoutSection %}
+        <tr>
+          <td>{{ apprentice.firstName }}</td>
+          <td>{{ apprentice.lastName }}</td>
+          <td>{{ apprentice.email}}</td>
+          <td>
+            <a class="btn btn-primary" href="{{ path('admin_view_apprentice', {'apprentice_id': apprentice.id}) }}"><i class="fa fa-eye"></i> Voir le profil</a>
+            <a class="btn btn-warning" href="{{ path('admin_edit_apprentice', {'apprentice_id': apprentice.id} ) }}"><i class="fa fa-pencil"></i> Modifier</a>
+            <a class="btn btn-danger" href="{{ path('admin_remove_user', {'user_id': apprentice.id} ) }}"><i class="fa fa-trash-o"></i> Supprimer</a>
           </td>
         </tr>
       {% endfor %}
