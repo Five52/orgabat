@@ -103,11 +103,9 @@ class PDFController extends Controller
         // Get all exercises
         $exercises = $em->getRepository('OrgabatGameBundle:Exercise')->findAll();
 
-        // List of categories for each apprentices
-        $categoriesOfAllUsers = [];
-
-        // List of apprentices
-        $apprentices = [];
+        // Test
+        //$userManager = $this->get('fos_user.user_manager');
+        //$user = $userManager->findUserBy(array('id' => '36'));
 
         foreach ($sections as $section) {
             // Iterate all apprentices of the current user
@@ -137,14 +135,15 @@ class PDFController extends Controller
         ));
 
         /*
-         * If You want to see the twig file
-         * return $this->render('OrgabatGameBundle:Pdf:allUsers.html.twig', array(
-            'users' => $users,
+        // If you want to render the twig file
+        return $this->render('OrgabatGameBundle:Pdf:allUsers.html.twig', array(
+            'users' => $apprentices,
             'categories' => $categoriesOfAllUsers,
             'stats' => [
                 'global' => $globalScore
             ],
-        ));*/
+        ));
+        */
 
         // Generate the pdf
         

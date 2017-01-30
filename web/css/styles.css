@@ -221,6 +221,9 @@ form {
   margin: auto;
   text-align: center;
 }
+.panel-footer {
+  text-align: center;
+}
 
 iframe {
   border-style: none;

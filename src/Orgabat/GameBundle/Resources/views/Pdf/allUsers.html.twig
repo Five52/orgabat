@@ -54,7 +54,6 @@
 <div class="container">
     <h1 class="">Orgabat</h1>
     <h2 class="">Résultats des jeux</h2>
-
     {# User informations #}
     {% for  key, user in users %}
         <div class="user-info">
@@ -64,7 +63,6 @@
                 <p class="section">Inscrit en <span class="sectionName">{{ user.section.name }}</span></p>
             {% endif %}
         </div>
-
         {# If an apprentice didnt played #}
         {% if categories[key] is empty %}
             <h3>Pas de données de jeu enregistrées.</h3>
