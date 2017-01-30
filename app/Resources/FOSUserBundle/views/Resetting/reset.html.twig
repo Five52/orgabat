@@ -7,7 +7,6 @@
 <h1 class="text-center">Réinitialiser le mot de passe</h1>
 
 <form method="POST" action="{{ path('fos_user_resetting_reset', {'token': token}) }}">
-        <p><strong class="text-danger">teub</strong></p>
     {% for pwd in form.plainPassword %}
         <div class="form-group">
             <label for="{{ pwd.vars.id }}">{{ pwd.vars.label|trans }}</label>
