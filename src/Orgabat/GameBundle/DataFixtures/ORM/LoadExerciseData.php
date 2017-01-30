@@ -13,7 +13,7 @@ class LoadExerciseData implements FixtureInterface, OrderedFixtureInterface
     {
         $data = [
             ['Jeu 1', 'Approvisionnement', 3, 4, 2],
-            ['Jeu 2', 'Approvisionnement', 5, 4, 0],
+            ['Jeu 2', 'Approvisionnement', 5, 4, 1],
             ['Jeu 3', 'Approvisionnement', 1, 1, 7]
         ];
 
@@ -40,6 +40,6 @@ class LoadExerciseData implements FixtureInterface, OrderedFixtureInterface
 
     public function getOrder()
     {
-        return 3;
+        return 4;
     }
 }

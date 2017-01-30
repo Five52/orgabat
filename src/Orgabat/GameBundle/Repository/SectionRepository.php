@@ -10,4 +10,15 @@ namespace Orgabat\GameBundle\Repository;
  */
 class SectionRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getWithTrainersAndApprentices() {
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.trainers', 't')
+            ->leftJoin('s.apprentices','a' )
+            ->addSelect('t')
+            ->addSelect('a')
+            ->orderBy('s.id', 'asc')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

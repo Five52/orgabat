@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+
+<h1 class="text-center">Réinitialiser le mot de passe</h1>
+
+<form method="POST" action="{{ path('fos_user_resetting_reset', {'token': token}) }}">
+    {% for pwd in form.plainPassword %}
+        <div class="form-group">
+            <label for="{{ pwd.vars.id }}">{{ pwd.vars.label|trans }}</label>
+            {{ form_widget(pwd) }}
+        </div>
+    {% endfor %}
+    {{ form_rest(form) }}
+    <div>
+        <input type="submit" class="btn btn-success" value="{{ 'resetting.reset.submit'|trans }}" />
+</div>
+</form>
+{% endblock %}

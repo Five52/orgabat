@@ -29,7 +29,10 @@
         "incenteev/composer-parameter-handler": "^2.0",
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "doctrine/doctrine-fixtures-bundle": "~2.2",
-        "pugx/multi-user-bundle": "~3.0@dev"
+        "pugx/multi-user-bundle": "~3.0@dev",
+        "symfony/var-dumper": "^3.2",
+        "twig/extensions": "^1.2",
+        "ensepar/html2pdf-bundle": "^3.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

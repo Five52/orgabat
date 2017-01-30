@@ -5,10 +5,15 @@ namespace Orgabat\GameBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Orgabat\GameBundle\Entity\HistoryRealisation;
+use Orgabat\GameBundle\Entity\ExerciseHistory;
 
 class APIGameController extends Controller
 {
+    /**
+     * Retrieve and insert the game score in database
+     * @param Request $req The request
+     * @return JsonResponse The response
+     */
     public function scoreAction(Request $req)
     {
         $res = new JsonResponse();
@@ -17,48 +22,43 @@ class APIGameController extends Controller
             $content = $req->getContent();
 
             if (!empty($content)) {
-                // Récupération des données envoyées
+                // Retrieve data
                 $params = json_decode($content, true);
 
                 $data = $params['data'];
-                if (!isset($data['id']) || gettype($data['id']) !== 'integer' ||
+                if (!isset($data['exerciseId']) || gettype($data['exerciseId']) !== 'integer' ||
                     !isset($data['time']) || gettype($data['time']) !== 'integer' ||
                     !isset($data['health']) || gettype($data['health']) !== 'integer' ||
                     !isset($data['organization']) || gettype($data['organization']) !== 'integer' ||
                     !isset($data['business']) || gettype($data['business']) !== 'integer') {
-                    var_dump($data);
 
                     $res->setStatusCode(JsonResponse::HTTP_BAD_REQUEST); // 400
                     $res->setData([
                         'message' => 'Données incorrectes',
                     ]);
                 } else {
-                    $em = $this->getDoctrine()->getManager();
-                    $realisation = new HistoryRealisation();
-
                     $user = $this->get('security.token_storage')->getToken()->getUser();
-                    $realisation->setUser($user);
+                    $em = $this->getDoctrine()->getManager();
+                    $exercise = $em->getRepository('OrgabatGameBundle:Exercise')
+                        ->find($data['exerciseId']);
 
-                    $exercise = $em->getRepository('OrgabatGameBundle:Exercise')->find($data['id']);
-                    $realisation->setExercise($exercise);
+                    // Create the new attempt
+                    $exerciseHistory = new ExerciseHistory();
+                    $exerciseHistory
+                        ->setUser($user)
+                        ->setExercise($exercise)
+                        ->setTimer($data['time'])
+                        ->setHealthNote($data['health'])
+                        ->setOrganizationNote($data['organization'])
+                        ->setBusinessNotorietyNote($data['business']);
 
-                    $realisation->setTimer($data['time']);
-                    $realisation->setDate(new \Datetime());
-                    $realisation->setHealthNote($data['health']);
-                    $realisation->setOrganizationNote($data['organization']);
-                    $realisation->setBusinessNotorietyNote($data['business']);
-
-                    // Envoi en BDD
-                    $em->persist($realisation);
+                    // Save in DB
+                    $em->persist($exerciseHistory);
                     $em->flush();
-
-                    // TODO: Vérification des informations
-                    // TODO: Upsert en BDD
 
                     $res->setStatusCode(JsonResponse::HTTP_ACCEPTED); // 202
                 }
             } else {
-                // Tentative
                 $res->setStatusCode(JsonResponse::HTTP_BAD_REQUEST); // 400
                 $res->setData([
                     'message' => 'Données incorrectes',

@@ -7,9 +7,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Orgabat\GameBundle\Entity\HistoryRealisation;
+use Orgabat\GameBundle\Entity\ExerciseHistory;
 
-class LoadHistoryRealisationData implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
+class LoadExerciseHistoryData implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
 {
     private $container;
 
@@ -20,36 +20,34 @@ class LoadHistoryRealisationData implements FixtureInterface, ContainerAwareInte
 
     public function load(ObjectManager $manager)
     {
-        $data = [                                      // user_id
-            [100, 1, 1, 2, 'Jeu 1', 'Jacques Dupont'], // 1
-            [50, 2, 2, 2, 'Jeu 1', 'Jacques Dupont'],  // 1
-            [150, 3, 1, 2, 'Jeu 1', 'Jacques Dupont'], // 1
-
-            [50, 3, 4, 2, 'Jeu 1', 'Pierre Durant'],   // 2
-
-            [95, 1, 1, 0, 'Jeu 3', 'Jacques Dupont']   // 1
+        $data = [
+            [150, 0, 0, 1, 'Jeu 1', 'Jacques Dupont'],
+            [100, 1, 1, 2, 'Jeu 1', 'Jacques Dupont'],
+            // [112, 4, 0, 1, 'Jeu 2', 'Jacques Dupont'],
+            [95, 1, 1, 6, 'Jeu 3', 'Jacques Dupont'],
+            [30, 1, 1, 7, 'Jeu 3', 'Jean Duval']
         ];
 
         foreach ($data as $line) {
-            $hr = new HistoryRealisation;
-            $hr->setTimer($line[0]);
-            $hr->setHealthNote($line[1]);
-            $hr->setOrganizationNote($line[2]);
-            $hr->setBusinessNotorietyNote($line[3]);
+            $eh = new ExerciseHistory();
+            $eh->setTimer($line[0]);
+            $eh->setHealthNote($line[1]);
+            $eh->setOrganizationNote($line[2]);
+            $eh->setBusinessNotorietyNote($line[3]);
 
             $exercise = $manager
                 ->getRepository('OrgabatGameBundle:Exercise')
                 ->findOneByName($line[4])
             ;
-            $hr->setExercise($exercise);
+            $eh->setExercise($exercise);
 
             $discriminator = $this->container->get('pugx_user.manager.user_discriminator');
             $discriminator->setClass('Orgabat\GameBundle\Entity\Apprentice');
             $userManager = $this->container->get('pugx_user_manager');
             $user = $userManager->findUserBy(['username' => $line[5]]);
-            $hr->setUser($user);
+            $eh->setUser($user);
 
-            $manager->persist($hr);
+            $manager->persist($eh);
         }
 
         // On déclenche l'enregistrement de tous les tags
@@ -58,6 +56,6 @@ class LoadHistoryRealisationData implements FixtureInterface, ContainerAwareInte
 
     public function getOrder()
     {
-        return 4;
+        return 5;
     }
 }

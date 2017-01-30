@@ -1,75 +1,128 @@
 {% extends '::base_dashboard.html.twig' %}
 
-{% block stylesheets %}
-  {{ parent() }}
-  <link rel="stylesheet" href="{{ asset('css/simple-sidebar.css') }}">
-{% endblock %}
 {% block body %}
-<a class="btn btn-default" href=  "#menu-toggle" id="menu-toggle">Toggle Menu</a>
+  <h3 class="text-center">Liste des apprentis par classe</h3>
+
+  {%  for section in sections %}
+    {% if section %}
+    <div class="section">
+      <div class="col-sm-12">
+        <h2 class="noselect">
+          {{ section.name }}
+          <span class="icons">
+            <a href="{{ path('admin_edit_section', {'section_id': section.id} ) }}" title="Modifier"><i class="fa fa-pencil"></i></a>
+            <a href="{{ path('admin_remove_section', {'section_id': section.id} ) }}" title="Supprimer"><i class="fa fa-trash-o"></i></a>
+            <a href="{{ path('admin_export_userBySection', {'section_id': section.id} ) }}" title="Exporter"><i class="fa fa-download"></i></a>
+          </span>
+        </h2>
+      </div>
+      <div class="col-sm-12">
+        <div class="col-sm-12">
+          <h3>Enseignants</h3>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Adresse email</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody >
+              {% for trainer in section.trainers %}
+              <tr>
+                <td>{{ trainer.firstName }}</td>
+                <td>{{ trainer.lastName }}</td>
+                <td>{{ trainer.email}}</td>
+                <td>
+                  <a class="btn btn-warning" href="{{ path('admin_edit_trainer', {'trainer_id': trainer.id} ) }}"><i class="fa fa-pencil"></i> Modifier</a>
+                  <a class="btn btn-danger" href="{{ path('admin_remove_user', {'user_id': trainer.id} ) }}"><i class="fa fa-trash-o"></i> Supprimer</a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="col-sm-12">
+          <h3>Elèves</h3>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Adresse email</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody >
+              {% for apprentice in section.apprentices %}
+              <tr>
+                <td>{{ apprentice.firstName }}</td>
+                <td>{{ apprentice.lastName }}</td>
+                <td>{{ apprentice.email}}</td>
+                <td>
+                  <a class="btn btn-warning" href="{{ path('admin_edit_apprentice', {'apprentice_id': apprentice.id} ) }}"><i class="fa fa-pencil"></i> Modifier</a>
+                  <a class="btn btn-danger" href="{{ path('admin_remove_user', {'user_id': apprentice.id} ) }}"><i class="fa fa-trash-o"></i> Supprimer</a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+    </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+  {% if apprenticesWithoutSection %}
+    <h2 class="text-center">Apprentis sans classe</h2>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Prénom</th>
+        <th>Nom</th>
+        <th>Adresse email</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody >
+      {% for apprentice in apprenticesWithoutSection %}
+        <tr>
+          <td>{{ apprentice.firstName }}</td>
+          <td>{{ apprentice.lastName }}</td>
+          <td>{{ apprentice.email}}</td>
+          <td>
+            <a class="btn btn-warning" href="{{ path('admin_edit_apprentice', {'apprentice_id': apprentice.id} ) }}"><i class="fa fa-pencil"></i> Modifier</a>
+            <a class="btn btn-danger" href="{{ path('admin_remove_user', {'user_id': apprentice.id} ) }}"><i class="fa fa-trash-o"></i> Supprimer</a>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+  {% if trainersWithoutSection %}
+    <h2 class="text-center">Enseignants sans classe</h2>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Prénom</th>
+        <th>Nom</th>
+        <th>Adresse email</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody >
+      {% for trainer in trainersWithoutSection %}
+        <tr>
+          <td>{{ trainer.firstName }}</td>
+          <td>{{ trainer.lastName }}</td>
+          <td>{{ trainer.email}}</td>
+          <td>
+            <a class="btn btn-warning" href="{{ path('admin_edit_trainer', {'trainer_id': trainer.id} ) }}"><i class="fa fa-pencil"></i> Modifier</a>
+            <a class="btn btn-danger" href="{{ path('admin_remove_user', {'user_id': trainer.id} ) }}"><i class="fa fa-trash-o"></i> Supprimer</a>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
 {% endblock %}
-
-
-{% block sidebar %}
-    <!-- Sidebar -->
-    <div id="sidebar-wrapper">
-        <ul class="sidebar-nav">
-            <li class="sidebar-brand">
-                <!-- /#Ajoute lien de la page d'acceuil -->
-                 <a href="#">Orgabat</a>
-            </li>
-                <div class="list-group panel">
-                    <a class="list-group-item" data-parent="#MainMenu" data-toggle="collapse" href=
-                    "#adminList"><span class="glyphicon glyphicon-th-list"></span> Listes des comptes  <i class="fa fa-arrow-down" aria-hidden="true"></i></a>
-                    <div class="collapse" id="adminList">
-                        <!-- /#Ajoute lien au methode lister formateurs -->
-                         <a class="list-group-item" data-parent="#option" data-toggle="collapse"
-                        href="#"><span class="glyphicon glyphicon-user"></span> Apprentis</a>
-                        <a class="list-group-item" data-parent="#option" data-toggle="collapse"
-                       href="#"><span class="glyphicon glyphicon-user"></span> Formateurs</a>
-                       <a class="list-group-item" data-parent="#option" data-toggle="collapse"
-                      href="#"><span class="glyphicon glyphicon-user"></span> Administrateurs</a>
-                    </div>
-                </div>
-                <div class="list-group panel">
-                    <a class="list-group-item" data-parent="#MainMenu" data-toggle="collapse" href=
-                    "#adminAccountCreate"><span class="glyphicon glyphicon-th-list"></span> Créer un compte  <i class="fa fa-arrow-down" aria-hidden="true"></i></a>
-                    <div class="collapse" id="adminAccountCreate">
-                        <!-- /#Ajoute lien au methode lister formateurs -->
-                         <a class="list-group-item" data-parent="#option" data-toggle="collapse"
-                        href="#"><span class="glyphicon glyphicon-user"></span> Compte apprenti</a>
-                        <a class="list-group-item" data-parent="#option" data-toggle="collapse"
-                       href="#"><span class="glyphicon glyphicon-user"></span> Compte formateur</a>
-                    </div>
-                </div>
-                <div class="list-group panel">
-                    <!-- /#Ajoute lien au methode changer mot de passe -->
-                     <a class="list-group-item" href="#"><span class=
-                    "glyphicon glyphicon-upload"></span> Importer des comptes utilisateurs</a>
-                </div>
-                <div class="list-group panel">
-                    <!-- /#Ajoute lien au methode changer mot de passe -->
-                     <a class="list-group-item" href="#"><span class=
-                    "glyphicon glyphicon-lock"></span> Changer mot de passe</a>
-                </div>
-                <div class="list-group panel">
-                    <!-- /#Ajoute lien au logout -->
-                     <a class="list-group-item" href="#"><span class=
-                    "glyphicon glyphicon-log-out"></span> Déconnexion</a>
-                </div>
-
-        </ul>
-    </div><!-- /#sidebar-wrapper -->
-{% endblock %}
-
-
-    {% block javascripts %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js">
-    </script> {{ parent() }}
-    <script>
-
-    $("#menu-toggle").click(function(e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
-    });
-    </script>
-    {% endblock %}

@@ -1,33 +1,57 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8"/>
-        <title>
-            {% block title %}Orgabat{% endblock %}
-        </title>
-        {% block stylesheets %}
-            <link rel="stylesheet" href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}">
-            <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-            <link rel="stylesheet" href="{{ asset('css/headerIllustration.css') }}">
-            <link rel="stylesheet" href="{{ asset('vendor/fontawesome/css/font-awesome.min.css') }}">
-        {% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
-    </head>
-     {#
-        {% include 'header.html.twig' %}
-    #}
-    <body>
-        <div id="wrapper">
-            {% block sidebar %}{% endblock %}
-            <div class="page-content-wrapper">
-                {% block body %}{% endblock %}
-                {% include 'partials/footer.html.twig' %}
-            </div>
-        </div>
-        {% block javascripts %}
-            <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>
-            <script src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"> </script>
-            <script src="{{ asset('js/logoSlider.js') }}"></script>
-        {% endblock %}
-    </body>
+  <head>
+    <meta charset="UTF-8"/>
+    <title>
+      {% block title %}Orgabat{% endblock %}
+    </title>
+    {% block stylesheets %}
+      <link rel="stylesheet" href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}">
+      <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+      <link rel="stylesheet" href="{{ asset('css/headerIllustration.css') }}">
+      <link rel="stylesheet" href="{{ asset('vendor/fontawesome/css/font-awesome.min.css') }}">
+      <link rel="stylesheet" href="{{ asset('css/slited.css') }}">
+    {% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+  </head>
+  <body>
+    <section class="splited">
+      {% include 'partials/sidebar.html.twig' %}
+      <div class="page-content">
+        {% for message in app.session.flashbag.get('message') %}
+          <div class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert">
+              <span aria-hidden="true">&times;</span>
+              <span class="sr-only">Close</span>
+            </button>
+            <p>{{ message }}</p>
+          </div>
+        {% endfor %}
+        <a class="btn btn-default menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a>
+        {% block body %}{% endblock %}
+        {% include 'partials/footer.html.twig' %}
+      </div>
+    </section>
+    {% block javascripts %}
+      <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+      <script src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+      <script src="{{ asset('js/logoSlider.js') }}"></script>
+      <script>
+        (function () {
+          var splited = document.querySelector('.splited');
+          document.querySelector('.menu-toggle').onclick = function(e) {
+            e.preventDefault();
+            splited.classList.toggle('toggled');
+          };
+
+          document.querySelector('.page-content').addEventListener('mousedown', removeToggle);
+          document.querySelector('.page-content').addEventListener('touchstart', removeToggle);
+
+          function removeToggle() {
+            splited.classList.remove('toggled');
+          }
+        })()
+      </script>
+    {% endblock %}
+  </body>
 </html>

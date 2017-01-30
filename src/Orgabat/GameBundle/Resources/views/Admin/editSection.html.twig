@@ -1,0 +1,11 @@
+{% extends '::base_dashboard.html.twig' %}
+{% block body %}
+
+    <h3 class="text-center">Modifier une classe</h3>
+    {{  form_start(form) }}
+    <div class="col-sm-12">{{ form_row(form.name) }}</div>
+    <div>
+        {{ form_widget(form.save, {'attr': {'class': 'btn-primary center-block'}} ) }}
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

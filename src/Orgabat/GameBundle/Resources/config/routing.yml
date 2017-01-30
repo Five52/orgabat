@@ -5,26 +5,35 @@ default_rules:
     defaults: { _controller: OrgabatGameBundle:Default:showRules }
 
 default_category:
-    path:    /rubriques
+    path:    /rubriques/
     defaults: { _controller: OrgabatGameBundle:Default:showMenu }
 
 default_games:
     path:    /rubriques/{category_id}
     defaults: { _controller: OrgabatGameBundle:Default:showGames }
     requirements:
-        id:   \d+
+        category_id:   \d+
+
+default_sections:
+    path:   /admin/classes/
+    defaults:  { _controller: OrgabatGameBundle:Default:showSections }
+
+default_editinfos:
+    path:   /admin/modifier-infos
+    defaults:  { _controller: OrgabatGameBundle:Default:showEditInfos }
 
 default_admin_board:
-    path:   /admin
+    path:   /admin/
     defaults:  { _controller: OrgabatGameBundle:Default:showAdmin }
+
+
 
 # APIGameController
 
 apigame_score:
     path:     /api/score
     defaults: { _controller: OrgabatGameBundle:APIGame:score }
-    requirements:
-      sf_method: 'post'
+    methods: [POST]
 
 # GameController
 
@@ -36,6 +45,105 @@ game_game:
 
 # AdminController
 
-admin_create_user:
-    path:    /creation-utilisateur
-    defaults: { _controller: OrgabatGameBundle:Admin:createUser}
+# Apprentice
+admin_create_apprentice:
+    path:    /admin/apprentis/creer
+    defaults: { _controller: OrgabatGameBundle:Admin:createApprentice }
+
+admin_view_apprentice:
+    path: /admin/apprentis/{apprentice_id}/
+    defaults: { _controller: OrgabatGameBundle:Admin:viewApprentice }
+    requirements:
+        apprentice_id: \d+
+
+admin_edit_apprentice:
+    path:    /admin/apprentis/{apprentice_id}/modifier
+    defaults: { _controller: OrgabatGameBundle:Admin:editApprentice }
+    requirements:
+        apprentice_id: \d+
+
+admin_remove_apprentice:
+    path:    /admin/apprentis/{user_id}/supprimer
+    defaults: { _controller: OrgabatGameBundle:Admin:deleteUser }
+    requirements:
+        user_id: \d+
+
+admin_remove_user:
+    path: /admin/utilisateurs/{user_id}/supprimer
+    defaults: { _controller: OrgabatGameBundle:Admin:deleteUser }
+    requirements:
+        user_id: \d+
+
+admin_export_user:
+    path:   /admin/apprentis/exporter
+    defaults: { _controller: OrgabatGameBundle:Admin:exportAllApprentices}
+
+admin_export_userBySection:
+    path:   /admin/apprentis/classe/{section_id}/exporter
+    defaults: { _controller: OrgabatGameBundle:Admin:exportApprenticesBySection}
+    requirements:
+        section_id: \d+
+
+admin_import_user:
+    path:   /admin/apprentis/importer
+    defaults: { _controller: OrgabatGameBundle:Admin:importApprentices}
+
+# Trainer
+
+admin_create_trainer:
+    path:    /admin/enseignants/creer
+    defaults: { _controller: OrgabatGameBundle:Admin:createTrainer}
+
+admin_edit_trainer:
+    path:    /admin/enseignants/{trainer_id}/modifier
+    defaults: { _controller: OrgabatGameBundle:Admin:editTrainer}
+    requirements:
+        trainer_id: \d+
+
+admin_remove_trainer:
+    path:    /admin/enseignants/{user_id}/supprimer
+    defaults: { _controller: OrgabatGameBundle:Admin:deleteUser}
+    requirements:
+        user_id: \d+
+
+admin_export_trainer:
+    path:   /admin/enseignants/exporter
+    defaults: { _controller: OrgabatGameBundle:Admin:exportAllTrainers}
+
+admin_import_trainer:
+    path:   /admin/enseignants/importer
+    defaults: { _controller: OrgabatGameBundle:Admin:importTrainers}
+
+# Section
+admin_create_section:
+    path:    /admin/classes/creer
+    defaults: { _controller: OrgabatGameBundle:Admin:createSection}
+
+admin_edit_section:
+    path:    /admin/classes/{section_id}/modifier
+    defaults: { _controller: OrgabatGameBundle:Admin:editSection}
+    requirements:
+        section_id: \d+
+
+admin_remove_section:
+    path:    /admin/classes/{section_id}/supprimer
+    defaults: { _controller: OrgabatGameBundle:Admin:deleteSection}
+    requirements:
+        section_id: \d+
+
+admin_export_section:
+    path:   /admin/classes/exporter
+    defaults: { _controller: OrgabatGameBundle:Admin:exportAllSections}
+
+admin_import_section:
+    path:   /admin/classes/importer
+    defaults: { _controller: OrgabatGameBundle:Admin:importSections}
+
+# PDF
+user_get_infos_pdf:
+    path:   /statistiques
+    defaults: { _controller: OrgabatGameBundle:PDF:getUserInfosUsingPDF}
+
+admin_get_users_infos_pdf:
+    path:   /admin/apprentis/statistiques
+    defaults: { _controller: OrgabatGameBundle:PDF:getAllUsersInfosUsingPDF}

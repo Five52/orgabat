@@ -6,12 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * HistoricalRealisation
+ * ExerciseHistory.
  *
- * @ORM\Table(name="history_realisation")
- * @ORM\Entity(repositoryClass="Orgabat\GameBundle\Repository\HistoryRealisationRepository")
+ * @ORM\Table(name="exercise_history")
+ * @ORM\Entity(repositoryClass="Orgabat\GameBundle\Repository\ExerciseHistoryRepository")
  */
-class HistoryRealisation
+class ExerciseHistory
 {
     /**
      * @var int
@@ -70,14 +70,14 @@ class HistoryRealisation
     private $businessNotorietyNote;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Orgabat\GameBundle\Entity\Exercise", inversedBy="historyRealisations")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="Orgabat\GameBundle\Entity\Exercise", inversedBy="exerciseHistories", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $exercise;
 
     /**
      * @ORM\ManyToOne(targetEntity="Orgabat\GameBundle\Entity\User")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $user;
 
@@ -86,9 +86,8 @@ class HistoryRealisation
         $this->date = new \DateTime();
     }
 
-
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -98,7 +97,7 @@ class HistoryRealisation
     }
 
     /**
-     * Set date
+     * Set date.
      *
      * @param \DateTime $date
      *
@@ -112,7 +111,7 @@ class HistoryRealisation
     }
 
     /**
-     * Get date
+     * Get date.
      *
      * @return \DateTime
      */
@@ -122,7 +121,7 @@ class HistoryRealisation
     }
 
     /**
-     * Set timer
+     * Set timer.
      *
      * @param \DateTime $timer
      *
@@ -136,7 +135,7 @@ class HistoryRealisation
     }
 
     /**
-     * Get timer
+     * Get timer.
      *
      * @return \DateTime
      */
@@ -146,7 +145,7 @@ class HistoryRealisation
     }
 
     /**
-     * Set exercise
+     * Set exercise.
      *
      * @param Exercise $exercise
      *
@@ -155,12 +154,13 @@ class HistoryRealisation
     public function setExercise(Exercise $exercise)
     {
         $this->exercise = $exercise;
+        $exercise->addExerciseHistory($this);
 
         return $this;
     }
 
     /**
-     * Get exercise
+     * Get exercise.
      *
      * @return Exercise
      */
@@ -170,9 +170,9 @@ class HistoryRealisation
     }
 
     /**
-     * Set healthNote
+     * Set healthNote.
      *
-     * @param integer $healthNote
+     * @param int $healthNote
      *
      * @return HistoryRealisation
      */
@@ -184,9 +184,9 @@ class HistoryRealisation
     }
 
     /**
-     * Get healthNote
+     * Get healthNote.
      *
-     * @return integer
+     * @return int
      */
     public function getHealthNote()
     {
@@ -194,9 +194,9 @@ class HistoryRealisation
     }
 
     /**
-     * Set organizationNote
+     * Set organizationNote.
      *
-     * @param integer $organizationNote
+     * @param int $organizationNote
      *
      * @return HistoryRealisation
      */
@@ -208,9 +208,9 @@ class HistoryRealisation
     }
 
     /**
-     * Get organizationNote
+     * Get organizationNote.
      *
-     * @return integer
+     * @return int
      */
     public function getOrganizationNote()
     {
@@ -218,9 +218,9 @@ class HistoryRealisation
     }
 
     /**
-     * Set businessNotorietyNote
+     * Set businessNotorietyNote.
      *
-     * @param integer $businessNotorietyNote
+     * @param int $businessNotorietyNote
      *
      * @return HistoryRealisation
      */
@@ -232,9 +232,9 @@ class HistoryRealisation
     }
 
     /**
-     * Get businessNotoriety
+     * Get businessNotoriety.
      *
-     * @return integer
+     * @return int
      */
     public function getBusinessNotorietyNote()
     {
@@ -242,7 +242,7 @@ class HistoryRealisation
     }
 
     /**
-     * Set user
+     * Set user.
      *
      * @param \Orgabat\GameBundle\Entity\User $user
      *
@@ -256,12 +256,37 @@ class HistoryRealisation
     }
 
     /**
-     * Get user
+     * Get user.
      *
      * @return \Orgabat\GameBundle\Entity\User
      */
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Get the score.
+     *
+     * @return float The score
+     */
+    public function getScore()
+    {
+        $sum = $this->getHumanScore();
+        $sumCoeffs = $this->getExercise()->getBusinessNotorietyMaxNote()
+            + $this->getExercise()->getHealthMaxNote()
+            + $this->getExercise()->getOrganizationMaxNote();
+
+        return $sum / $sumCoeffs;
+    }
+
+    /**
+     * Get the human readable score.
+     *
+     * @return int The human readable score
+     */
+    public function getHumanScore()
+    {
+        return $this->businessNotorietyNote + $this->healthNote + $this->organizationNote;
     }
 }

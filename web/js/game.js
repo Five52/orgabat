@@ -1,27 +1,75 @@
-var Api = function(url) {
-  this.url = url || '/api/score';
-};
-
-Api.prototype.sendScore = function(data, cb) {
-    // Vérification des données
-    data = data || {};
-    if (typeof data.id !== 'number',
-      typeof data.time !== 'number',
-      typeof data.health !== 'number',
-      typeof data.organization !== 'number',
-      typeof data.business !== 'number') {
-      return false;
+var api = (function() {
+  /**
+   * @param {String} param.url
+   * @param {String} param.method
+   * @param {Object} param.data
+   * @param {String} param.contentType
+   * @param {Function} callback
+   */
+  var requestAsync = function(param, callback) {
+    var options = {
+      method: 'GET'
+    };
+    if (typeof param === 'string') {
+      options.url = param;
+    } else {
+      options.url = param.url ? param.url : '';
+      options.method = param.method ? param.method : 'GET';
+      options.data = param.data ? param.data : undefined;
+      options.contentType = param.contentType ? param.contentType : undefined;
     }
 
-    console.log(this.url);
+    var req = new XMLHttpRequest();
+    req.onload = function() {
+      callback(this.status, this.responseText);
+    };
+    req.onerror = function() {
+      callback(this.status);
+    };
 
-    // Envoi des données
+    req.open(options.method, options.url, true);
+    if (options.contentType) {
+      req.setRequestHeader('Content-Type', options.contentType);
+    }
+    req.send(options.data);
+
+    return req;
+  };
+
+  /**
+   * @param {Object} data
+   * @param {Number} data.exerciseId
+   * @param {Number} data.time
+   * @param {Number} data.health
+   * @param {Number} data.organization
+   * @param {Number} data.business
+   * @param {Function} callback
+   * @return {XMLHttpRequest} The request
+   */
+  var sendScore = function(data, callback) {
+    data = data || {};
+
+    if (typeof data.exerciseId !== 'number' ||
+      typeof data.time !== 'number' ||
+      typeof data.health !== 'number' ||
+      typeof data.organization !== 'number' ||
+      typeof data.business !== 'number') {
+      return null;
+    }
+
     return requestAsync({
-      url: this.url,
+      url: '/api/score',
       method: 'POST',
       contentType: 'application/json',
-      data: JSON.stringify({ data: data })
+      data: JSON.stringify({
+        data: data
+      })
     }, function(status, res) {
-      return status === 202 ? cb(res) : console.error(status);
+      callback(status === 202, res);
     });
-};
+  };
+
+  return {
+    sendScore: sendScore
+  };
+})();
