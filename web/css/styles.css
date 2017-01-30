@@ -102,7 +102,7 @@ form {
 }
 
 .game.disabled {
-  opacity: 0.9;
+  opacity: 0.7;
 }
 .game.disabled .panel-body {
   background-color: rgba(0, 0, 0, 0.05);
@@ -400,6 +400,40 @@ a[data-toggle="collapse"][aria-expanded="true"] {
   margin-bottom: 60px;
   float: left;
   width: 100%;
+}
+
+.page-content .panel {
+  width: 300px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+td.date {
+  width: 160px;
+}
+td.score {
+  width: 80px;
+}
+td.status {
+  width: 10px;
+  text-align: left;
+}
+td.bar {
+  width: 300px;
+}
+td.bar .progress {
+  margin: 0;
+}
+.page-content .category_name {
+  font-weight: 600;
+}
+.page-content .category {
+  margin: 0 15px 10px;
+}
+
+.informations {
+  display: flex;
+  justify-content: space-between;
 }
 
 
