@@ -112,7 +112,6 @@ class DefaultController extends Controller
         return $this->render('OrgabatGameBundle:User:page_jeux.html.twig', [
             'category' => $category,
             'exercises' => $exercises,
-            'bestTries' => [],
             'categStats' => [
                 'user' => $userCategScore,
                 'global' => $globalCategScore,
