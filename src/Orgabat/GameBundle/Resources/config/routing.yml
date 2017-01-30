@@ -48,9 +48,9 @@ game_game:
 # Apprentice
 admin_view_apprentice:
     path:    /admin/apprentis/{apprentice_id}
-    defaults: { _controller: OrgabatGameBundle:Admin:viewApprentice}
+    defaults: { _controller: OrgabatGameBundle:Admin:viewApprentice }
     requirements:
-        user_id: \d+
+        apprentice_id: \d+
 
 admin_create_apprentice:
     path:    /admin/apprentis/creer

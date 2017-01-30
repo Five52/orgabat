@@ -25,6 +25,7 @@
               <td>{{ apprentice.lastName }}</td>
               <td>{{ apprentice.email}}</td>
               <td>
+                <a class="btn btn-primary" href="{{ path('admin_view_apprentice', {'apprentice_id': apprentice.id}) }}"><i class="fa fa-eye"></i> Voir le profil</a>
                 <a class="btn btn-warning" href="{{ path('admin_edit_apprentice', {'apprentice_id': apprentice.id} ) }}"><i class="fa fa-pencil"></i> Modifier</a>
                 <a class="btn btn-danger" href="{{ path('admin_remove_user', {'user_id': apprentice.id} ) }}"><i class="fa fa-trash-o"></i> Supprimer</a>
               </td>
