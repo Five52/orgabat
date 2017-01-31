@@ -21,7 +21,7 @@
     <script type="application/javascript">
         window.game_id = {{ id }};
         window.assets_path = "{{ asset('modules/game/public/assets/') }}";
-        window.api = new Api("{{ path('apigame_score') }}");
+     //   window.api = new api("{{ path('apigame_score') }}");
     </script>
     <script type="application/javascript" src="{{ asset('modules/game/dist/' ~ id ~ '.js') }}"></script>
 {% endblock %}

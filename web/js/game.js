@@ -48,7 +48,7 @@ var api = (function() {
    */
   var sendScore = function(data, callback) {
     data = data || {};
-
+    console.log(data);
     if (typeof data.exerciseId !== 'number' ||
       typeof data.time !== 'number' ||
       typeof data.health !== 'number' ||
