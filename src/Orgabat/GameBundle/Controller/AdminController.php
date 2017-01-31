@@ -270,6 +270,10 @@ class AdminController extends Controller
                 }
                 fclose($handle);
             }
+            $request->getSession()->getFlashBag()->add(
+                'message',
+                'Les apprentis ont bien été importés !'
+            );
 
             return $this->redirectToRoute('default_admin_board');
         }
@@ -327,7 +331,7 @@ class AdminController extends Controller
 
             $request->getSession()->getFlashBag()->add(
                 'message',
-                "L'apprenti ".$apprentice->getUsername().' a bien été modifié !'
+                "Le formateur ".$trainer->getUsername().' a bien été modifié !'
             );
 
             return $this->redirectToRoute('default_admin_board');
@@ -446,6 +450,10 @@ class AdminController extends Controller
                 fclose($handle);
             }
 
+            $request->getSession()->getFlashBag()->add(
+                'message',
+                'Les formateurs ont bien été importés !'
+            );
             return $this->redirectToRoute('default_admin_board');
         }
 
@@ -596,6 +604,10 @@ class AdminController extends Controller
                 fclose($handle);
             }
 
+            $request->getSession()->getFlashBag()->add(
+                'message',
+                'Les sections ont bien été importées !'
+            );
             return $this->redirectToRoute('default_admin_board');
         }
 
