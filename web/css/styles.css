@@ -406,7 +406,7 @@ a[data-toggle="collapse"][aria-expanded="true"] {
   color: rgba(0, 0, 0, 0.5);
 }
 
-.section {
+.page-content .section {
   margin-bottom: 60px;
   float: left;
   width: 100%;
@@ -414,6 +414,9 @@ a[data-toggle="collapse"][aria-expanded="true"] {
 
 .page-content {
   padding-bottom: 250px !important;
+}
+.page-content .section:last-of-type {
+  margin-bottom: 250px;
 }
 .page-content .panel {
   width: 300px;
