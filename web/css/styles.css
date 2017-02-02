@@ -412,6 +412,9 @@ a[data-toggle="collapse"][aria-expanded="true"] {
   width: 100%;
 }
 
+.page-content {
+  padding-bottom: 250px !important;
+}
 .page-content .panel {
   width: 300px;
   border: 1px solid #ddd;
