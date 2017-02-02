@@ -50,9 +50,8 @@ class PDFController extends Controller
             ],
         ));
 
-        /*
-         * If You want to see the twig file
-        return $this->render('OrgabatGameBundle:Pdf:user.html.twig', array(
+        //If You want to see the twig file
+        /*return $this->render('OrgabatGameBundle:Pdf:user.html.twig', array(
             'user' => $user,
             'categories' => $categories,
             'stats' => [

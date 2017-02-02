@@ -5,7 +5,13 @@
     <div>
       <p><strong>Email</strong>: {{ apprentice.email }}</p>
       <p><strong>Date de naissance</strong>: {{ apprentice.birthdate }}</p>
-      <p><strong>Classe</strong>: {{ apprentice.section.name }}</p>
+      <p><strong>Classe</strong>:
+      {% if apprentice.section %}
+        {{ apprentice.section.name }}
+      {% else %}
+        aucune
+      {% endif %}
+      </p>
       <a class="btn btn-warning" href="{{ path('admin_edit_apprentice', {'apprentice_id': apprentice.id} ) }}"><i class="fa fa-pencil"></i> Modifier</a>
       <a class="btn btn-danger" href="{{ path('admin_remove_user', {'user_id': apprentice.id} ) }}"><i class="fa fa-trash-o"></i> Supprimer</a>
     </div>

@@ -56,7 +56,6 @@ button.list-group-item:hover {
 
 .page-content {
   width: 100%;
-  position: absolute;
   padding: 15px;
   min-height: 100%;
 }
@@ -73,11 +72,6 @@ button.list-group-item:hover {
 @media(min-width:900px) {
   .splited {
     padding-left: 250px;
-  }
-
-  .page-content {
-    padding: 20px;
-    position: initial;
   }
 
   .footer {
