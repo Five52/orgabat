@@ -1,5 +1,12 @@
 {% extends '::base_dashboard.html.twig' %}
 {% block body %}
+    <div class="importing">
+      <div></div>
+      <span>
+        <p>Importation en cours...</p>
+        <p>Cette opération peut prendre quelques minutes, veuillez patienter.</p>
+      </span>
+    </div>
     <h3 class="text-center">Importer des {{ entities }}</h3>
     {{  form_start(form) }}
     <div class="col-sm-12 text-center">
@@ -9,4 +16,10 @@
         {{ form_widget(form.save, {'attr': {'class': 'btn-primary center-block'}} ) }}
     </div>
     {{ form_end(form) }}
+
+    <script type="text/javascript">
+      document.querySelector('form').onsubmit = function() {
+        document.querySelector('.importing').classList.add('display');
+      };
+    </script>
 {% endblock %}
