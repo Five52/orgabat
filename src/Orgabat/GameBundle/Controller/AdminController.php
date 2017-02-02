@@ -451,12 +451,15 @@ class AdminController extends Controller
                             ->getRepository('OrgabatGameBundle:Trainer')
                             ->findOneBy(array('email' => $data[2]));
                         if (!$trainer) {
-
                             // Create the trainer
                             $trainer = new Trainer();
                             $trainer->setFirstName($data[0]);
                             $trainer->setLastName($data[1]);
-                            $trainer->setUsername($data[0].' '.$data[1]);
+                            $baseUsername = $trainer->getFirstName(). ' ' . $trainer->getLastName();
+                            $trainer->setUsername($em
+                                ->getRepository('OrgabatGameBundle:User')
+                                ->getNotUsedUsername($baseUsername)
+                            );
                             $trainer->setEmail($data[2]);
                             $trainer->setPassword($data[3]);
 
