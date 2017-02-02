@@ -58,6 +58,10 @@
     $('#categoryModal').modal('hide');
   };
 
+  window.reloadCategoryModal = function() {
+    categoryModalElement.iframe.src = categoryModalElement.iframe.src;
+  };
+
   window.loadGame = function(id, title) {
     $('#categoryModal').modal('hide');
 

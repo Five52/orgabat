@@ -65,7 +65,15 @@ var api = (function() {
         data: data
       })
     }, function(status, res) {
-      callback(status === 202, res);
+      var posted = status === 202;
+      
+      if (posted) {
+        window.parent.reloadCategoryModal();
+      }
+
+      if (callback) {
+        callback(posted, res);
+      }
     });
   };
 
