@@ -369,7 +369,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Exportation de tous les enseignants d'une classe au format CSV => enseignants.csv.
+     * Exportation de tous les formateurs d'une classe au format CSV => formateurs.csv.
      *
      * @ParamConverter("section", options={"mapping": {"section_id": "id"}})
      * @Security("has_role('ROLE_ADMIN')")
@@ -393,12 +393,12 @@ class AdminController extends Controller
 
         return new Response($content, 200, [
             'Content-Type' => 'application/force-download',
-            'Content-Disposition' => 'attachment; filename="enseignants.csv"',
+            'Content-Disposition' => 'attachment; filename="formateurs.csv"',
         ]);
     }
 
     /*
-     * Exportation de tous les enseignants au format CSV => enseignants.csv
+     * Exportation de tous les formateurs au format CSV => formateurs.csv
      * @Security("has_role('ROLE_ADMIN')")
      */
     public function exportAllTrainersAction()
@@ -419,12 +419,12 @@ class AdminController extends Controller
 
         return new Response($content, 200, [
             'Content-Type' => 'application/force-download',
-            'Content-Disposition' => 'attachment; filename="enseignants.csv"',
+            'Content-Disposition' => 'attachment; filename="formateurs.csv"',
         ]);
     }
 
     /*
-     * Importation de plusieurs enseignants depuis un fichier CSV
+     * Importation de plusieurs formateurs depuis un fichier CSV
      * @Security("has_role('ROLE_ADMIN')")
      */
     public function importTrainersAction(Request $request)
@@ -493,7 +493,7 @@ class AdminController extends Controller
 
         return $this->render('OrgabatGameBundle:Admin:importFromCsv.html.twig', [
             'form' => $form->createView(),
-            'entities' => 'enseignants',
+            'entities' => 'formateurs',
         ]);
     }
 
@@ -514,7 +514,7 @@ class AdminController extends Controller
 
             $request->getSession()->getFlashBag()->add(
                 'message',
-                'La section '.$section->getName().' a bien été créée !'
+                'La classe '.$section->getName().' a bien été créée !'
             );
 
             return $this->redirectToRoute('default_admin_board');
@@ -543,7 +543,7 @@ class AdminController extends Controller
 
             $request->getSession()->getFlashBag()->add(
                 'message',
-                'La section '.$section->getName().' a bien été modifiée !'
+                'La classe '.$section->getName().' a bien été modifiée !'
             );
 
             return $this->redirectToRoute('default_admin_board');
@@ -569,7 +569,7 @@ class AdminController extends Controller
 
             $request->getSession()->getFlashBag()->add(
                 'message',
-                'La section '.$section->getName().' a bien été supprimée !'
+                'La classe '.$section->getName().' a bien été supprimée !'
             );
 
             return $this->redirectToRoute('default_admin_board');
@@ -649,14 +649,14 @@ class AdminController extends Controller
 
             $request->getSession()->getFlashBag()->add(
                 'message',
-                'Les sections ont bien été importées !'
+                'Les classes ont bien été importées !'
             );
             return $this->redirectToRoute('default_admin_board');
         }
 
         return $this->render('OrgabatGameBundle:Admin:importFromCsv.html.twig', [
             'form' => $form->createView(),
-            'entities' => 'sections',
+            'entities' => 'classes',
         ]);
     }
 }

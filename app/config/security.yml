@@ -34,12 +34,11 @@ security:
         - { path: ^/admin/apprentis, role: ROLE_TRAINER }
         - { path: ^/admin/apprenti, role: ROLE_TRAINER }
         - { path: ^/admin/apprentis/statistiques, role: ROLE_TRAINER }
-        - { path: ^/admin/enseignants$, role: ROLE_ADMIN }
+        - { path: ^/admin/formateurs$, role: ROLE_ADMIN }
         - { path: ^/admin/apprentis/exporter, role: ROLE_ADMIN }
         - { path: ^/admin/apprentis/importer, role: ROLE_ADMIN }
-        - { path: ^/admin/enseignants/exporter, role: ROLE_ADMIN }
-        - { path: ^/admin/enseignants/importer, role: ROLE_ADMIN }
+        - { path: ^/admin/formateurs/exporter, role: ROLE_ADMIN }
+        - { path: ^/admin/formateurs/importer, role: ROLE_ADMIN }
         - { path: ^/admin/classes/exporter, role: ROLE_ADMIN }
         - { path: ^/admin/classes/importer, role: ROLE_ADMIN }
         - { path: ^/admin/, role: ROLE_TRAINER }
-
