@@ -412,9 +412,6 @@ a[data-toggle="collapse"][aria-expanded="true"] {
   width: 100%;
 }
 
-.page-content {
-  padding-bottom: 250px !important;
-}
 .page-content .section:last-of-type {
   margin-bottom: 250px;
 }
