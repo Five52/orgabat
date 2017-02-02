@@ -129,4 +129,14 @@ class Category
         $results["timer"] /= count($this->exercises);
         return $results;
     }
+
+    public function getMaxResults() {
+        $results = ["healthMaxNote" => 0, "organizationMaxNote" => 0, "businessNotorietyMaxNote" => 0];
+        foreach ($this->exercises as $exercise) {
+            $results["healthMaxNote"] += $exercise->getHealthMaxNote();
+            $results["organizationMaxNote"] += $exercise->getOrganizationMaxNote();
+            $results["businessNotorietyMaxNote"] += $exercise->getBusinessNotorietyMaxNote();
+        }
+        return $results;
+    }
 }
