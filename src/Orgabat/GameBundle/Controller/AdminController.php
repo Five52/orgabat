@@ -659,4 +659,40 @@ class AdminController extends Controller
             'entities' => 'classes',
         ]);
     }
+
+    /**
+     * @Security("has_role('ROLE_ADMIN')")
+     */
+    public function dropDatabaseAction(Request $request)
+    {
+        $form = $this->createFormBuilder()->getForm();
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $commonUsers = $em
+                ->getRepository('OrgabatGameBundle:User')
+                ->getUsersWithoutRole('ROLE_ADMIN')
+            ;
+            foreach($commonUsers as $user) {
+                $em->remove($user);
+            }
+            $em->flush();
+
+            $connection = $em->getConnection();
+            $platform = $connection->getDatabasePlatform();
+
+            $connection->query('SET FOREIGN_KEY_CHECKS=0');
+            $connection->executeUpdate($platform->getTruncateTableSQL('section', true));
+            $connection->query('SET FOREIGN_KEY_CHECKS=1');
+
+            $request->getSession()->getFlashBag()->add(
+                'message',
+                'La base de données a bien été vidée !'
+            );
+            return $this->redirectToRoute('default_admin_board');
+        }
+
+        return $this->render('OrgabatGameBundle:Admin:dropDatabase.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
 }

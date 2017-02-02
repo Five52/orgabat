@@ -6,11 +6,22 @@ use Doctrine\ORM\EntityRepository;
 
 class UserRepository extends EntityRepository
 {
-    public function getUsersByRole($role) {
+    public function getUsersByRole($role)
+    {
         return $this->createQueryBuilder('u')
             ->where('u.roles LIKE :roles')
             ->setParameter('roles', '%"' . $role . '"%')
             ->orderBy('u.id', 'asc')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function getUsersWithoutRole($role)
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.roles not like :role')
+            ->setParameter('role', '%"' . $role . '"%')
             ->getQuery()
             ->getResult()
         ;
