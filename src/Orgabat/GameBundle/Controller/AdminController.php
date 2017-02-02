@@ -191,10 +191,10 @@ class AdminController extends Controller
         $content = stream_get_contents($handle);
         fclose($handle);
 
-        return new Response($content, 200, array(
+        return new Response($content, 200, [
             'Content-Type' => 'application/force-download',
             'Content-Disposition' => 'attachment; filename="apprentis.csv"',
-        ));
+        ]);
     }
 
     /**
@@ -217,56 +217,65 @@ class AdminController extends Controller
         $content = stream_get_contents($handle);
         fclose($handle);
 
-        return new Response($content, 200, array(
+        return new Response($content, 200, [
             'Content-Type' => 'application/force-download',
             'Content-Disposition' => 'attachment; filename="apprentis.csv"',
-        ));
+        ]);
     }
 
     /*
-     * Importation de plusieurs apprentis depuis un fichier CSV
+     * Import apprentices from CSV File
      * @Security("has_role('ROLE_ADMIN')")
      */
     public function importApprenticesAction(Request $request)
     {
-        // Création du formulaire
+        // Form creation
         $form = $this->createFormBuilder()
-            ->add('submitFile', FileType::class, array('label' => 'Fichier CSV :'))
+            ->add('submitFile', FileType::class, ['label' => 'Fichier CSV :'])
             ->add('save', SubmitType::class, ['label' => 'Importer'])
             ->getForm();
 
         $form->handleRequest($request);
         if ($form->isValid()) {
             $file = $form->get('submitFile');
-            // On vérifie la validité du fichier
+            $em = $this->getDoctrine()->getManager();
+
+            // Check the file is correct
             if (($handle = fopen($file->getData(), 'r')) !== false) {
+
+                // UserManager for creating a new apprentice
                 $discriminator = $this->container->get('pugx_user.manager.user_discriminator');
                 $discriminator->setClass('Orgabat\GameBundle\Entity\Apprentice');
                 $userManager = $this->container->get('pugx_user_manager');
 
+                // Parsing CSV file using ',' as separator
                 while (($data = fgetcsv($handle, ',')) !== false) {
-                    $num = count($data);
-                    for ($c = 0; $c < $num; ++$c) {
-                        $em = $this->getDoctrine()->getManager();
-                        // On vérifie que l'apprenti n'est pas déjà créé
+                    for ($i = 0; $i < count($data); $i++) {
+
+                        // Check if the apprentice is not created using unique Email
                         $apprentice = $em
                             ->getRepository('OrgabatGameBundle:Apprentice')
-                            ->findOneBy(array('firstName' => $data[0]));
+                            ->findOneBy(['email' => $data[3]]);
                         if (!$apprentice) {
-                            // Création de l'apprenti à partir des données CSV
+
+                            // Create the apprentice from CSV File datas
                             $apprentice = $userManager->createUser();
                             $apprentice->setFirstName($data[0]);
                             $apprentice->setLastName($data[1]);
-                            $apprentice->setUsername($data[0].' '.$data[1]);
-                            // La date de naissance de l'apprenti est utilisé
-                            // comme mot de passe
+                            $baseUsername = $apprentice->getFirstName(). ' ' . $apprentice->getLastName();
+                            $apprentice->setUsername($em
+                                ->getRepository('OrgabatGameBundle:User')
+                                ->getNotUsedUsername($baseUsername)
+                            );
+
+                            // Birthdate of the apprentice is used as password
                             $apprentice->setBirthDate($data[2]);
                             $apprentice->setPlainPassword($data[2]);
                             $apprentice->setEmail($data[3]);
 
                             $section = $em
                                 ->getRepository('OrgabatGameBundle:Section')
-                                ->findOneBy(array('name' => $data[4]));
+                                ->findOneBy(['name' => $data[4]]);
                             if ($section != null) {
                                 $apprentice->setSection($section);
                             }
@@ -382,10 +391,10 @@ class AdminController extends Controller
         $content = stream_get_contents($handle);
         fclose($handle);
 
-        return new Response($content, 200, array(
+        return new Response($content, 200, [
             'Content-Type' => 'application/force-download',
             'Content-Disposition' => 'attachment; filename="enseignants.csv"',
-        ));
+        ]);
     }
 
     /*
@@ -420,7 +429,7 @@ class AdminController extends Controller
      */
     public function importTrainersAction(Request $request)
     {
-        // Création du formulaire d'importation du fichier
+        // Form creation
         $form = $this->createFormBuilder()
             ->add('submitFile', FileType::class, ['label' => 'Fichier CSV :'])
             ->add('save', SubmitType::class, ['label' => 'Importer'])
@@ -430,32 +439,40 @@ class AdminController extends Controller
         $form->handleRequest($request);
         if ($form->isValid()) {
             $file = $form->get('submitFile');
-            // On vérifie que le fichier CSV est valide
+
+            $em = $this->getDoctrine()->getManager();
+            // Check the file is correct
             if (($handle = fopen($file->getData(), 'r')) !== false) {
                 while (($data = fgetcsv($handle, ',')) !== false) {
-                    $num = count($data);
-                    for ($c = 0; $c < $num; ++$c) {
-                        // On vérifie que l'enseignant n'existe pas déjà
-                        $em = $this->getDoctrine()->getManager();
+                    for ($i = 0; $i < count($data); $i++) {
+
+                        // Check if the trainer is not already created
                         $trainer = $em
                             ->getRepository('OrgabatGameBundle:Trainer')
-                            ->findOneBy(array('firstName' => $data[0]));
+                            ->findOneBy(['email' => $data[2]]);
                         if (!$trainer) {
-                            // Création de l'enseignant
+                            // Create the trainer
                             $trainer = new Trainer();
                             $trainer->setFirstName($data[0]);
                             $trainer->setLastName($data[1]);
-                            $trainer->setUsername($data[0].' '.$data[1]);
+                            $baseUsername = $trainer->getFirstName(). ' ' . $trainer->getLastName();
+                            $trainer->setUsername($em
+                                ->getRepository('OrgabatGameBundle:User')
+                                ->getNotUsedUsername($baseUsername)
+                            );
                             $trainer->setEmail($data[2]);
                             $trainer->setPassword($data[3]);
 
+                            // Link the trainer with his sections
                             $sectionNames = array_slice($data, 4);
                             foreach ($sectionNames as $sectionName) {
                                 $section = $em
                                     ->getRepository('OrgabatGameBundle:Section')
                                     ->findOneBy(['name' => $sectionName])
                                 ;
-                                $trainer->addSection($section);
+                                if ($section != null) {
+                                    $trainer->addSection($section);
+                                }
                             }
                             $trainer->setEnabled(true);
                             $trainer->addRole('ROLE_TRAINER');
@@ -583,43 +600,52 @@ class AdminController extends Controller
         $content = stream_get_contents($handle);
         fclose($handle);
 
-        return new Response($content, 200, array(
+        return new Response($content, 200, [
             'Content-Type' => 'application/force-download',
             'Content-Disposition' => 'attachment; filename="classes.csv"',
-        ));
+        ]);
     }
 
     /*
-     * Importation de plusieurs classes depuis un fichier CSV
+     * Import sections from a CSV File.
      * @Security("has_role('ROLE_ADMIN')")
      */
     public function importSectionsAction(Request $request)
     {
-        // Création du formulaire
+        // Form creation
         $form = $this->createFormBuilder()
-            ->add('submitFile', FileType::class, array('label' => 'Fichier CSV :'))
+            ->add('submitFile', FileType::class, ['label' => 'Fichier CSV :'])
             ->add('save', SubmitType::class, ['label' => 'Importer'])
             ->getForm();
 
         $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
         if ($form->isValid()) {
             $file = $form->get('submitFile');
-            // On vérifie que le fichier est valide
+
+            // Check the file is correct
             if (($handle = fopen($file->getData(), 'r')) !== false) {
                 while (($data = fgetcsv($handle, ',')) !== false) {
-                    $num = count($data);
-                    for ($c = 0; $c < $num; ++$c) {
-                        // Création de la classe
-                        $data = explode(',', $data[$c]);
-                        $em = $this->getDoctrine()->getManager();
-                        $section = new Section();
-                        $section->setName($data[0]);
-                        $em->persist($section);
-                        $em->flush();
+                    for ($i = 0; $i < count($data); $i++) {
+
+                        // Check if the section is not already created using name
+                        $section = $em
+                            ->getRepository('OrgabatGameBundle:Section')
+                            ->findOneBy(['name' => $data[0]]);
+                        if (!$section) {
+
+                            // Create the section
+                            $data = explode(',', $data[$i]);
+                            $em = $this->getDoctrine()->getManager();
+                            $section = new Section();
+                            $section->setName($data[0]);
+                            $em->persist($section);
+                        }
                     }
                 }
                 fclose($handle);
             }
+            $em->flush();
 
             $request->getSession()->getFlashBag()->add(
                 'message',
