@@ -147,3 +147,8 @@ user_get_infos_pdf:
 admin_get_users_infos_pdf:
     path:   /admin/apprentis/statistiques
     defaults: { _controller: OrgabatGameBundle:PDF:getAllUsersInfosUsingPDF}
+
+#Database
+admin_drop_db:
+    path: /admin/base-de-donnees/vider
+    defaults: { _controller: OrgabatGameBundle:Admin:dropDatabase }
