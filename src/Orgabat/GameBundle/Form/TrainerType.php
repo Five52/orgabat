@@ -27,7 +27,7 @@ class TrainerType extends AbstractType
             ->add('firstName', TextType::class, ['label' => 'Prénom'])
             ->add('lastName', TextType::class, ['label' => 'Nom'])
             ->add('email', EmailType::class, ['label' => 'Email'])
-            // Liste déroulante pour le choix de la Section à partir de celles entrées en BDD
+            // Liste déroulante pour le choix de la classe à partir de celles entrées en BDD
             ->add('sections', EntityType::class, array(
                 'class' => 'OrgabatGameBundle:Section',
                 'choice_label' => 'name',

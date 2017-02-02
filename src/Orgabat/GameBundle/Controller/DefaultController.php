@@ -166,7 +166,7 @@ class DefaultController extends Controller
                 ->getWithTrainersAndApprentices()
             ;
         } else {
-            // S'il s'agit d'un enseignant, on retoune la classe qu'il anime
+            // S'il s'agit d'un formateur, on retoune la classe qu'il anime
             $sections = $em
                 ->getRepository('OrgabatGameBundle:Trainer')
                 ->getWithSections($user->getId())

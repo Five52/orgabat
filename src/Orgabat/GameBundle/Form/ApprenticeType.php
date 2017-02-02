@@ -29,7 +29,7 @@ class ApprenticeType extends AbstractType
             ->add('lastName', TextType::class, ['label' => 'Nom'])
             ->add('email', EmailType::class, ['label' => 'Email'])
             ->add('birthdate', TextType::class, ['label' => 'Date de naissance (JJMMAAAA)'])
-            // Liste déroulante pour le choix de la Section à partir de celles entrées en BDD
+            // Liste déroulante pour le choix de la classe à partir de celles entrées en BDD
             ->add('section', EntityType::class, array(
                 // query choices from this entity
                 'class' => 'OrgabatGameBundle:Section',

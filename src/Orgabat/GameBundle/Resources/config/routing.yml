@@ -91,27 +91,27 @@ admin_import_user:
 # Trainer
 
 admin_create_trainer:
-    path:    /admin/enseignants/creer
+    path:    /admin/formateurs/creer
     defaults: { _controller: OrgabatGameBundle:Admin:createTrainer}
 
 admin_edit_trainer:
-    path:    /admin/enseignants/{trainer_id}/modifier
+    path:    /admin/formateurs/{trainer_id}/modifier
     defaults: { _controller: OrgabatGameBundle:Admin:editTrainer}
     requirements:
         trainer_id: \d+
 
 admin_remove_trainer:
-    path:    /admin/enseignants/{user_id}/supprimer
+    path:    /admin/formateurs/{user_id}/supprimer
     defaults: { _controller: OrgabatGameBundle:Admin:deleteUser}
     requirements:
         user_id: \d+
 
 admin_export_trainer:
-    path:   /admin/enseignants/exporter
+    path:   /admin/formateurs/exporter
     defaults: { _controller: OrgabatGameBundle:Admin:exportAllTrainers}
 
 admin_import_trainer:
-    path:   /admin/enseignants/importer
+    path:   /admin/formateurs/importer
     defaults: { _controller: OrgabatGameBundle:Admin:importTrainers}
 
 # Section
