@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: lenaic
- * Date: 30/01/2017
- * Time: 15:28
- */
 
 namespace Orgabat\GameBundle\Repository;
-
 
 use Doctrine\ORM\EntityRepository;
 
@@ -20,6 +13,31 @@ class UserRepository extends EntityRepository
             ->orderBy('u.id', 'asc')
             ->getQuery()
             ->getResult()
+        ;
+    }
+
+    /**
+     * Gives a username not used or add a number at the end of it.
+     * @param string baseUsername
+     * @return string the username not used yet
+     */
+    public function getNotUsedUsername($baseUsername)
+    {
+        $username = $baseUsername;
+        $i = 1;
+        while ($this->getByUsername($username) !== null) {
+            $username = $baseUsername . ' ' . $i++;
+        }
+        return $username;
+    }
+
+    public function getByUsername($username)
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.username = :username')
+            ->setParameter('username', $username)
+            ->getQuery()
+            ->getOneOrNullResult()
         ;
     }
 }

@@ -85,7 +85,11 @@ class AdminController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $apprentice = $form->getData();
-            $apprentice->setUsername($apprentice->getFirstName().' '.$apprentice->getLastName());
+            $baseUsername = $apprentice->getFirstName(). ' ' . $apprentice->getLastName();
+            $apprentice->setUsername($em
+                ->getRepository('OrgabatGameBundle:User')
+                ->getNotUsedUsername($baseUsername)
+            );
             $apprentice->setPlainPassword($apprentice->getBirthDate());
             $apprentice->addRole('ROLE_APPRENTICE');
             $apprentice->setEnabled(true);
@@ -113,9 +117,14 @@ class AdminController extends Controller
     {
         $form = $this->createForm(ApprenticeType::class, $apprentice);
         $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
         if ($form->isSubmitted() && $form->isValid()) {
             $apprentice = $form->getData();
-            $apprentice->setUsername($apprentice->getFirstName().' '.$apprentice->getLastName());
+            $baseUsername = $apprentice->getFirstName().' '.$apprentice->getLastName();
+            $apprentice->setUsername($em
+                ->getRepository('OrgabatGameBundle:User')
+                ->getNotUsedUsername($baseUsername)
+            );
             $apprentice->setPlainPassword($apprentice->getBirthDate());
             $em = $this->getDoctrine()->getManager();
             $em->persist($apprentice);
@@ -295,7 +304,11 @@ class AdminController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $trainer = $form->getData();
-            $trainer->setUsername($trainer->getFirstName().' '.$trainer->getLastName());
+            $baseUsername = $trainer->getFirstName().' '.$trainer->getLastName();
+            $trainer->setUsername($em
+                ->getRepository('OrgabatGameBundle:User')
+                ->getNotUsedUsername($baseUsername)
+            );
             $trainer->addRole('ROLE_TRAINER');
             $trainer->setEnabled(true);
             $em->persist($trainer);
@@ -322,10 +335,14 @@ class AdminController extends Controller
     {
         $form = $this->createForm(TrainerUpdateType::class, $trainer);
         $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
         if ($form->isSubmitted() && $form->isValid()) {
             $trainer = $form->getData();
-            $trainer->setUsername($trainer->getFirstName().' '.$trainer->getLastName());
-            $em = $this->getDoctrine()->getManager();
+            $baseUsername = $trainer->getFirstName().' '.$trainer->getLastName();
+            $trainer->setUsername($em
+                ->getRepository('OrgabatGameBundle:User')
+                ->getNotUsedUsername($baseUsername)
+            );
             $em->persist($trainer);
             $em->flush();
 
