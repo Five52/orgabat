@@ -37,6 +37,12 @@ class TrainerRepository extends EntityRepository
             ->getResult()
         ;
 
+        if ($trainersWithSection == null) {
+            return $this->createQueryBuilder('t')
+                ->getQuery()
+                ->getResult()
+            ;
+        }
         return $this->createQueryBuilder('t')
             ->where('t not in (:trainersWithSections)')
             ->setParameter('trainersWithSections', $trainersWithSection)

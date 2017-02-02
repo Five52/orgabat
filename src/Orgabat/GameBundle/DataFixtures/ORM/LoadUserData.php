@@ -161,7 +161,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface, Ordered
             $apprentice->setSection($section);
             $apprentice->setEnabled(true);
             $apprentice->addRole('ROLE_APPRENTICE');
-            $userManager->updateUser($apprentice);
+            $userManager->updateUser($apprentice, false);
         }
 
         $discriminator->setClass('Orgabat\GameBundle\Entity\Trainer');
@@ -184,7 +184,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface, Ordered
             }
             $trainer->setEnabled(true);
             $trainer->addRole('ROLE_TRAINER');
-            $userManager->updateUser($trainer);
+            $userManager->updateUser($trainer, false);
         }
 
         $discriminator->setClass('Orgabat\GameBundle\Entity\Admin');
@@ -197,7 +197,9 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface, Ordered
         $admin->setPlainPassword('12345678');
         $admin->setEnabled(true);
         $admin->addRole('ROLE_ADMIN');
-        $userManager->updateUser($admin);
+        $userManager->updateUser($admin, false);
+
+        $manager->flush();
     }
 
     public function getOrder()

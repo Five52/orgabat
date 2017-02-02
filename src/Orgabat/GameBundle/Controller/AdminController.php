@@ -191,10 +191,10 @@ class AdminController extends Controller
         $content = stream_get_contents($handle);
         fclose($handle);
 
-        return new Response($content, 200, array(
+        return new Response($content, 200, [
             'Content-Type' => 'application/force-download',
             'Content-Disposition' => 'attachment; filename="apprentis.csv"',
-        ));
+        ]);
     }
 
     /**
@@ -217,10 +217,10 @@ class AdminController extends Controller
         $content = stream_get_contents($handle);
         fclose($handle);
 
-        return new Response($content, 200, array(
+        return new Response($content, 200, [
             'Content-Type' => 'application/force-download',
             'Content-Disposition' => 'attachment; filename="apprentis.csv"',
-        ));
+        ]);
     }
 
     /*
@@ -231,7 +231,7 @@ class AdminController extends Controller
     {
         // Form creation
         $form = $this->createFormBuilder()
-            ->add('submitFile', FileType::class, array('label' => 'Fichier CSV :'))
+            ->add('submitFile', FileType::class, ['label' => 'Fichier CSV :'])
             ->add('save', SubmitType::class, ['label' => 'Importer'])
             ->getForm();
 
@@ -255,7 +255,7 @@ class AdminController extends Controller
                         // Check if the apprentice is not created using unique Email
                         $apprentice = $em
                             ->getRepository('OrgabatGameBundle:Apprentice')
-                            ->findOneBy(array('email' => $data[3]));
+                            ->findOneBy(['email' => $data[3]]);
                         if (!$apprentice) {
 
                             // Create the apprentice from CSV File datas
@@ -275,7 +275,7 @@ class AdminController extends Controller
 
                             $section = $em
                                 ->getRepository('OrgabatGameBundle:Section')
-                                ->findOneBy(array('name' => $data[4]));
+                                ->findOneBy(['name' => $data[4]]);
                             if ($section != null) {
                                 $apprentice->setSection($section);
                             }
@@ -391,10 +391,10 @@ class AdminController extends Controller
         $content = stream_get_contents($handle);
         fclose($handle);
 
-        return new Response($content, 200, array(
+        return new Response($content, 200, [
             'Content-Type' => 'application/force-download',
             'Content-Disposition' => 'attachment; filename="enseignants.csv"',
-        ));
+        ]);
     }
 
     /*
@@ -440,16 +440,16 @@ class AdminController extends Controller
         if ($form->isValid()) {
             $file = $form->get('submitFile');
 
+            $em = $this->getDoctrine()->getManager();
             // Check the file is correct
             if (($handle = fopen($file->getData(), 'r')) !== false) {
                 while (($data = fgetcsv($handle, ',')) !== false) {
                     for ($i = 0; $i < count($data); $i++) {
 
                         // Check if the trainer is not already created
-                        $em = $this->getDoctrine()->getManager();
                         $trainer = $em
                             ->getRepository('OrgabatGameBundle:Trainer')
-                            ->findOneBy(array('email' => $data[2]));
+                            ->findOneBy(['email' => $data[2]]);
                         if (!$trainer) {
                             // Create the trainer
                             $trainer = new Trainer();
@@ -470,7 +470,9 @@ class AdminController extends Controller
                                     ->getRepository('OrgabatGameBundle:Section')
                                     ->findOneBy(['name' => $sectionName])
                                 ;
-                                $trainer->addSection($section);
+                                if ($section != null) {
+                                    $trainer->addSection($section);
+                                }
                             }
                             $trainer->setEnabled(true);
                             $trainer->addRole('ROLE_TRAINER');
@@ -598,10 +600,10 @@ class AdminController extends Controller
         $content = stream_get_contents($handle);
         fclose($handle);
 
-        return new Response($content, 200, array(
+        return new Response($content, 200, [
             'Content-Type' => 'application/force-download',
             'Content-Disposition' => 'attachment; filename="classes.csv"',
-        ));
+        ]);
     }
 
     /*
@@ -612,7 +614,7 @@ class AdminController extends Controller
     {
         // Form creation
         $form = $this->createFormBuilder()
-            ->add('submitFile', FileType::class, array('label' => 'Fichier CSV :'))
+            ->add('submitFile', FileType::class, ['label' => 'Fichier CSV :'])
             ->add('save', SubmitType::class, ['label' => 'Importer'])
             ->getForm();
 
@@ -629,7 +631,7 @@ class AdminController extends Controller
                         // Check if the section is not already created using name
                         $section = $em
                             ->getRepository('OrgabatGameBundle:Section')
-                            ->findOneBy(array('name' => $data[0]));
+                            ->findOneBy(['name' => $data[0]]);
                         if (!$section) {
 
                             // Create the section
@@ -638,12 +640,12 @@ class AdminController extends Controller
                             $section = new Section();
                             $section->setName($data[0]);
                             $em->persist($section);
-                            $em->flush();
                         }
                     }
                 }
                 fclose($handle);
             }
+            $em->flush();
 
             $request->getSession()->getFlashBag()->add(
                 'message',
