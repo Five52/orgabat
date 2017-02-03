@@ -35,6 +35,14 @@
         <a class="list-group-item section_color" href="{{ path('admin_export_section') }}"><i class="fa fa-list-alt"></i> Les classes</a>
         <a class="list-group-item" href="{{ path('admin_get_users_infos_pdf') }}"><i class="fa fa-bar-chart"></i> Les statistiques</a>
       </div>
+
+      <a class="list-group-item" data-toggle="collapse" href="#database">
+        <span><i class="fa fa-database"></i> Base de données</span>
+        <i class="fa fa-arrow-down"></i>
+      </a>
+      <div class="collapse" id="database">
+        <a class="list-group-item danger_color" href="{{ path('admin_drop_db') }}"><i class="fa fa-exclamation-triangle"></i> Vider la base de données</a>
+      </div>
     {% elseif is_granted('ROLE_TRAINER') %}
       <a class="list-group-item" href="{{ path('admin_create_apprentice') }}"><i class="fa fa-user-plus"></i> Ajouter un compte apprenti</a>
       <div class="list-group panel">

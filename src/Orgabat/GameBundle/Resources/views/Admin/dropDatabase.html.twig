@@ -1,0 +1,22 @@
+{% extends '::base_dashboard.html.twig' %}
+{% block body %}
+    <h3 class="text-center">Vider la base de données</h3>
+    <p>Etes-vous sûr de vouloir vider la base de données ?</p>
+    <p class="alert alert-danger">
+        Cette action est irréversible : nous vous conseillons de faire une sauvegarde en exportant vos apprentis, enseignants et classes.
+    </p>
+    <form method="post" action="{{ path('admin_drop_db') }}">
+        <div class="col-sm-12">
+            {{ form_row(form.confirm) }}
+        </div>
+        {{ form_rest(form) }}
+        <div class="col-sm-12">
+            <a href="{{ path('default_admin_board') }}" class="btn btn btn-default">
+                <i class="fa fa-chevron-left"></i> Annuler l'opération en cours
+            </a>
+            <button type="submit" class="btn btn-danger">
+                <i class="fa fa-trash-o"></i> Vider la base de données
+            </button>
+        </div>
+    </form>
+{% endblock %}

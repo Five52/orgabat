@@ -13,10 +13,12 @@ use Orgabat\GameBundle\Form\ApprenticeType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Form\FormError;
 
 class AdminController extends Controller
 {
@@ -98,10 +100,12 @@ class AdminController extends Controller
 
             $request->getSession()->getFlashBag()->add(
                 'message',
-                "L'apprenti ".$apprentice->getUsername().' a bien été créé !'
+                "L'apprenti ".$apprentice->getUsername()." a bien été créé !"
             );
 
-            return $this->redirectToRoute('default_admin_board');
+            return $this->redirectToRoute('admin_view_apprentice', [
+                'apprentice_id' => $apprentice->getId()
+            ]);
         }
 
         return $this->render('OrgabatGameBundle:Admin:addApprentice.html.twig', [
@@ -115,16 +119,19 @@ class AdminController extends Controller
      */
     public function editApprenticeAction(Apprentice $apprentice, Request $request)
     {
+        $previousFullName = $apprentice->getFullName();
         $form = $this->createForm(ApprenticeType::class, $apprentice);
         $form->handleRequest($request);
         $em = $this->getDoctrine()->getManager();
+
         if ($form->isSubmitted() && $form->isValid()) {
             $apprentice = $form->getData();
-            $baseUsername = $apprentice->getFirstName().' '.$apprentice->getLastName();
-            $apprentice->setUsername($em
-                ->getRepository('OrgabatGameBundle:User')
-                ->getNotUsedUsername($baseUsername)
-            );
+            if ($apprentice->getFullName() !== $previousFullName) {
+                $apprentice->setUsername($em
+                    ->getRepository('OrgabatGameBundle:User')
+                    ->getNotUsedUsername($apprentice->getFullName())
+                );
+            }
             $apprentice->setPlainPassword($apprentice->getBirthDate());
             $em = $this->getDoctrine()->getManager();
             $em->persist($apprentice);
@@ -132,10 +139,9 @@ class AdminController extends Controller
 
             $request->getSession()->getFlashBag()->add(
                 'message',
-                "L'apprenti ".$apprentice->getUsername().' a bien été modifié !'
+                "L'apprenti ".$apprentice->getUsername()." a bien été modifié !"
             );
 
-            return $this->redirectToRoute('default_admin_board');
         }
 
         return $this->render('OrgabatGameBundle:Admin:editApprentice.html.twig', ['form' => $form->createView()]);
@@ -155,7 +161,7 @@ class AdminController extends Controller
 
             $request->getSession()->getFlashBag()->add(
                 'message',
-                "L'utilisateur ".$user->getUsername().' a bien été supprimé !'
+                "L'utilisateur ".$user->getUsername()." a bien été supprimé !"
             );
 
             return $this->redirectToRoute('default_admin_board');
@@ -338,26 +344,29 @@ class AdminController extends Controller
 
     /**
      * @ParamConverter("trainer", options={"mapping": {"trainer_id": "id"}})
-     * @Security("has_role('ROLE_ADMIN')")
+     * @Security("has_role('ROLE_ADMIN') and has_role('IS_AUTHENTICATED_FULLY')")
      */
     public function editTrainerAction(Trainer $trainer, Request $request)
     {
+        $previousFullName = $trainer->getFullName();
         $form = $this->createForm(TrainerUpdateType::class, $trainer);
         $form->handleRequest($request);
         $em = $this->getDoctrine()->getManager();
         if ($form->isSubmitted() && $form->isValid()) {
             $trainer = $form->getData();
             $baseUsername = $trainer->getFirstName().' '.$trainer->getLastName();
-            $trainer->setUsername($em
-                ->getRepository('OrgabatGameBundle:User')
-                ->getNotUsedUsername($baseUsername)
-            );
+            if ($trainer->getFullName() !== $previousFullName) {
+                $trainer->setUsername($em
+                    ->getRepository('OrgabatGameBundle:User')
+                    ->getNotUsedUsername($trainer->getFullName())
+                );
+            }
             $em->persist($trainer);
             $em->flush();
 
             $request->getSession()->getFlashBag()->add(
                 'message',
-                "Le formateur ".$trainer->getUsername().' a bien été modifié !'
+                'Le formateur '.$trainer->getUsername().' a bien été modifié !'
             );
 
             return $this->redirectToRoute('default_admin_board');
@@ -657,6 +666,56 @@ class AdminController extends Controller
         return $this->render('OrgabatGameBundle:Admin:importFromCsv.html.twig', [
             'form' => $form->createView(),
             'entities' => 'classes',
+        ]);
+    }
+
+    /**
+     * @Security("has_role('ROLE_ADMIN')")
+     */
+    public function dropDatabaseAction(Request $request)
+    {
+        $data = [];
+        $form = $this->createFormBuilder($data)
+            ->add('confirm', TextType::class, [
+                'label' => 'Confirmez la suppression des données',
+                'attr' => [
+                    'placeholder' => 'Veuillez taper "Je confirme"'
+                ]
+            ])
+            ->getForm();
+
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+            $data = $form->getData();
+            if ($data['confirm'] !== "Je confirme") {
+                $form->get('confirm')->addError(new FormError('Vous devez taper "Je confirme"'));
+            } else {
+                $em = $this->getDoctrine()->getManager();
+                $commonUsers = $em
+                    ->getRepository('OrgabatGameBundle:User')
+                    ->getUsersWithoutRole('ROLE_ADMIN')
+                ;
+                foreach($commonUsers as $user) {
+                    $em->remove($user);
+                }
+                $em->flush();
+
+                $connection = $em->getConnection();
+                $platform = $connection->getDatabasePlatform();
+
+                $connection->query('SET FOREIGN_KEY_CHECKS=0');
+                $connection->executeUpdate($platform->getTruncateTableSQL('section', true));
+                $connection->query('SET FOREIGN_KEY_CHECKS=1');
+
+                $request->getSession()->getFlashBag()->add(
+                    'message',
+                    'La base de données a bien été vidée !'
+                );
+                return $this->redirectToRoute('default_admin_board');
+            }
+        }
+
+        return $this->render('OrgabatGameBundle:Admin:dropDatabase.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 }

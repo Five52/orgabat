@@ -52,10 +52,6 @@ class Apprentice extends User
         $this->id = $id;
     }
 
-    public function getName() {
-        return $this->getFirstName().$this->getLastName();
-    }
-
     /**
      * @return mixed
      */
