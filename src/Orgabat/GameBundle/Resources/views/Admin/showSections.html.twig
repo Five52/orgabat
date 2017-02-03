@@ -5,6 +5,7 @@
 
   {% for section in sections %}
     {% if section %}
+    <div class="section">
       <div class="col-sm-12">
         <h2 class="noselect">{{ section.name }}</h2>
       </div>
@@ -19,7 +20,7 @@
             </tr>
           </thead>
           <tbody >
-          {% for apprentice in section.apprentices %}
+            {% for apprentice in section.apprentices %}
             <tr>
               <td>{{ apprentice.firstName }}</td>
               <td>{{ apprentice.lastName }}</td>
@@ -30,10 +31,11 @@
                 <a class="btn btn-danger" href="{{ path('admin_remove_user', {'user_id': apprentice.id} ) }}"><i class="fa fa-trash-o"></i> Supprimer</a>
               </td>
             </tr>
-          {% endfor %}
+            {% endfor %}
           </tbody>
         </table>
       </div>
+    </div>
     {% endif %}
   {% endfor %}
 {% endblock %}
