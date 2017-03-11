@@ -1,3 +1,3 @@
 [submodule "web/modules/game"]
 	path = web/modules/game
-	url = https://github.com/loganlepage/orgabat-games.git
+	url = git://github.com/loganlepage/orgabat-games
