@@ -57,9 +57,11 @@
     {# User informations #}
     <div class="user-info">
         <p class="name">{{ user.lastName|upper }} {{ user.firstName }}</p>
-        <p class="birth">Né le : {{ user.formattedBirthDate|date("d/m/Y") }}</p>
-        {% if user.section %}
-            <p class="section">Inscrit en <span class="sectionName">{{ user.section.name }}</span></p>
+        {% if user.roles[0] == "ROLE_APPRENTICE" %}
+            <p class="birth">Né le : {{ user.formattedBirthDate|date("d/m/Y") }}</p>
+            {% if user.section %}
+                <p class="section">Inscrit en <span class="sectionName">{{ user.section.name }}</span></p>
+            {% endif %}
         {% endif %}
     </div>
 
@@ -95,9 +97,9 @@
                 <tr>
                     <td>Total</td>
                     <td>{{ category.dataFromAllBestExercises.timer }}</td>
-                    <td>{{ category.dataFromAllBestExercises.healthNote }} / {{ stats.global.healthNote }}</td>
-                    <td>{{ category.dataFromAllBestExercises.organizationNote }} / {{ stats.global.organizationNote }}</td>
-                    <td>{{ category.dataFromAllBestExercises.businessNotorietyNote }} / {{ stats.global.businessNotorietyNote }}</td>
+                    <td>{{ category.dataFromAllBestExercises.healthNote }} / {{ category.maxResults.healthMaxNote }}</td>
+                    <td>{{ category.dataFromAllBestExercises.organizationNote }} / {{ category.maxResults.organizationMaxNote }}</td>
+                    <td>{{ category.dataFromAllBestExercises.businessNotorietyNote }} / {{ category.maxResults.businessNotorietyMaxNote }}</td>
                 </tr>
                 </tbody>
             </table>

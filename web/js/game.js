@@ -48,7 +48,7 @@ var api = (function() {
    */
   var sendScore = function(data, callback) {
     data = data || {};
-
+    console.log(data);
     if (typeof data.exerciseId !== 'number' ||
       typeof data.time !== 'number' ||
       typeof data.health !== 'number' ||
@@ -65,7 +65,15 @@ var api = (function() {
         data: data
       })
     }, function(status, res) {
-      callback(status === 202, res);
+      var posted = status === 202;
+      
+      if (posted) {
+        window.parent.reloadCategoryModal();
+      }
+
+      if (callback) {
+        callback(posted, res);
+      }
     });
   };
 

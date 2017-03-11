@@ -9,12 +9,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class GameController extends Controller
 {
-    /**
-     * @Security("has_role('ROLE_ADMIN')")
-     */
     public function gameAction(Request $request, $id)
     {
-        return $this->render('user/page_game.html.twig', [
+        return $this->render('OrgabatGameBundle:Game:page_jeu.html.twig', [
             'id' => $id
         ]);
     }

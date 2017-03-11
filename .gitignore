@@ -16,4 +16,4 @@
 /web/bundles/
 .idea/
 *.php~
-.composer.lock
+/web/modules/game/*

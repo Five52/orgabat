@@ -52,10 +52,6 @@ class Apprentice extends User
         $this->id = $id;
     }
 
-    public function getName() {
-        return $this->getFirstName().$this->getLastName();
-    }
-
     /**
      * @return mixed
      */
@@ -83,7 +79,7 @@ class Apprentice extends User
     public function getFormattedBirthDate() {
         $day = substr($this->birthDate,0,2);
         $month = substr($this->birthDate,2,2);
-        $year = substr($this->birthDate,4,2);
+        $year = substr($this->birthDate,4,4);
 
         $fullDate = $year . '-' . $month . '-' . $day . " 00:00:00";
         return new \DateTime($fullDate);

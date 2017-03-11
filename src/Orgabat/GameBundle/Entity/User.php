@@ -90,4 +90,9 @@ abstract class User extends BaseUser
     {
         $this->lastName = $lastName;
     }
+
+    public function getFullName() {
+        return $this->getFirstName(). ' ' . $this->getLastName();
+    }
+
 }

@@ -1,0 +1,103 @@
+{% extends '::base_dashboard.html.twig' %}
+{% block body %}
+  <h3 class="text-center">Profil de <strong>{{ apprentice.username }}</strong></h3>
+  <div class="informations">
+    <div>
+      <p><strong>Email</strong>: {{ apprentice.email }}</p>
+      <p><strong>Date de naissance</strong>: {{ apprentice.birthdate }}</p>
+      <p><strong>Classe</strong>:
+      {% if apprentice.section %}
+        {{ apprentice.section.name }}
+      {% else %}
+        aucune
+      {% endif %}
+      </p>
+      <a class="btn btn-warning" href="{{ path('admin_edit_apprentice', {'apprentice_id': apprentice.id} ) }}"><i class="fa fa-pencil"></i> Modifier</a>
+      <a class="btn btn-danger" href="{{ path('admin_remove_user', {'user_id': apprentice.id} ) }}"><i class="fa fa-trash-o"></i> Supprimer</a>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <p>Nombre de mini-jeux terminés:</p>
+        <div class="progress">
+          <div class="progress-bar" style="width:
+            {{ (minigames['finished'] / minigames['total'])*100 }}%"></div>
+          <span class="stat">{{ minigames['finished'] }} / {{ minigames['total'] }}</span>
+        </div>
+        <hr>
+        <p>Santé</p>
+        <div class="progress health">
+          <div class="progress-bar progress-bar-success" style="width:
+            {{ (stats['user']['healthNote'] / stats['global']['healthNote'])*100 }}%"></div>
+          <span class="stat">{{ stats['user']['healthNote'] }} / {{ stats['global']['healthNote'] }}</span>
+        </div>
+        <p>Organisation</p>
+        <div class="progress organization">
+          <div class="progress-bar progress-bar-info" style="width:
+            {{ (stats['user']['organizationNote'] / stats['global']['organizationNote'])*100 }}%"></div>
+          <span class="stat">{{ stats['user']['organizationNote'] }} / {{ stats['global']['organizationNote'] }}</span>
+        </div>
+        <p>Notoriété de l'entreprise</p>
+        <div class="progress notoriety">
+          <div class="progress-bar progress-bar-warning" style="width:
+            {{ (stats['user']['businessNotorietyNote'] / stats['global']['businessNotorietyNote'])*100 }}%"></div>
+          <span class="stat">{{ stats['user']['businessNotorietyNote'] }} / {{ stats['global']['businessNotorietyNote'] }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% for category in historyCateg %}
+    <h4>{{ category.name }}</h4>
+    <div class="category">
+
+      {% for exercise in category.exercises %}
+        <h5>{{ exercise.name }}</h5>
+        <table class="table">
+          <thead>
+            <th>Date</th>
+            <th>Score</th>
+            <th>Réalisé</th>
+            <th>Health</th>
+            <th>Organisation</th>
+            <th>Notoriété</th>
+          </thead>
+          <tbody>
+            {% for attempt in exercise.exerciseHistories %}
+              <tr>
+                <td class="date">Le {{ attempt.date|date("m/d/Y") }} à {{ attempt.date|date("H:i:s") }}</td>
+                <td class="score">{{ attempt.humanScore }} / {{ attempt.exercise.maxScore }}</td>
+                <td class="status">
+                  {% if attempt.exercise.bestExerciseHistory == attempt %}
+                    <i class="fa fa-check"></i>
+                  {% endif %}
+                </td>
+                <td class="bar">
+                  <div class="progress health">
+                    <div class="progress-bar progress-bar-success" style="width:
+                      {{ (attempt.healthNote / attempt.exercise.healthMaxNote)*100 }}%"></div>
+                    <span class="stat">{{ attempt.healthNote }} / {{ attempt.exercise.healthMaxNote }}</span>
+                  </div>
+                </td>
+                <td class="bar">
+                  <div class="progress organization">
+                    <div class="progress-bar progress-bar-info" style="width:
+                      {{ (attempt.organizationNote / attempt.exercise.organizationMaxNote)*100 }}%"></div>
+                    <span class="stat">{{ attempt.organizationNote }} / {{ attempt.exercise.organizationMaxNote }}</span>
+                  </div>
+                </td>
+                <td class="bar">
+                  <div class="progress notoriety">
+                    <div class="progress-bar progress-bar-warning" style="width:
+                      {{ (attempt.businessNotorietyNote / attempt.exercise.businessNotorietyMaxNote)*100 }}%"></div>
+                    <span class="stat">{{ attempt.businessNotorietyNote }} / {{ attempt.exercise.businessNotorietyMaxNote }}</span>
+                  </div>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endfor %}
+    </div>
+  {% endfor %}
+{% endblock %}

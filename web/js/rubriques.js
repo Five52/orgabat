@@ -58,11 +58,15 @@
     $('#categoryModal').modal('hide');
   };
 
+  window.reloadCategoryModal = function() {
+    categoryModalElement.iframe.src = categoryModalElement.iframe.src;
+  };
+
   window.loadGame = function(id, title) {
     $('#categoryModal').modal('hide');
 
     gameModalElement.iframe.gameTitle = title;
-    gameModalElement.iframe.src = './jeu/' + id;
+    gameModalElement.iframe.src = '/jeu/' + id;
 
     $('#gameModal').modal({
       keyboard: false
