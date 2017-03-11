@@ -37,6 +37,9 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: Orgabat\GameBundle\Entity\User
+    from_email:
+            address: logan.lepage@free.fr
+            sender_name: Logan Lepage
     service:
         user_manager: pugx_user_manager
 
