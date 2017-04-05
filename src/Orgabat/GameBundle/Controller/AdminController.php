@@ -98,7 +98,7 @@ class AdminController extends Controller
             $em->persist($apprentice);
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add(
+            $this->addFlash(
                 'message',
                 "L'apprenti ".$apprentice->getUsername()." a bien été créé !"
             );
@@ -137,7 +137,7 @@ class AdminController extends Controller
             $em->persist($apprentice);
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add(
+            $this->addFlash(
                 'message',
                 "L'apprenti ".$apprentice->getUsername()." a bien été modifié !"
             );
@@ -159,7 +159,7 @@ class AdminController extends Controller
             $em->remove($user);
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add(
+            $this->addFlash(
                 'message',
                 "L'utilisateur ".$user->getUsername()." a bien été supprimé !"
             );
@@ -294,7 +294,7 @@ class AdminController extends Controller
                 }
                 fclose($handle);
             }
-            $request->getSession()->getFlashBag()->add(
+            $this->addFlash(
                 'message',
                 'Les apprentis ont bien été importés !'
             );
@@ -329,7 +329,7 @@ class AdminController extends Controller
             $em->persist($trainer);
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add(
+            $this->addFlash(
                 'message',
                 'Le formateur '.$trainer->getUsername().' a bien été créé !'
             );
@@ -344,7 +344,7 @@ class AdminController extends Controller
 
     /**
      * @ParamConverter("trainer", options={"mapping": {"trainer_id": "id"}})
-     * @Security("has_role('ROLE_ADMIN') and has_role('IS_AUTHENTICATED_FULLY')")
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function editTrainerAction(Trainer $trainer, Request $request)
     {
@@ -364,7 +364,7 @@ class AdminController extends Controller
             $em->persist($trainer);
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add(
+            $this->addFlash(
                 'message',
                 'Le formateur '.$trainer->getUsername().' a bien été modifié !'
             );
@@ -493,7 +493,7 @@ class AdminController extends Controller
                 fclose($handle);
             }
 
-            $request->getSession()->getFlashBag()->add(
+            $this->addFlash(
                 'message',
                 'Les formateurs ont bien été importés !'
             );
@@ -521,7 +521,7 @@ class AdminController extends Controller
             $em->persist($section);
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add(
+            $this->addFlash(
                 'message',
                 'La classe '.$section->getName().' a bien été créée !'
             );
@@ -550,7 +550,7 @@ class AdminController extends Controller
             $em->persist($section);
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add(
+            $this->addFlash(
                 'message',
                 'La classe '.$section->getName().' a bien été modifiée !'
             );
@@ -576,7 +576,7 @@ class AdminController extends Controller
             $em->remove($section);
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add(
+            $this->addFlash(
                 'message',
                 'La classe '.$section->getName().' a bien été supprimée !'
             );
@@ -656,7 +656,7 @@ class AdminController extends Controller
             }
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add(
+            $this->addFlash(
                 'message',
                 'Les classes ont bien été importées !'
             );
@@ -706,7 +706,7 @@ class AdminController extends Controller
                 $connection->executeUpdate($platform->getTruncateTableSQL('section', true));
                 $connection->query('SET FOREIGN_KEY_CHECKS=1');
 
-                $request->getSession()->getFlashBag()->add(
+                $this->addFlash(
                     'message',
                     'La base de données a bien été vidée !'
                 );

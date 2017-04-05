@@ -213,8 +213,12 @@ class DefaultController extends Controller
             $em->merge($user);
             $em->flush();
 
-            // TODO: Update link to the home page
-            return $this->redirectToRoute('default_sections');
+            $this->addFlash(
+                'message',
+                'Vos informations ont bien été modifiées !'
+            );
+
+            return $this->redirectToRoute('default_editinfos');
         }
 
         return $this->render('OrgabatGameBundle:Admin:showEditInfos.html.twig', [
