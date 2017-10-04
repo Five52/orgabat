@@ -39,6 +39,9 @@ fos_user:
     user_class: Orgabat\GameBundle\Entity\User
     service:
         user_manager: pugx_user_manager
+    from_email:
+        address: moderator@mail.fr
+        sender_name: Noname
 
 # Twig Configuration
 twig:
