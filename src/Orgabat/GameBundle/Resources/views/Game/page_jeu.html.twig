@@ -16,12 +16,10 @@
     <div id="app"></div>
 {% endblock %}
 {% block javascripts %}
-    <script type="application/javascript" src="{{ asset('js/tools.js') }}"></script>
     <script type="application/javascript" src="{{ asset('js/game.js') }}"></script>
     <script type="application/javascript">
         window.game_id = {{ id }};
         window.assets_path = "{{ asset('modules/game/public/assets/') }}";
-        window.api = new Api("{{ path('apigame_score') }}");
     </script>
     <script type="application/javascript" src="{{ asset('modules/game/dist/' ~ id ~ '.js') }}"></script>
 {% endblock %}

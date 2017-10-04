@@ -56,9 +56,45 @@ Le développement de cette application ce fera en deux phases avec deux équipes
 
 ​
 
-### Version
+### Installation serveur
 
-0.1
+```
+sudo apt-get install php7.0-cli php7.0-xml php-mysql mysql-server
+service mysql-server start
+git clone https://github.com/Five52/orgabat.git
+git checkout dev
+php composer.phar install
+php bin/console doctrine:database:create
+php bin/console doctrine:schema:update --force
+php bin/console doctrine:fixtures:load
+```
+
+### Installation jeux
+
+```
+apt-get install curl
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+sudo apt-get install -y nodejs -> install npm & nodejs
+git submodule update --init
+cd ./web/modules/game
+npm install -> install dependencies
+npm install -g webpack 
+webpack -> build js files
+```
+
+### Lancement serveur
+
+```
+php bin/console server:start
+```
+
+### Se connecter
+
+```
+Jacques Dupont
+01012001
+```
+
 
 ​
 
