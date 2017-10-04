@@ -53,9 +53,35 @@ Le développement de cette application ce fera en deux phases avec deux équipes
 
 ## Détails techniques
 
-### Version
+### Installation serveur
 
-0.1
+```
+sudo apt-get install mysql-server php7.0-cli php7.0-xml php-mysql
+git clone https://github.com/Five52/orgabat.git
+service mysql-server start
+git checkout dev
+php composer.phar install
+php bin/console doctrine:database:create
+php bin/console doctrine:schema:update --force
+php bin/console doctrine:database:load
+```
+
+### Installation jeux
+
+```
+sudo apt-get install nodejs npm
+git submodule update --init
+cd ./web/modules/game
+npm install
+npm install -g webpack
+webpack -p
+```
+
+### Lancer serveur
+
+```
+php bin/console server:start (à la racine du projet)
+```
 
 ​
 
